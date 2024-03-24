@@ -6,7 +6,7 @@ type HabitFormProps = {
   habits: string[];
 };
 
-const HabitForm: React.FC<HabitFormProps> = ({ date, habits }) => {
+const HabitsForm: React.FC<HabitFormProps> = ({ date, habits }) => {
   const numZero = 0;
   const dayCheckboxKeyPrefix = "day-checkbox";
   const startingIndex = 1;
@@ -47,4 +47,4 @@ const HabitForm: React.FC<HabitFormProps> = ({ date, habits }) => {
   );
 };
 
-export default HabitForm;
+export default HabitsForm;
