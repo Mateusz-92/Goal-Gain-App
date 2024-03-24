@@ -3,7 +3,7 @@ import { Box, Grid } from "@chakra-ui/react";
 import { months } from "../../../constants";
 import TitleName from "../../../UI/TitleName/TitleName";
 import { HabitFormData } from "../HabitsEditor/HabitsEditor";
-import HabitForm from "../HabitsForm/HabitsForm";
+import HabitsForm from "../HabitsForm/HabitsForm";
 import MonthAnswersList from "../MonthAnswerList/MonthAnswerList";
 
 const test: HabitFormData = {
@@ -30,7 +30,7 @@ const HabitsTracker = () => {
           <TitleName textAlign="start" title={test.questionTitle} />
           <MonthAnswersList />
         </div>
-        <HabitForm date={test.date!} habits={habitsName} />
+        <HabitsForm date={test.date!} habits={habitsName} />
       </Grid>
     </Box>
   );
