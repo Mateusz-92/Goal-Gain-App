@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 export type MenuItemType = {
+  path: string;
   title: string;
 };
 
@@ -32,8 +34,10 @@ const DropdownMenu = ({ buttonTitle, itemTitles }: DropdownMenuProps) => {
               <MenuItem
                 key={item.title}
                 _hover={{ opacity: 0.8 }}
+                as={Link}
                 backgroundColor="teal"
                 color="white"
+                to={item.path}
               >
                 {item.title}
               </MenuItem>
