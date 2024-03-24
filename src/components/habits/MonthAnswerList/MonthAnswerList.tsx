@@ -1,0 +1,48 @@
+import { ChangeEvent } from "react";
+import { Button, Flex, Input, List, ListItem } from "@chakra-ui/react";
+
+import { useMonthAnswers } from "../../../context/MonthAnswersContext";
+
+const MonthAnswersList = () => {
+  const { addAnswer, answers, inputText, setInputText } = useMonthAnswers();
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputText(event.target.value);
+  };
+
+  const handleAddAnswer = () => {
+    const currentDate = new Date().toLocaleDateString();
+    const answerExistsToday = answers.some((answer) =>
+      answer.startsWith(currentDate)
+    );
+    if (!answerExistsToday) {
+      const newAnswer = `${currentDate} - ${inputText}`;
+      addAnswer(newAnswer);
+    }
+  };
+  return (
+    <Flex direction="column" justifyItems={"self-start"} width={"90%"}>
+      <Input
+        focusBorderColor="teal.500"
+        mb={4}
+        mt={2}
+        placeholder="Enter your answer"
+        value={inputText}
+        width={"100%"}
+        onChange={handleInputChange}
+      />
+      <Button colorScheme="teal" mt={2} onClick={handleAddAnswer}>
+        Add Answer
+      </Button>
+      <List alignItems={"center"} width={"80%"}>
+        {answers.map((answer) => (
+          <ListItem key={answer} textAlign={"start"}>
+            {answer}
+          </ListItem>
+        ))}
+      </List>
+    </Flex>
+  );
+};
+
+export default MonthAnswersList;
