@@ -1,10 +1,14 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { Button, Flex, Input, List, ListItem } from "@chakra-ui/react";
 
-import { useMonthAnswers } from "../../../context/MonthAnswersContext";
-
 const MonthAnswersList = () => {
-  const { addAnswer, answers, inputText, setInputText } = useMonthAnswers();
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [inputText, setInputText] = useState("");
+
+  const addAnswer = (answer: string) => {
+    setAnswers([...answers, answer]);
+    setInputText("");
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
