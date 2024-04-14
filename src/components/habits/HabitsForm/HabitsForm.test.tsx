@@ -7,7 +7,7 @@ describe("Tested correctly showing data:", () => {
   test("Renders correctly with given props", () => {
     // ARRANGE
     const year = 2024;
-    const month = 2; // Marzec
+    const month = 2;
     const day = 1;
     const date = new Date(year, month, day);
     const habits = ["Exercise", "Read", "Meditate"];
@@ -18,7 +18,7 @@ describe("Tested correctly showing data:", () => {
     render(<HabitsForm date={date} habits={habits} />);
 
     // ASSERT
-    // Sprawdzamy, czy istnieją wszystkie komórki dla dni i nawyków
+
     habits.forEach((habit) => {
       expect(screen.getByText(habit)).toBeInTheDocument();
     });
@@ -34,20 +34,18 @@ describe("Tested correctly showing data:", () => {
     }
   });
 
-  // Test sprawdzający, czy domyślne ustawienia checkboxów są poprawne
   test("Checkbox default state", () => {
     // ARRANGE
     const year = 2024;
-    const month = 2; // Marzec
+    const month = 2;
     const day = 1;
     const date = new Date(year, month, day);
     const habits = ["Exercise", "Read", "Meditate"];
 
-    // ACT
     render(<HabitsForm date={date} habits={habits} />);
 
     // ASSERT
-    // Sprawdzamy, czy wszystkie checkboxy są niezaznaczone
+
     const checkboxes = screen.getAllByRole("checkbox");
     checkboxes.forEach((checkbox) => {
       expect(checkbox).not.toBeChecked();
