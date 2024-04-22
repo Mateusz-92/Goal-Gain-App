@@ -4,7 +4,7 @@ import { ROUTES } from "../routes";
 export const HomePage = () => {
   const menuItems = [
     { path: ROUTES.habitsTracker, title: "Nawyki" },
-    { path: "/", title: "elemnet2" },
+    { path: "/showcase", title: "showcase" },
     { path: "/", title: "element3" },
   ];
   return <DropdownMenu buttonTitle="Osiągaj cele" itemTitles={menuItems} />;
