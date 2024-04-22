@@ -3,7 +3,7 @@ import { Box, Button, Input } from "@chakra-ui/react";
 
 export type HabitFormData = {
   date: Date;
-  habits: { id: number; name: string }[]; 
+  habits: { id: number; name: string }[];
   questionTitle: string;
 };
 
@@ -12,7 +12,7 @@ const initialHabitData: HabitFormData = {
   habits: [],
   questionTitle: "",
 };
-
+const habitsLength: number = 4;
 const HabitsEditor = () => {
   const [habitData, setHabitData] = useState<HabitFormData>(initialHabitData);
   const indexZero = 0;
@@ -46,7 +46,6 @@ const HabitsEditor = () => {
   };
 
   const removeHabit = (id: number) => {
-   
     const updatedHabits = habitData.habits.filter((habit) => habit.id !== id);
     setHabitData({
       ...habitData,
@@ -54,9 +53,7 @@ const HabitsEditor = () => {
     });
   };
 
-  const saveData = () => {
-    // Zapis do serwera, ale tu będzie Formik
-  };
+  const saveData = () => {};
 
   return (
     <Box>
@@ -98,9 +95,11 @@ const HabitsEditor = () => {
           </Button>
         </div>
       ))}
-      <Button mt={4} onClick={addHabit}>
-        Dodaj nawyk
-      </Button>
+      {habitData.habits.length < habitsLength && (
+        <Button mt={4} onClick={addHabit}>
+          Dodaj nawyk
+        </Button>
+      )}
       <Button mt={4} onClick={saveData}>
         Zapisz
       </Button>
