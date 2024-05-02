@@ -4,15 +4,31 @@
     "tip": "Na początku możesz zacząc wykonywać nawyk przez 5 minut danego dnia, stopniowo zwięszkająć czas - w taki sposób utrzymasz motywacje oraz łatwiej będzie Ci wypracować dane zachowanie, które z czasem będzie tak naturalne jak poranne mycie zębów."
   },
   "goalHeader": {
-    "title": "Cel",
-    "explanationQuestion": "Ten cel jest dla mnie ważny ponieważ:"
+    "explanationQuestion": "Ten cel jest dla mnie ważny ponieważ:",
+    "title": "Cel"
+  },
+  "monthlyRating": {
+    "answer": "Miejsce na odpowiedź...",
+    "explanationOfQuestion": "Uzasadnienie oceny...",
+    "monthlyRatingHeader": "Ocena miesięczna",
+    "monthlyRatingQuestion": "Jak oceniasz ten miesiąć i dlaczego?",
+    "Question1": "Jak oceniasz swoje postępy na kwartalnymi celami? W czym udało Ci się posunąć naprzód, a w czym nie ? Dlaczego? Oceń czy jesteś na dobrej drodze do zrealizowania swoich kwartalnych celów",
+    "Question2": "Co było Twoim największym wyznaniem? Jak udało Ci się z nim poradzić?",
+    "Question3": "Czego nauczył Cię ten miesiąć?"
+  },
+  "weekPlanner": {
+    "goal1": "Cel nr 1",
+    "goal2": "Cel nr 2",
+    "goal3": "Cel nr 3",
+    "weekText": "Tydzień",
+    "weekRatingQuestion": "Jak ocenisz ten tydzień i dlaczego?"
   },
   "validations": {
-    "goalNameRequired": "Wygana nazwa celu",
     "explanationQuestionRequired": "Wymagana odpowiedź",
-    "yourBenefitsRequired": "Wymagane wpisanie korzyśći",
-    "yourDisturberRequired": "Wymagane wpisanie przeszkód",
+    "goalNameRequired": "Wygana nazwa celu",
+    "taskFinishDateInvalid": "Wymagana data zakończenia zadania",
     "taskNameRequired": "Wymagana nazwa zadania",
-    "taskFinishDateInvalid": "Wymagana data zakończenia zadania"
+    "yourBenefitsRequired": "Wymagane wpisanie korzyśći",
+    "yourDisturberRequired": "Wymagane wpisanie przeszkód"
   }
 }
