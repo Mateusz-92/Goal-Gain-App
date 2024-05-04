@@ -14,7 +14,7 @@ export const taskSchema = z.object({
     .min(minLength, { message: i18n.t("common:validations.taskNameRequired") }),
 });
 
-export const goalSchema = z.object({
+export const singleGoalSchema = z.object({
   explanationQuestion: z.string().min(minLength, {
     message: i18n.t("common:validations.explanationQuestionRequired"),
   }),
@@ -28,6 +28,12 @@ export const goalSchema = z.object({
   yourDisturber: z.string().min(minLength, {
     message: i18n.t("common:validations.yourDisturberRequired"),
   }),
+});
+
+export type SingleGoalValuesSchema = z.infer<typeof singleGoalSchema>;
+
+export const goalSchema = z.object({
+  goals: z.array(singleGoalSchema),
 });
 
 export type GoalFormValuesSchema = z.infer<typeof goalSchema>;
@@ -50,17 +56,25 @@ export const MonthlyRatingData = z.object({
 
 export type MonthlyValuesRatingSchema = z.infer<typeof MonthlyRatingData>;
 const WeekDaySchema = z.object({
-  date: z.string().min(minLength, { message: "Date is required" }),
-  description: z
+  date: z
     .string()
-    .min(minLength, { message: "Description is required" }),
+    .min(minLength, { message: i18n.t("common:validations.dateOfDay") }),
+  description: z.string().optional(),
+  // .min(minLength, { message: "Description is required" }),
 });
 
 export const WeekPlannerDataSchema = z.object({
   days: z.array(WeekDaySchema),
-  goal1: z.string().min(minLength, { message: "Goal 1 is required" }),
-  goal2: z.string().min(minLength, { message: "Goal 2 is required" }),
-  goal3: z.string().min(minLength, { message: "Goal 3 is required" }),
+  goal1: z
+    .string()
+    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
+  goal2: z
+    .string()
+    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
+  goal3: z
+    .string()
+    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
+  isEnded: z.boolean().optional(),
   rating: z.string().min(minLength, { message: "Graduate is required" }),
   week: z.string().min(minLength, { message: "Week is required" }),
   weekRatingExplanation: z

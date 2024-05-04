@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Container, Text, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { goalSchema } from "../../../../validators/validators";
+import { GoalFormValuesSchema, goalSchema,SingleGoalValuesSchema } from "../../../../validators/validators";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
-const DEAFAULT_GOAL_MODEL = {
+const DEAFAULT_GOAL_MODEL:SingleGoalValuesSchema = {
   explanationQuestion: "",
   goalName: "",
   tasks: [DEFAULT_TASK_MODEL],
@@ -68,8 +68,8 @@ const countValue: number = 1;
 const ThreeMonthsGoalsPlanner: React.FC = () => {
   const { t } = useTranslation(["common"]);
 
-  const { control, handleSubmit, register } = useForm({
-    // const { control, handleSubmit, register } = useForm<GoalSchema>({
+  // const { control, handleSubmit, register } = useForm({
+    const { control, handleSubmit, register } = useForm<GoalFormValuesSchema>({
     defaultValues: {
       goals: [DEAFAULT_GOAL_MODEL],
     },
