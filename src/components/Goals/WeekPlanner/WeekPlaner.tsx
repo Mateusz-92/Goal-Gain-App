@@ -15,32 +15,15 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { WeekPlannerDataSchema } from "../../../validators/validators";
-import { indexNum } from "../../Ratings/MothlyRating/MonthlyRating";
+import { indexNum } from "../../../constants";
+import {
+  WeekPlannerData,
+  WeekPlannerDataSchema,
+} from "../../../validators/validators";
+
+import { WeekHeader } from "./WeekHeader";
 const arrLength: number = 7;
 const arrRadioLength: number = 10;
-const days: string[] = [
-  "Poniedziałek",
-  "Wtorek",
-  "Środa",
-  "Czwartek",
-  "Piątek",
-  "Sobota",
-  "Niedziela",
-];
-
-type WeekDay = { date: string; description: string };
-
-type WeekPlannerData = {
-  days: WeekDay[];
-  goal1: string;
-  goal2: string;
-  goal3: string;
-  isEnded: boolean;
-  rating: string;
-  week: string;
-  weekRatingExplanation: string;
-};
 
 const DEAFAULT_WEEK_MODEL: WeekPlannerData = {
   days: Array(arrLength).fill({ date: "", description: "" }),
@@ -77,7 +60,7 @@ const WeekPlanner: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <Text>{t("weekPlanner.weekText")} </Text>
-          <Input type="date" {...register("week")} />
+          <Input type="week" {...register("week")} />
           {errors.week && <Text color={"red"}>{errors.week.message}</Text>}
         </Container>
         <Container display={"flex"} justifyContent={"center"}>
@@ -115,11 +98,13 @@ const WeekPlanner: React.FC = () => {
         </Container>
 
         {fields.map((field, index) => (
-          <Container key={field.id}>
-            <Text>{days[index]}</Text>
-            <Input type="date" {...register(`days.${index}.date`)} />
-            <Textarea {...register(`days.${index}.description`)} />
-          </Container>
+          <WeekHeader
+            key={`field_${Math.random()}`}
+            errors={errors}
+            field={field}
+            index={index}
+            register={register}
+          />
         ))}
 
         <Box mb={4}>
