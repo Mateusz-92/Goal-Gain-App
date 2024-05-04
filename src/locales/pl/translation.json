@@ -24,10 +24,12 @@
     "weekRatingQuestion": "Jak ocenisz ten tydzień i dlaczego?"
   },
   "validations": {
+    "dateOfDay": "Należy wybrać datę",
     "explanationQuestionRequired": "Wymagana odpowiedź",
-    "goalNameRequired": "Wygana nazwa celu",
+    "goalNameRequired": "Wymagana nazwa celu",
     "taskFinishDateInvalid": "Wymagana data zakończenia zadania",
     "taskNameRequired": "Wymagana nazwa zadania",
+    "weekGoal": "Wpisanie celu jest wymagane",
     "yourBenefitsRequired": "Wymagane wpisanie korzyśći",
     "yourDisturberRequired": "Wymagane wpisanie przeszkód"
   }
