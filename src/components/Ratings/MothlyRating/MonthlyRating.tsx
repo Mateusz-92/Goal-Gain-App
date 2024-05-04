@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { indexNum } from "../../../constants";
 import {
   MonthlyRatingData,
   MonthlyValuesRatingSchema,
@@ -37,7 +38,7 @@ const DEAFAULT_RATING_MODEL: monthlyRating = {
   theBiggestChalange: "",
   value: "",
 };
-export const indexNum: number = 1;
+
 // move on indexNum to constant file
 const MonthlyRating: React.FC<MonthlyRatingProps> = ({ month }) => {
   const {
