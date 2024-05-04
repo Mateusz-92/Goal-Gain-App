@@ -6,6 +6,7 @@ import {
   Input,
   Textarea,
 } from "@chakra-ui/react";
+
 import { FormError } from "../FormError/FormError";
 import { BaseInputProps } from "../types";
 
@@ -17,9 +18,9 @@ type InputQuestionProps<T extends FieldValues> = {
 
 export const TextForm = <T extends FieldValues>({
   control,
+  isInput = true,
   label,
   name,
-  isInput = true,
   placeholder,
   type,
 }: InputQuestionProps<T>) => (
@@ -30,20 +31,22 @@ export const TextForm = <T extends FieldValues>({
       <FormControl>
         <Flex align="center" direction="column" mb="20px">
           <FormLabel fontWeight="bold">{label}</FormLabel>
-          {isInput ? (
+          {isInput
+? (
             <Input
               mt="2"
-              onChange={onChange}
               placeholder={placeholder}
               textAlign="center"
               type={type}
+              onChange={onChange}
             />
-          ) : (
+          )
+: (
             <Textarea
               mt="2"
-              onChange={onChange}
               placeholder={placeholder}
               textAlign="center"
+              onChange={onChange}
             />
           )}
           <FormError error={error} />
