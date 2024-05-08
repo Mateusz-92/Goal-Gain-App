@@ -2,6 +2,7 @@ import React from "react";
 import { Control, useFieldArray } from "react-hook-form";
 import { MinusIcon } from "@chakra-ui/icons";
 import { Box, Button, Checkbox, Container, IconButton } from "@chakra-ui/react";
+
 import { TextForm } from "../../../Forms/TextForm/TextForm";
 
 export type TaskItem = {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Box, Button, Container, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Container, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -9,10 +9,10 @@ import {
   goalSchema,
   SingleGoalValuesSchema,
 } from "../../../../validators/validators";
+import { TextForm } from "../../../Forms/TextForm/TextForm";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
-import { TextForm } from "../../../Forms/TextForm/TextForm";
 const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
   explanationQuestion: "",
   goalName: "",
