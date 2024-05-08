@@ -4,11 +4,16 @@ import { useTranslation } from "react-i18next";
 import { Box, Button, Container, Text, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { GoalFormValuesSchema, goalSchema,SingleGoalValuesSchema } from "../../../../validators/validators";
+import {
+  GoalFormValuesSchema,
+  goalSchema,
+  SingleGoalValuesSchema,
+} from "../../../../validators/validators";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
-const DEAFAULT_GOAL_MODEL:SingleGoalValuesSchema = {
+import { TextForm } from "../../../Forms/TextForm/TextForm";
+const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
   explanationQuestion: "",
   goalName: "",
   tasks: [DEFAULT_TASK_MODEL],
@@ -69,7 +74,7 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
   const { t } = useTranslation(["common"]);
 
   // const { control, handleSubmit, register } = useForm({
-    const { control, handleSubmit, register } = useForm<GoalFormValuesSchema>({
+  const { control, handleSubmit, register } = useForm<GoalFormValuesSchema>({
     defaultValues: {
       goals: [DEAFAULT_GOAL_MODEL],
     },
@@ -91,20 +96,40 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
                 {t("goalHeader.title")} {i + countValue}{" "}
               </Text>
 
-              <Textarea {...register(`goals.${i}.goalName`)} />
+              <TextForm
+                control={control}
+                isInput={false}
+                placeholder={"Nazwa celu"}
+                {...register(`goals.${i}.goalName`)}
+              />
             </Container>
-            <Text>{t("goalHeader.explanationQuestion")}</Text>
+            <TextForm
+              control={control}
+              isInput={false}
+              label={t("goalHeader.explanationQuestion")}
+              placeholder={""}
+              {...register(`goals.${i}.explanationQuestion`)}
+            />
 
-            <Textarea {...register(`goals.${i}.explanationQuestion`)} />
             <ThreeMonthsTasks
               control={control}
               nestedTaskName={`goals.${i}.tasks`}
               register={register}
             />
-            <Text>korzycsi</Text>
-            <Textarea {...register(`goals.${i}.yourBenefits`)} />
-            <Text>Blokady</Text>
-            <Textarea {...register(`goals.${i}.yourDisturber`)} />
+            <TextForm
+              control={control}
+              isInput={false}
+              label={"Korzyści"}
+              placeholder={""}
+              {...register(`goals.${i}.yourBenefits`)}
+            />
+            <TextForm
+              control={control}
+              isInput={false}
+              label={"Blokady"}
+              placeholder={""}
+              {...register(`goals.${i}.yourDisturber`)}
+            />
             <Button type="button" onClick={() => remove(i)}>
               Remove goal
             </Button>

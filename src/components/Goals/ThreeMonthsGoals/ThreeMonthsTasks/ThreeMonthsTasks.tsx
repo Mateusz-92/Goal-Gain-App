@@ -1,15 +1,8 @@
 import React from "react";
 import { Control, useFieldArray } from "react-hook-form";
 import { MinusIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  IconButton,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Checkbox, Container, IconButton } from "@chakra-ui/react";
+import { TextForm } from "../../../Forms/TextForm/TextForm";
 
 export type TaskItem = {
   date?: string;
@@ -27,7 +20,6 @@ const ThreeMonthsTasks: React.FC<{
   register: any;
 }> = ({ control, nestedTaskName, register }) => {
   const { append, fields, remove } = useFieldArray({
-     
     control,
     name: nestedTaskName,
   });
@@ -37,9 +29,18 @@ const ThreeMonthsTasks: React.FC<{
       {fields.map((task, i) => (
         <Container key={task.id}>
           <Container>
-            <Text>Zadanie {i + countValue}</Text>
-            <Input {...register(`${nestedTaskName}.${i}.name`)} />
-            <Input
+            {/* <Text>Zadanie {i + countValue}</Text> */}
+            <TextForm
+              control={control}
+              isInput={true}
+              label={`Zadanie ${i + countValue}`}
+              placeholder={"Wpisz zadanie"}
+              {...register(`${nestedTaskName}.${i}.name`)}
+            />
+            {/* <Input {...register(`${nestedTaskName}.${i}.name`)} /> */}
+            <TextForm
+              control={control}
+              isInput={true}
               type="Date"
               {...register(`${nestedTaskName}.${i}.finishDate`)}
             />
