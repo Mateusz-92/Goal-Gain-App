@@ -1,7 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { Button, Flex, Input, List, ListItem } from "@chakra-ui/react";
 
+import TitleName from "../../../UI/TitleName/TitleName";
+
 const MonthAnswersList = () => {
+  // answer ma przyjmowac jako default dane z api lub []
   const [answers, setAnswers] = useState<string[]>([]);
   const [inputText, setInputText] = useState("");
 
@@ -26,6 +29,7 @@ const MonthAnswersList = () => {
   };
   return (
     <Flex direction="column" justifyItems={"self-start"} width={"90%"}>
+      <TitleName textAlign="start" title={"Pytanie miesiąca"} />
       <Input
         focusBorderColor="teal.500"
         mb={4}
@@ -35,6 +39,7 @@ const MonthAnswersList = () => {
         width={"100%"}
         onChange={handleInputChange}
       />
+      {/* podmienic powyzszy input na TextForm */}
       <Button colorScheme="teal" mt={2} onClick={handleAddAnswer}>
         Add Answer
       </Button>
