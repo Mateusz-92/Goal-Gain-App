@@ -9,6 +9,7 @@ import { days } from "../../../constants";
 import { WeekPlannerData } from "../../../validators/validators";
 
 type WeekHeaderProps = {
+  date: string;
   errors: FieldErrors<WeekPlannerData>;
   field: FieldArrayWithId<WeekPlannerData, "days", "id">;
   index: number;
@@ -16,6 +17,7 @@ type WeekHeaderProps = {
 };
 
 export const WeekHeader = ({
+  date,
   errors,
   field,
   index,
@@ -25,15 +27,18 @@ export const WeekHeader = ({
   return (
     <Container key={field.id}>
       <Text>{days[index]}</Text>
-      <Input type="date" {...register(`days.${index}.date`)} />
+      <Input
+        readOnly
+        borderColor="transparent"
+        focusBorderColor="transparent"
+        textAlign="center"
+        value={date}
+        {...register(`days.${index}.date`)}
+      />
+
+      <Textarea {...register(`days.${index}.plan`)} />
       {isError
-? <Text color={"red"}>{isError.date?.message}</Text>
-: null}
-      <Textarea {...register(`days.${index}.description`)} />
-      {isError
-? (
-        <Text color={"red"}>{isError.description?.message}</Text>
-      )
+? <Text color={"red"}>{isError.plan?.message}</Text>
 : null}
     </Container>
   );
