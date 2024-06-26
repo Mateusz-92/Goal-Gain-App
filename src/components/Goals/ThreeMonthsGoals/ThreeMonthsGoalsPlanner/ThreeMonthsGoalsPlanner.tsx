@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Box, Button, Container, Text } from "@chakra-ui/react";
+import { Box, Button, Container, Text, useDisclosure } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,6 +16,8 @@ import { TextForm } from "../../../Forms/TextForm/TextForm";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
+import ModalApp from "../../../Modal/ModalApp";
+import { useUser } from "../../../../context/UserContext";
 
 const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
   explanationQuestion: "",
@@ -28,17 +30,16 @@ const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
 const countValue: number = 1;
 
 const ThreeMonthsGoalsPlanner: React.FC = () => {
-  const goalId: string = "";
+  const goalId: string = "kc255rMT2o8TLuTdr0Q7";
   // goalId - z query.
-
+  const pointsValue: number = 500;
   const { t } = useTranslation(["common"]);
   const { data, isError, isLoading } = useGetGoals(goalId);
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(goalId);
   const editGoalsWithoutId = useEditGoals();
-  const onAddGoalsMutation = goalId
-? editGoalsWithId
-: editGoalsWithoutId;
-
+  const onAddGoalsMutation = goalId ? editGoalsWithId : editGoalsWithoutId;
+  const { addPoints } = useUser();
   const { control, handleSubmit, register, setValue } =
     useForm<GoalFormValuesSchema>({
       defaultValues: {
@@ -59,6 +60,17 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
 
   const onSubmit = (data: GoalFormValuesSchema) => {
     onAddGoalsMutation.mutate(data);
+
+    onClose();
+  };
+
+  const handleSave = handleSubmit(() => {
+    onOpen();
+  });
+
+  const handleAddPointsandData = () => {
+    handleSubmit(onSubmit)();
+    if (!goalId) addPoints(pointsValue);
   };
 
   if (isLoading) {
@@ -70,7 +82,7 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
 
   return (
     <Box>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         {fields.map((el, i) => (
           // comment index in eslint
           <Box key={el.id}>
@@ -125,7 +137,18 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
             Add next
           </Button>
 
-          <Button type="submit">SAVE</Button>
+          <Button type="button" onClick={handleSave}>
+            Zapisz
+          </Button>
+          <ModalApp
+            body={`Potwierdź, aby dodać dane`}
+            cancelText="Anuluj"
+            confirmText="Tak"
+            header="Czy chcesz dodać/ edytować dane?"
+            isOpen={isOpen}
+            onClose={onClose}
+            onConfirm={handleAddPointsandData}
+          />
         </>
       </form>
     </Box>
@@ -133,3 +156,6 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
 };
 
 export default ThreeMonthsGoalsPlanner;
+function addPoints(pointsValue: number) {
+  throw new Error("Function not implemented.");
+}

@@ -10,6 +10,7 @@ import {
   Radio,
   RadioGroup,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
@@ -25,6 +26,8 @@ import {
 import { TextForm } from "../../Forms/TextForm/TextForm";
 
 import { WeekHeader } from "./WeekHeader";
+import ModalApp from "../../Modal/ModalApp";
+import { useUser } from "../../../context/UserContext";
 
 const arrLength = 7;
 const arrRadioLength = 10;
@@ -44,15 +47,16 @@ const DEFAULT_WEEK_MODEL: WeekPlannerData = {
 
 const WeekPlanner: React.FC = () => {
   const { t } = useTranslation(["common"]);
-  const weekId: string = "9TyeEdoDVWdrVI1C1FOI";
+  const weekId: string = "";
   const { data, isError, isLoading } = useGetWeekPlan(weekId);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { addPoints } = useUser();
+
   const editWeekWithId = useEditWeekPlan(weekId);
   const editWeekWithoutId = useEditWeekPlan();
 
-  const onAddWeekPlannMutation = weekId
-? editWeekWithId
-: editWeekWithoutId;
-
+  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
+  const pointsValue: number = 250;
   const {
     control,
     formState: { errors },
@@ -68,8 +72,15 @@ const WeekPlanner: React.FC = () => {
 
   const onSubmit = (data: WeekPlannerData) => {
     onAddWeekPlannMutation.mutate(data);
+    onClose();
   };
-
+  const handleSave = handleSubmit(() => {
+    onOpen();
+  });
+  const handleAddPointsandData = () => {
+    handleSubmit(onSubmit)();
+    if (!weekId) addPoints(pointsValue);
+  };
   const startDay = watch("startDay");
   const rate = watch("rate");
 
@@ -192,7 +203,18 @@ const WeekPlanner: React.FC = () => {
             {...register("explanation")}
           />
         </Box>
-        <Button type="submit"> Zapisz</Button>
+        <Button type="button" onClick={handleSave}>
+          Zapisz
+        </Button>
+        <ModalApp
+          body={`Potwierdź, aby dodać dane`}
+          cancelText="Anuluj"
+          confirmText="Tak"
+          header="Czy chcesz dodać/ edytować dane?"
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleAddPointsandData}
+        />
       </form>
     </Box>
   );
