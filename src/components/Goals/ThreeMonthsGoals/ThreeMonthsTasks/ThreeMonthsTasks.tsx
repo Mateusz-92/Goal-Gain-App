@@ -2,16 +2,16 @@ import React from "react";
 import { Control, useFieldArray } from "react-hook-form";
 import { MinusIcon } from "@chakra-ui/icons";
 import { Box, Button, Checkbox, Container, IconButton } from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
 
 import { TextForm } from "../../../Forms/TextForm/TextForm";
 
-export type TaskItem = {
-  date?: string;
-  id: string;
-  text: string;
+export const DEFAULT_TASK_MODEL = {
+  finishDate: "",
+  id: uuidv4(),
+  isEnded: false,
+  name: "",
 };
-
-export const DEFAULT_TASK_MODEL = { finishDate: "", isEnded: false, name: "" };
 
 const ThreeMonthsTasks: React.FC<{
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -25,12 +25,12 @@ const ThreeMonthsTasks: React.FC<{
     name: nestedTaskName,
   });
   const countValue: number = 1;
+
   return (
     <Box>
       {fields.map((task, i) => (
         <Container key={task.id}>
           <Container>
-            {/* <Text>Zadanie {i + countValue}</Text> */}
             <TextForm
               control={control}
               isInput={true}
@@ -38,7 +38,6 @@ const ThreeMonthsTasks: React.FC<{
               placeholder={"Wpisz zadanie"}
               {...register(`${nestedTaskName}.${i}.name`)}
             />
-            {/* <Input {...register(`${nestedTaskName}.${i}.name`)} /> */}
             <TextForm
               control={control}
               isInput={true}
@@ -47,7 +46,6 @@ const ThreeMonthsTasks: React.FC<{
             />
             <Checkbox {...register(`${nestedTaskName}.${i}.isEnded`)} />
           </Container>
-
           <IconButton
             aria-label="MinusIcon"
             icon={<MinusIcon />}
@@ -55,8 +53,7 @@ const ThreeMonthsTasks: React.FC<{
           />
         </Container>
       ))}
-
-      <Button type="button" onClick={() => append(DEFAULT_TASK_MODEL)}>
+      <Button type="button" onClick={() => append({ ...DEFAULT_TASK_MODEL })}>
         Dodaj zadanie
       </Button>
     </Box>

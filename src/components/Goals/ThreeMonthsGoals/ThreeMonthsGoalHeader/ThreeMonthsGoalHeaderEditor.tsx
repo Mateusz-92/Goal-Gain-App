@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Container, Text,Textarea } from "@chakra-ui/react";
+import { Box, Container, Text, Textarea } from "@chakra-ui/react";
 
 type ThreeMonthsGoalHeaderType = {
   explanationText?: string;
@@ -36,20 +36,17 @@ const ThreeMonthsGoalHeaderEditor: React.FC<ThreeMonthsGoalHeaderType> = ({
     <Box>
       <Container>
         <Text>
-          {t("goalHeader.title")} {goalNumber}{" "}
+          {t("goalHeader.title")} {goalNumber}
         </Text>
 
-        <Textarea
-          value={editedGoalText}
-          onChange={handleGoalTextChange}
-         />
+        <Textarea value={editedGoalText} onChange={handleGoalTextChange} />
       </Container>
       <Text>{t("goalHeader.explanationQuestion")}</Text>
 
       <Textarea
         value={editedExplanationText}
         onChange={handleExplanationTextChange}
-       />
+      />
     </Box>
   );
 };
