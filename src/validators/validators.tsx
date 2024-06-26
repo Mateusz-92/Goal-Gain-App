@@ -1,14 +1,18 @@
-import { z } from "zod";
+import { v4 as uuidv4 } from "uuid";
+import { string, z } from "zod";
 
 import i18n from "../i18n";
-
 const minLength: number = 1;
 
+const generateUUID = () => uuidv4();
 export const taskSchema = z.object({
   finishDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
     message: i18n.t("common:validations.taskFinishDateInvalid"),
   }),
+  id: z.string().uuid().default(generateUUID),
   isEnded: z.boolean(),
+  // id: z.string().uuid().optional(),
+
   name: z
     .string()
     .min(minLength, { message: i18n.t("common:validations.taskNameRequired") }),
@@ -18,9 +22,12 @@ export const singleGoalSchema = z.object({
   explanationQuestion: z.string().min(minLength, {
     message: i18n.t("common:validations.explanationQuestionRequired"),
   }),
+  // id: z.string().uuid().optional(),
   goalName: z
     .string({ required_error: i18n.t("common:validations.goalNameRequired") })
     .min(minLength, { message: i18n.t("common:validations.goalNameRequired") }),
+  id: z.string().uuid().default(generateUUID),
+
   tasks: z.array(taskSchema),
   yourBenefits: z.string().min(minLength, {
     message: i18n.t("common:validations.yourBenefitsRequired"),
@@ -39,9 +46,11 @@ export const goalSchema = z.object({
 export type GoalFormValuesSchema = z.infer<typeof goalSchema>;
 
 export const MonthlyRatingData = z.object({
+  date: z.string(),
   explanationOfRate: z.string().min(minLength, {
     message: i18n.t("common:validations.explanationQuestionRequired"),
   }),
+  id: z.string().optional(),
   lessonOfLife: z.string().min(minLength, {
     message: i18n.t("common:validations.explanationQuestionRequired"),
   }),
@@ -55,31 +64,51 @@ export const MonthlyRatingData = z.object({
 });
 
 export type MonthlyValuesRatingSchema = z.infer<typeof MonthlyRatingData>;
-const WeekDaySchema = z.object({
-  date: z
+
+const WeekDayPlanSchema = z.object({
+  date: z.string().optional(),
+  id: z.string().uuid().default(generateUUID),
+  plan: z.string().optional(),
+});
+
+const GoalWeekSchema = z.object({
+  id: z.string().uuid().default(generateUUID),
+  name: z
     .string()
-    .min(minLength, { message: i18n.t("common:validations.dateOfDay") }),
-  description: z.string().optional(),
-  // .min(minLength, { message: "Description is required" }),
+    .min(minLength, { message: i18n.t("common:validations.goalNameRequired") }),
+  status: z.boolean(),
 });
 
 export const WeekPlannerDataSchema = z.object({
-  days: z.array(WeekDaySchema),
-  goal1: z
+  // userId: z.string().min(minLength, { message: i18n.t("common:validations.userIdRequired") }),
+  days: z.array(WeekDayPlanSchema),
+  explanation: z.string().min(minLength, {
+    message: i18n.t("common:validations.explanationRequired"),
+  }),
+  goal: z.array(GoalWeekSchema),
+  id: string().optional(),
+  rate: z
     .string()
-    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
-  goal2: z
-    .string()
-    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
-  goal3: z
-    .string()
-    .min(minLength, { message: i18n.t("common:validations.weekGoal") }),
-  isEnded: z.boolean().optional(),
-  rating: z.string().min(minLength, { message: "Graduate is required" }),
-  week: z.string().min(minLength, { message: "Week is required" }),
-  weekRatingExplanation: z
-    .string()
-    .min(minLength, { message: "Explanation is requaired" }),
+    .min(minLength, { message: i18n.t("common:validations.rateRequired") }),
+  startDay: z.string().min(minLength, { message: "Week is required" }),
 });
 
 export type WeekPlannerData = z.infer<typeof WeekPlannerDataSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().email("Nieprawidłowy email"),
+  // eslint-disable-next-line no-magic-numbers
+  password: z.string().min(6, "Hasło musi mieć co najmniej 6 znaków"),
+});
+
+export const registerSchema = loginSchema
+  .extend({
+    confirmPassword: z.string().nonempty("Potwierdzenie hasła jest wymagane"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Hasła się nie zgadzają",
+    path: ["confirmPassword"],
+  });
+export type FormData = z.infer<typeof loginSchema> & {
+  confirmPassword?: string;
+};
