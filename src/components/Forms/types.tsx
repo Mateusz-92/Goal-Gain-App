@@ -1,9 +1,9 @@
 import { Control, FieldValues, Path } from "react-hook-form";
 
 export type BaseInputProps<T extends FieldValues> = {
-  control: Control<T>;
+  control?: Control<T>;
   label?: string;
   name: Path<T>;
 };
 
-export type Option = { label: string, value: string; };
+export type Option = { label: string; value: string };
