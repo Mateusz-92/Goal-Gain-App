@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Box, Button, Container, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { v4 as uuidv4 } from "uuid";
 
+import { useEditGoals } from "../../../../firebase/mutations";
+import { useGetGoals } from "../../../../firebase/queries";
 import {
   GoalFormValuesSchema,
   goalSchema,
@@ -13,84 +16,64 @@ import { TextForm } from "../../../Forms/TextForm/TextForm";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
+
 const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
   explanationQuestion: "",
   goalName: "",
+  id: uuidv4(),
   tasks: [DEFAULT_TASK_MODEL],
   yourBenefits: "",
   yourDisturber: "",
 };
 const countValue: number = 1;
-// const dummyGoals = [
-//   {
-//     goalName: "Zdobyć nowe umiejętności programistyczne",
-//     explanationQuestion: "Dlaczego chcę zdobyć nowe umiejętności?",
-//     yourBenefits: "Zwiększenie atrakcyjności na rynku pracy",
-//     yourDisturber: "Brak pewności siebie w obecnych umiejętnościach",
-//     tasks: [
-//       {
-//         name: "Przeanalizować trendy na rynku IT",
-//         finishDate: "2024-05-15",
-//         isEnded: false,
-//       },
-//       {
-//         name: "Zapisać się na kurs programowania",
-//         finishDate: "2024-05-20",
-//         isEnded: false,
-//       },
-//       {
-//         name: "Praktykować codziennie przez 1 godzinę",
-//         finishDate: "2024-06-30",
-//         isEnded: false,
-//       },
-//     ],
-//   },
-//   {
-//     goalName: "Poprawić kondycję fizyczną",
-//     explanationQuestion: "Dlaczego chcę poprawić kondycję fizyczną?",
-//     yourBenefits: "Zwiększenie energii i samopoczucia",
-//     yourDisturber: "Brak aktywności fizycznej w codziennym życiu",
-//     tasks: [
-//       {
-//         name: "Zapisać się na siłownię",
-//         finishDate: "2024-05-10",
-//         isEnded: false,
-//       },
-//       {
-//         name: "Rozpocząć trening biegowy",
-//         finishDate: "2024-05-15",
-//         isEnded: false,
-//       },
-//       {
-//         name: "Regularnie ćwiczyć przez co najmniej 30 minut dziennie",
-//         finishDate: "2024-06-30",
-//         isEnded: true,
-//       },
-//     ],
-//   },
-// ];
 
 const ThreeMonthsGoalsPlanner: React.FC = () => {
-  const { t } = useTranslation(["common"]);
+  const goalId: string = "";
+  // goalId - z query.
 
-  // const { control, handleSubmit, register } = useForm({
-  const { control, handleSubmit, register } = useForm<GoalFormValuesSchema>({
-    defaultValues: {
-      goals: [DEAFAULT_GOAL_MODEL],
-    },
-    resolver: zodResolver(goalSchema),
-  });
+  const { t } = useTranslation(["common"]);
+  const { data, isError, isLoading } = useGetGoals(goalId);
+  const editGoalsWithId = useEditGoals(goalId);
+  const editGoalsWithoutId = useEditGoals();
+  const onAddGoalsMutation = goalId
+? editGoalsWithId
+: editGoalsWithoutId;
+
+  const { control, handleSubmit, register, setValue } =
+    useForm<GoalFormValuesSchema>({
+      defaultValues: {
+        goals: [DEAFAULT_GOAL_MODEL],
+      },
+      resolver: zodResolver(goalSchema),
+    });
+
+  useEffect(() => {
+    if (data) {
+      // eslint-disable-next-line no-magic-numbers
+      setValue("goals", data[0]);
+      // setValue("goals", data);
+    }
+  }, [data, setValue]);
 
   const { append, fields, remove } = useFieldArray({ control, name: "goals" });
 
-  const onSubmit = () => {};
-  // const onSubmit = (data: GoalSchema) => console.log("data", data);
+  const onSubmit = (data: GoalFormValuesSchema) => {
+    onAddGoalsMutation.mutate(data);
+  };
+
+  if (isLoading) {
+    return <div>is Loading...</div>;
+  }
+  if (isError) {
+    return <div>wystąpił błąd</div>;
+  }
 
   return (
     <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {fields.map((_, i) => (
-          <Box key={Math.random()}>
+        {fields.map((el, i) => (
+          // comment index in eslint
+          <Box key={el.id}>
             <Container>
               <Text>
                 {t("goalHeader.title")} {i + countValue}{" "}
@@ -130,15 +113,20 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
               placeholder={""}
               {...register(`goals.${i}.yourDisturber`)}
             />
+
             <Button type="button" onClick={() => remove(i)}>
               Remove goal
             </Button>
           </Box>
         ))}
-        <Button type="button" onClick={() => append(DEAFAULT_GOAL_MODEL)}>
-          Add next
-        </Button>
-        <Button type="submit">SAVE</Button>
+
+        <>
+          <Button type="button" onClick={() => append(DEAFAULT_GOAL_MODEL)}>
+            Add next
+          </Button>
+
+          <Button type="submit">SAVE</Button>
+        </>
       </form>
     </Box>
   );
