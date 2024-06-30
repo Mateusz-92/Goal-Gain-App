@@ -5,7 +5,26 @@ export const HomePage = () => {
   const menuItems = [
     { path: ROUTES.habitsTracker, title: "Nawyki" },
     { path: "/showcase", title: "showcase" },
-    { path: "/", title: "element3" },
   ];
-  return <DropdownMenu buttonTitle="Osiągaj cele" itemTitles={menuItems} />;
+  const goalsMenu = [
+    { path: "/threeMonthsGoalsPlanner", title: "Kreator celów 3-miesięcznych" },
+    {
+      path: "",
+      title: "Lista twoich celów 3-miesęcznych",
+    },
+    {
+      path: "/weekPlanner",
+      title: "Zaplanuj cele tygodniowe",
+    },
+    {
+      path: "/",
+      title: "Lista planów tygodniowych",
+    },
+  ];
+  return (
+    <>
+      <DropdownMenu buttonTitle="App" itemTitles={menuItems} />
+      <DropdownMenu buttonTitle="Cele" itemTitles={goalsMenu} />
+    </>
+  );
 };
