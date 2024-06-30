@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { HabitFormData } from "../components/habits/HabitsEditor/HabitsEditor";
+import { DayHabit } from "../components/habits/HabitsEditor/HabitsEditor";
 import {
   MonthlyValuesRatingSchema,
   SingleGoalValuesSchema,
@@ -21,8 +21,8 @@ export const QUERY_KEYS = {
   monthRate: "monthRate",
   weekPlan: "weekPlan",
 };
-export const useGeHabits = () => {
-  return useQuery<HabitFormData | null>({
+export const useGetHabits = () => {
+  return useQuery<DayHabit | null>({
     queryFn: async () => {
       return fetchLatestHabitForMonth();
     },
