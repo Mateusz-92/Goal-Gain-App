@@ -14,7 +14,10 @@ import {
   where,
 } from "firebase/firestore";
 
-import { HabitFormData } from "../components/habits/HabitsEditor/HabitsEditor";
+import {
+  DayHabit,
+  HabitFormData,
+} from "../components/habits/HabitsEditor/HabitsEditor";
 import {
   GoalFormValuesSchema,
   MonthlyValuesRatingSchema,
@@ -30,27 +33,27 @@ const apiBaseCollection = collection(db, "ApiBase");
 
 const loggedUserId = "HGqix4VjeKgPxYwjjfUdLks6eNk2";
 
-export const addHabits = async (
-  newHabits: { id: number; name: string }[],
-  monthYear: Date
-) => {
+export const addHabits = async (newHabits: DayHabit, monthYear: Date) => {
   try {
     const userDocRef = doc(apiBaseCollection);
 
     const userDocSnapshot = await getDoc(userDocRef);
     const userData = userDocSnapshot.data();
+    // eslint-disable-next-line no-magic-numbers
+    const monthYearString = monthYear.toISOString().split("T")[0];
+    const existingHabits =
+      userData?.habitsListForMonth?.[monthYearString]?.habits || [];
 
     const updatedHabits = {
       ...(userData?.habitsListForMonth ?? {}),
       id: userDocRef.id,
-      userId: loggedUserId,
-      [monthYear.toString()]: {
+      [monthYearString]: {
         habits: [
-          ...(userData?.habitsListForMonth?.[monthYear.toString()]?.habits ??
-            []),
-          ...newHabits,
+          ...existingHabits,
+          ...(newHabits[monthYearString]?.habits || []),
         ],
       },
+      userId: loggedUserId,
     };
 
     await setDoc(
@@ -59,39 +62,78 @@ export const addHabits = async (
       { merge: true }
     );
   } catch (error) {
-    // console.error("Error adding habits: ", error);
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }
+};
+export const updateHabitStatus = async (
+  date: string,
+  habitId: string,
+  newStatus: boolean
+) => {
+  try {
+    const userDocRef = doc(apiBaseCollection);
+
+    const userDocSnapshot = await getDoc(userDocRef);
+    const userData = userDocSnapshot.data();
+
+    const existingHabits = userData?.habitsListForMonth?.[date]?.habits || [];
+
+    const updatedHabitsForDate = existingHabits.map((habit: DayHabit) =>
+      habit.id === habitId
+? { ...habit, status: newStatus }
+: habit
+    );
+
+    const updatedHabits = {
+      ...(userData?.habitsListForMonth ?? {}),
+
+      [date]: {
+        habits: updatedHabitsForDate,
+      },
+      id: userDocRef.id,
+      userId: loggedUserId,
+    };
+    await setDoc(
+      userDocRef,
+      { habitsListForMonth: updatedHabits },
+      { merge: true }
+    );
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Error updating habit status: ", error);
   }
 };
 
-export const fetchLatestHabitForMonth =
-  async (): Promise<HabitFormData | null> => {
-    try {
-      const q = query(
-        collection(db, "ApiBase"),
-        orderBy("habitsListForMonth", "asc")
-      );
-      const querySnapshot = await getDocs(q);
+export const fetchLatestHabitForMonth = async (): Promise<DayHabit | null> => {
+  try {
+    const q = query(
+      collection(db, "ApiBase"),
+      // where("habitsListForMonth.userId", "==", loggedUserId),
+      orderBy("habitsListForMonth", "asc")
+    );
+    const querySnapshot = await getDocs(q);
 
-      let latestHabitForMonth: HabitFormData | null = null;
+    let latestHabitForMonth: HabitFormData | null = null;
 
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        if (
-          data.habitsListForMonth &&
-          data.habitsListForMonth.userId === loggedUserId
-        ) {
-          latestHabitForMonth = {
-            ...data.habitsListForMonth,
-          };
-        }
-      });
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (
+        data.habitsListForMonth &&
+        data.habitsListForMonth.userId === loggedUserId
+      ) {
+        latestHabitForMonth = {
+          ...data.habitsListForMonth,
+        };
+      }
+    });
 
-      // console.log(latestHabitForMonth);
-      return latestHabitForMonth;
-    } catch (error) {
-      return null;
-    }
-  };
+    // console.log(latestHabitForMonth);
+    return latestHabitForMonth;
+  } catch (error) {
+    return null;
+  }
+};
 
 export const addGoals = async (data: GoalFormValuesSchema, id?: string) => {
   try {
