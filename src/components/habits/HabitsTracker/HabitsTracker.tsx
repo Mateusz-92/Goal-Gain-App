@@ -1,39 +1,45 @@
 import { Box, Grid } from "@chakra-ui/react";
 
 import { months } from "../../../constants";
+import { useGetHabits } from "../../../firebase/queries";
 import TitleName from "../../../UI/TitleName/TitleName";
-import { HabitFormData } from "../HabitsEditor/HabitsEditor";
 import HabitsForm from "../HabitsForm/HabitsForm";
 import MonthAnswersList from "../MonthAnswerList/MonthAnswerList";
 
-const test: HabitFormData = {
-  date: new Date("Thu Mar 14 2024 01:00:00 GMT+0100"),
-  habits: [
-    { id: 1, name: "odpoczywanie" },
-    { id: 2, name: "ćwiczenia fizyczne" },
-    { id: 3, name: "czytanie książek" },
-  ],
-
-  questionTitle: "Co dziś mnie zadowoliło ?",
-};
-const habitsName = test.habits.map((habit) => habit.name);
-
 const HabitsTracker = () => {
-  const monthIndex = test.date.getMonth();
-  const monthName = months[monthIndex];
+  const { data, isError, isLoading } = useGetHabits();
 
+  if (isError) {
+    return <p>Cannot get data</p>;
+  }
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  // eslint-disable-next-line no-magic-numbers
+  if (!data || Object.keys(data).length === 0) {
+    return <p>No data available</p>;
+  }
+  // eslint-disable-next-line no-magic-numbers
+  const dateKey = Object.keys(data)[2];
+
+  const monthName = months[new Date(dateKey).getMonth()];
+
+  if (!data) {
+    return <p>No habits data available</p>;
+  }
   return (
-    <Box>
-      <TitleName textAlign="center" title={monthName} />
-      <Grid gap={8} mt={10} templateColumns={{ base: "1fr", md: "1fr 2fr" }}>
-        <div>
-          <TitleName textAlign="start" title={test.questionTitle} />
-          <MonthAnswersList />
-        </div>
-        <HabitsForm date={test.date!} habits={habitsName} />
-      </Grid>
-    </Box>
+    <>
+      <Box>
+        <TitleName textAlign="center" title={monthName} />
+        <Grid gap={8} mt={10} templateColumns={{ base: "1fr", md: "1fr 2fr" }}>
+          <div>
+            <MonthAnswersList />
+          </div>
+          <HabitsForm date={new Date("2024-06-27")} habits={data} />
+          {/* <HabitsForm date={new Date(dateKey)} habits={data} /> */}
+        </Grid>
+      </Box>
+    </>
   );
 };
-
 export default HabitsTracker;
