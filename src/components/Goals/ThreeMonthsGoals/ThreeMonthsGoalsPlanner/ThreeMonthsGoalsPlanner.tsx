@@ -5,6 +5,7 @@ import { Box, Button, Container, Text, useDisclosure } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { v4 as uuidv4 } from "uuid";
 
+import { useUser } from "../../../../context/UserContext";
 import { useEditGoals } from "../../../../firebase/mutations";
 import { useGetGoals } from "../../../../firebase/queries";
 import {
@@ -13,11 +14,10 @@ import {
   SingleGoalValuesSchema,
 } from "../../../../validators/validators";
 import { TextForm } from "../../../Forms/TextForm/TextForm";
+import ModalApp from "../../../Modal/ModalApp";
 import ThreeMonthsTasks, {
   DEFAULT_TASK_MODEL,
 } from "../ThreeMonthsTasks/ThreeMonthsTasks";
-import ModalApp from "../../../Modal/ModalApp";
-import { useUser } from "../../../../context/UserContext";
 
 const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
   explanationQuestion: "",
@@ -38,7 +38,9 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(goalId);
   const editGoalsWithoutId = useEditGoals();
-  const onAddGoalsMutation = goalId ? editGoalsWithId : editGoalsWithoutId;
+  const onAddGoalsMutation = goalId
+? editGoalsWithId
+: editGoalsWithoutId;
   const { addPoints } = useUser();
   const { control, handleSubmit, register, setValue } =
     useForm<GoalFormValuesSchema>({
@@ -156,6 +158,3 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
 };
 
 export default ThreeMonthsGoalsPlanner;
-function addPoints(pointsValue: number) {
-  throw new Error("Function not implemented.");
-}

@@ -17,6 +17,7 @@ import { addDays, format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
 import { indexNum } from "../../../constants";
+import { useUser } from "../../../context/UserContext";
 import { useEditWeekPlan } from "../../../firebase/mutations";
 import { useGetWeekPlan } from "../../../firebase/queries";
 import {
@@ -24,10 +25,9 @@ import {
   WeekPlannerDataSchema,
 } from "../../../validators/validators";
 import { TextForm } from "../../Forms/TextForm/TextForm";
+import ModalApp from "../../Modal/ModalApp";
 
 import { WeekHeader } from "./WeekHeader";
-import ModalApp from "../../Modal/ModalApp";
-import { useUser } from "../../../context/UserContext";
 
 const arrLength = 7;
 const arrRadioLength = 10;
@@ -55,7 +55,9 @@ const WeekPlanner: React.FC = () => {
   const editWeekWithId = useEditWeekPlan(weekId);
   const editWeekWithoutId = useEditWeekPlan();
 
-  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
+  const onAddWeekPlannMutation = weekId
+? editWeekWithId
+: editWeekWithoutId;
   const pointsValue: number = 250;
   const {
     control,
