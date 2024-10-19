@@ -1,25 +1,20 @@
-import { Controller, FieldValues } from "react-hook-form";
-import {
-  Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-} from "@chakra-ui/react";
+import { Controller, FieldValues } from 'react-hook-form';
+import { Flex, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
 
-import { FormError } from "../FormError/FormError";
-import { BaseInputProps } from "../types";
+import { FormError } from '../FormError/FormError';
+import { BaseInputProps } from '../types';
 
 type InputQuestionProps<T extends FieldValues> = {
   isDisabled?: boolean;
   isInput?: boolean;
   placeholder: string;
-  type?: "text" | "date" | "email" | "password";
+  type?: 'text' | 'date' | 'email' | 'password';
   value?: string;
 } & BaseInputProps<T>;
 
 export const TextForm = <T extends FieldValues>({
   control,
+  isDisabled,
   isInput = true,
   label,
   name,
@@ -32,25 +27,79 @@ export const TextForm = <T extends FieldValues>({
     render={({ field: { onChange, value }, fieldState: { error } }) => {
       return (
         <FormControl>
-          <Flex align="center" direction="column" mb="20px">
-            <FormLabel fontWeight="bold">{label}</FormLabel>
+          <Flex direction='column' mb='20px' align={isInput
+? 'left'
+: 'center'}>
+            <FormLabel fontWeight='bold'>{label}</FormLabel>
             {isInput
 ? (
               <Input
-                mt="2"
+                bg='white'
+                border='2px solid'
+                borderRadius='15px'
+                height='52px'
+                isDisabled={isDisabled}
+                mt='0'
                 placeholder={placeholder}
-                textAlign="center"
+                textAlign='left'
                 type={type}
                 value={value}
+                width='100%'
+                _disabled={{
+                  _hover: {
+                    bg: 'white',
+                    borderColor: 'black',
+                    cursor: 'not-allowed',
+                    fontWeight: 'bold',
+                  },
+                }}
+                _focus={{
+                  borderColor: 'var(--dark-gray)',
+                }}
+                _focusVisible={{
+                  outline: 'none',
+                }}
+                borderColor={isDisabled
+? 'black'
+: 'transparent'}
+                fontWeight={isDisabled
+? 'bold'
+: 'normal'}
                 onChange={onChange}
               />
             )
 : (
               <Textarea
-                mt="2"
+                bg='white'
+                border='2px solid'
+                borderRadius='15px'
+                height='52px'
+                isDisabled={isDisabled}
+                mt='2'
                 placeholder={placeholder}
-                textAlign="center"
+                textAlign='center'
                 value={value}
+                width='100%'
+                _disabled={{
+                  _hover: {
+                    bg: 'white',
+                    borderColor: 'black',
+                    cursor: 'not-allowed',
+                    fontWeight: 'bold',
+                  },
+                }}
+                _focus={{
+                  borderColor: 'var(--dark-gray)',
+                }}
+                _focusVisible={{
+                  outline: 'none',
+                }}
+                borderColor={isDisabled
+? 'black'
+: 'transparent'}
+                fontWeight={isDisabled
+? 'bold'
+: 'normal'}
                 onChange={onChange}
               />
             )}

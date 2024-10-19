@@ -1,6 +1,5 @@
-import React from "react";
+import React from 'react';
 import {
-  Button,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -8,7 +7,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
+
+import Btn from '../../UI/Btn/Btn';
 
 type ModalProps = {
   body: React.ReactNode;
@@ -17,7 +18,7 @@ type ModalProps = {
   header: string;
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
 };
 
 const ModalApp: React.FC<ModalProps> = ({
@@ -32,15 +33,13 @@ const ModalApp: React.FC<ModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent background='var(--light-gray)'>
         <ModalHeader>{header}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>{body}</ModalBody>
-        <ModalFooter>
-          <Button colorScheme="teal" mr={3} onClick={onConfirm}>
-            {confirmText}
-          </Button>
-          <Button onClick={onClose}>{cancelText}</Button>
+        <ModalFooter gap={2}>
+          <Btn text={confirmText} type='button' onClick={onConfirm} />
+          <Btn text={cancelText} type='button' onClick={onClose} />
         </ModalFooter>
       </ModalContent>
     </Modal>

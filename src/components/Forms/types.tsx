@@ -1,4 +1,4 @@
-import { Control, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path } from 'react-hook-form';
 
 export type BaseInputProps<T extends FieldValues> = {
   control?: Control<T>;

@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 
 export type MenuItemType = {
   path: string;
@@ -13,31 +12,34 @@ type DropdownMenuProps = {
 };
 
 const DropdownMenu = ({ buttonTitle, itemTitles }: DropdownMenuProps) => {
+  const navigate = useNavigate();
+
   return (
     <Menu>
       {({ isOpen }) => (
         <>
           <MenuButton
-            _active={{ opacity: 0.8 }}
-            _hover={{ opacity: 0.8 }}
+            _active={{ backgroundColor: 'var(--orange)' }}
+            _hover={{ backgroundColor: 'var(--orange)' }}
             as={Button}
-            bg="teal"
-            color="white"
+            bg='black'
+            color='var(--light-gray)'
             isActive={isOpen}
-            rightIcon={<ChevronDownIcon />}
-            width="222px"
+            margin='0'
+            padding='0'
+            width='222px'
           >
             {buttonTitle}
           </MenuButton>
-          <MenuList>
+          <MenuList backgroundColor={'var(--dark-gray)'} m={0} maxWidth='100px' p={0}>
             {itemTitles.map((item) => (
               <MenuItem
                 key={item.title}
-                _hover={{ opacity: 0.8 }}
-                as={Link}
-                backgroundColor="teal"
-                color="white"
-                to={item.path}
+                _hover={{ color: 'var(--orange)' }}
+                backgroundColor='transparent'
+                color='var(--light-gray)'
+                textAlign={['center', 'center', 'left']}
+                onClick={() => navigate(item.path)}
               >
                 {item.title}
               </MenuItem>

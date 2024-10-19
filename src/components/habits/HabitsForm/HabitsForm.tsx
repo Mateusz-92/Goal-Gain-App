@@ -1,8 +1,48 @@
-import React from "react";
-import { Checkbox, Table, Tbody, Td, Th, Tr } from "@chakra-ui/react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from 'react';
+import { Checkbox, Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
+import { v4 as uuidv4 } from 'uuid';
 
-import { DayHabit, HabitFormData } from "../HabitsEditor/HabitsEditor";
+import { useUser } from '../../../context/UserContext';
+import { useEditDayHabit } from '../../../firebase/mutations';
+import ModalApp from '../../Modal/ModalApp';
+import { DayHabit, HabitFormData } from '../HabitsEditor/HabitsEditor';
+
+export function getDayFromDate(dateString: string): string {
+  const date = new Date(dateString);
+  const day = ('0' + date.getDate()).slice(-2);
+  return day;
+}
+
+export const getDaysInMonth = (dateString: string): string[] => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  const days: string[] = [];
+  for (let i = 2; i <= lastDay + 1; i++) {
+    const day = new Date(year, month, i);
+    days.push(day.toISOString().split('T')[0]);
+  }
+  return days;
+
+  // TODO : date fns
+};
+
+const getDaysInMonthAsString = (date: string): string[] => {
+  const daysInMonth = getDaysInMonth(date);
+  return daysInMonth.map((day) => day.toString());
+};
+
+function extractHabitsForDate(date: string, allHabits: DayHabit) {
+  return allHabits[date as keyof typeof allHabits]?.habits || [];
+}
+
+function extractHabitNames(data: DayHabit) {
+  const dateKey = Object.keys(data).find((key) => key.includes('-'));
+  const habitsArray = data[dateKey as keyof typeof data]?.habits || [];
+  const namesArray = habitsArray.map((habit) => habit.name);
+  return namesArray;
+}
 
 const HabitsForm: React.FC<HabitFormData> = ({
   date,
@@ -11,84 +51,118 @@ const HabitsForm: React.FC<HabitFormData> = ({
   date: Date;
   habits: DayHabit;
 }) => {
-  // const numZero = 0;
-  // const startingIndex = 1;
-  function getDayFromDate(dateString: string): string {
-    const date = new Date(dateString);
-    // eslint-disable-next-line no-magic-numbers
-    const day = ("0" + date.getDate()).slice(-2);
-    return day;
-  }
+  const [currentHabits, setCurrentHabits] = useState<DayHabit>(habits);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedHabitId, setSelectedHabitId] = useState<number | null>(null);
 
-  const getDaysInMonth = (dateString: string): string[] => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    // eslint-disable-next-line no-magic-numbers
-    const lastDay = new Date(year, month + 1, 0).getDate();
-    const days: string[] = [];
-    // eslint-disable-next-line no-magic-numbers
-    for (let i = 2; i <= lastDay + 1; i++) {
-      const day = new Date(year, month, i);
-      // eslint-disable-next-line no-magic-numbers
-      days.push(day.toISOString().split("T")[0]);
-    }
-    return days;
-  };
-  const getDaysInMonthAsString = (date: string): string[] => {
-    const daysInMonth = getDaysInMonth(date);
-    return daysInMonth.map((day) => day.toString());
+  const onDayHabitMutation = useEditDayHabit();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { addPoints, subtractPoints } = useUser();
+
+  const handleCheckboxChange = (day: string, habitId: number) => {
+    setSelectedDay(day);
+    setSelectedHabitId(habitId);
+    onOpen();
   };
 
-  const daysInMonthAsString = getDaysInMonthAsString(date.toString());
+  const handleStatusChange = async () => {
+    if (selectedDay && selectedHabitId !== null) {
+      setCurrentHabits((prevHabits) => {
+        const dayHabits = prevHabits[selectedDay]?.habits || [];
+        const updatedHabits = dayHabits.map((habit) =>
+          habit.id === selectedHabitId
+? { ...habit, status: !habit.status }
+: habit,
+        );
 
-  function extractHabitsForDate(date: string, allHabits: DayHabit) {
-    // eslint-disable-next-line no-console
-    console.log("allHabits", allHabits);
-    // eslint-disable-next-line no-console
-    console.log("Date", date);
-    // eslint-disable-next-line no-console
-    console.log("allHabits in date", allHabits[date]);
-    return allHabits[date as keyof typeof allHabits]?.habits;
-  }
+        const newState = {
+          ...prevHabits,
+          [selectedDay]: { habits: updatedHabits },
+        };
 
-  function extractHabitNames(data: DayHabit) {
-    const dateKey = Object.keys(data).find((key) => key.includes("-"));
+        return newState;
+      });
 
-    const habitsArray = data[dateKey as keyof typeof data]?.habits;
+      const updatedHabit = currentHabits[selectedDay]?.habits.find(
+        (habit) => habit.id === selectedHabitId,
+      );
 
-    const namesArray = habitsArray.map((habit) => habit.name);
-
-    return namesArray;
-  }
-  const habitNames = extractHabitNames(habits);
-
-  return (
-    <Table variant="simple" width={"40%"}>
-      <Tbody>
-        <Tr>
-          <Th>Dzień</Th>
-          {habitNames.map((habit) => (
-            <Th key={habit}>{habit}</Th>
-          ))}
-        </Tr>
-        {daysInMonthAsString.map((day) => {
-          const extractedHabits = extractHabitsForDate(day, habits);
-          return (
-            <Tr key={day}>
-              <Td>{getDayFromDate(day)}</Td>
-              {extractedHabits.map((habit) => {
-                return (
-                  <Td key={habit.id || uuidv4()}>
-                    <Checkbox defaultChecked={habit?.status || false} />
-                  </Td>
-                );
-              })}
-            </Tr>
+      if (updatedHabit) {
+        const test = {
+          date: selectedDay,
+          habitId: selectedHabitId,
+          id: currentHabits.id || ' ',
+          newStatus: !updatedHabit.status,
+        };
+        test.newStatus
+? addPoints(250)
+: subtractPoints(250);
+        try {
+          await onDayHabitMutation.mutate(test);
+          // eslint-disable-next-line no-console
+          console.log(
+            `Successfully updated habit with ID ${selectedHabitId} for ${selectedDay}. New status: ${!updatedHabit.status}`,
           );
-        })}
-      </Tbody>
-    </Table>
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.error(error);
+        }
+      }
+    }
+    onClose();
+  };
+
+  const daysInMonthAsString = getDaysInMonthAsString(date.toISOString().split('T')[0]);
+
+  const habitNames = extractHabitNames(currentHabits);
+  return (
+    <>
+      <Table colorScheme='var(--dark-gray)' width={'100%'}>
+        <Tbody>
+          <Tr>
+            <Th color='var(--dark-gray)' textAlign='left'>
+              Dzień
+            </Th>
+            {habitNames.map((habit) => (
+              <Th key={habit} color='var(--dark-gray)' textAlign='center'>
+                {habit}
+              </Th>
+            ))}
+          </Tr>
+          {daysInMonthAsString.map((day) => {
+            const extractedHabits = extractHabitsForDate(day, currentHabits);
+            return (
+              <Tr key={day}>
+                <Td textAlign='left'>{getDayFromDate(day)}</Td>
+                {extractedHabits.map((habit) => (
+                  <Td key={habit.id || uuidv4()} color='var(--dark-gray)' textAlign='center'>
+                    <Checkbox
+                      _hover={{ opacity: 0.8 }}
+                      bg={'transparent'}
+                      borderColor='var(--dark-gray)'
+                      color='var(--dark-gray)'
+                      colorScheme='transparent'
+                      iconColor='black'
+                      isChecked={habit.status}
+                      onChange={() => handleCheckboxChange(day, habit.id)}
+                    />
+                  </Td>
+                ))}
+              </Tr>
+            );
+          })}
+        </Tbody>
+      </Table>
+      <ModalApp
+        body={`Potwierdź, aby zmienić status nawyku`}
+        cancelText='Anuluj'
+        confirmText='Tak'
+        header='Czy chcesz zmienić status?'
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleStatusChange}
+      />
+    </>
   );
 };
 

@@ -1,24 +1,46 @@
-import React, { useState } from "react";
-import { Box, useDisclosure } from "@chakra-ui/react";
+import React from 'react';
+import { Box, useDisclosure } from '@chakra-ui/react';
 
-import { useUser } from "../../../context/UserContext";
-import ModalApp from "../../Modal/ModalApp";
+import { useAuth } from '../../../context/AuthContext';
+import { useEditCrossOutSavingComponent } from '../../../firebase/mutations';
+import ModalApp from '../../Modal/ModalApp';
+import { ammountBord } from '../CircleList/CircleList';
 
 type CircleItemProps = {
-  value: number;
-};
+  amounts: ammountBord[];
+  savingCrossOutId: string;
+} & ammountBord;
 
-const CircleItem: React.FC<CircleItemProps> = ({ value }) => {
-  const [isActive, setIsActive] = useState(false);
+const CircleItem: React.FC<CircleItemProps> = ({
+  amounts,
+  id,
+  isCrossOut,
+  savingCrossOutId,
+  value,
+}) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { addCrossOutSaving, subtractCrossOutSaving } = useUser();
-  const handleAddToCrossOutSavings = () => {
-    setIsActive(!isActive);
+  const { user } = useAuth();
+  const userId = user?.uid || '';
+  const editCrossOutSaving = useEditCrossOutSavingComponent(userId);
 
-    if (!isActive) {
-      addCrossOutSaving(value);
+  const handleAddToCrossOutSavings = () => {
+    const newSaving = {
+      date: new Date().toString(),
+      id: id,
+      isCrossOut: !isCrossOut,
+      value: value,
+    };
+
+    const existingIndex = amounts.findIndex((item) => item.id === newSaving.id);
+
+    if (existingIndex !== -1) {
+      const newAmounts = [...amounts];
+      newAmounts[existingIndex] = newSaving;
+
+      editCrossOutSaving.mutate({ amounts: newAmounts, id: savingCrossOutId });
     } else {
-      subtractCrossOutSaving(value);
+      const newAmounts = [...amounts, newSaving];
+      editCrossOutSaving.mutate({ amounts: newAmounts, id: savingCrossOutId });
     }
 
     onClose();
@@ -31,34 +53,34 @@ const CircleItem: React.FC<CircleItemProps> = ({ value }) => {
   return (
     <>
       <Box
-        alignItems="center"
-        as="button"
-        borderRadius="50%"
-        display="flex"
-        height="50px"
-        justifyContent="center"
-        margin="10px"
-        width="50px"
-        backgroundColor={isActive
-? "green.500"
-: "gray.300"}
+        alignItems='center'
+        as='button'
+        borderRadius='50%'
+        display='flex'
+        height='50px'
+        justifyContent='center'
+        margin='10px'
+        width='50px'
+        backgroundColor={isCrossOut
+? 'green.500'
+: 'gray.300'}
         onClick={handleClick}
       >
         {value}
       </Box>
 
       <ModalApp
-        cancelText="Nie"
-        confirmText="Tak"
+        cancelText='Nie'
+        confirmText='Tak'
         isOpen={isOpen}
         body={
-          isActive
+          isCrossOut
             ? `Czy na pewno chcesz usunąć kwotę ${value}?`
             : `Czy na pewno chcesz dodać kwotę ${value}?`
         }
-        header={isActive
-? "Czy usunąć kwotę?"
-: "Czy dodać kwotę?"}
+        header={isCrossOut
+? 'Czy usunąć kwotę?'
+: 'Czy dodać kwotę?'}
         onClose={onClose}
         onConfirm={handleAddToCrossOutSavings}
       />

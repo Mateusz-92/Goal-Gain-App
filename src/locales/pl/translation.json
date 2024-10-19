@@ -16,13 +16,6 @@
     "Question2": "Co było Twoim największym wyznaniem? Jak udało Ci się z nim poradzić?",
     "Question3": "Czego nauczył Cię ten miesiąć?"
   },
-  "weekPlanner": {
-    "goal1": "Cel nr 1",
-    "goal2": "Cel nr 2",
-    "goal3": "Cel nr 3",
-    "weekText": "Tydzień",
-    "weekRatingQuestion": "Jak ocenisz ten tydzień i dlaczego?"
-  },
   "validations": {
     "dateOfDay": "Należy wybrać datę",
     "explanationQuestionRequired": "Wymagana odpowiedź",
@@ -32,5 +25,12 @@
     "weekGoal": "Wpisanie celu jest wymagane",
     "yourBenefitsRequired": "Wymagane wpisanie korzyści",
     "yourDisturberRequired": "Wymagane wpisanie przeszkód"
+  },
+  "weekPlanner": {
+    "goal1": "Cel nr 1",
+    "goal2": "Cel nr 2",
+    "goal3": "Cel nr 3",
+    "weekText": "Tydzień",
+    "weekRatingQuestion": "Jak ocenisz ten tydzień i dlaczego?"
   }
 }

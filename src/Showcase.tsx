@@ -1,9 +1,15 @@
-import MonthlyRating from "./components/Ratings/MothlyRating/MonthlyRating";
+import { Flex } from '@chakra-ui/react';
+
+import { MonthAnswerList } from './components/habits/MonthAnswerList/MonthAnswerList';
 
 export const Showcase = () => {
   return (
     <>
-      <MonthlyRating month="x" />
+      <Flex alignItems='center' direction='column'>
+        <div>Showcase page</div>
+
+        <MonthAnswerList />
+      </Flex>
     </>
   );
 };

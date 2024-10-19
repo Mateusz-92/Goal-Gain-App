@@ -1,57 +1,113 @@
-import { ChangeEvent, useState } from "react";
-import { Button, Flex, Input, List, ListItem } from "@chakra-ui/react";
+import { useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { Button } from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format, parse } from 'date-fns';
 
-import TitleName from "../../../UI/TitleName/TitleName";
+import { useAuth } from '../../../context/AuthContext';
+import {} from // fetchMonthAnswerQuestionData,
+'../../../firebase/Api';
+import { useAddCurrentAnswerForMonthQuestion } from '../../../firebase/mutations';
+import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
+import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
+import { TextForm } from '../../Forms/TextForm/TextForm';
+const currentDay = format(new Date(), 'dd.MM.yyyy');
 
-const MonthAnswersList = () => {
-  // answer ma przyjmowac jako default dane z api lub []
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [inputText, setInputText] = useState("");
-
-  const addAnswer = (answer: string) => {
-    setAnswers([...answers, answer]);
-    setInputText("");
-  };
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputText(event.target.value);
-  };
-
-  const handleAddAnswer = () => {
-    const currentDate = new Date().toLocaleDateString();
-    const answerExistsToday = answers.some((answer) =>
-      answer.startsWith(currentDate)
-    );
-    if (!answerExistsToday) {
-      const newAnswer = `${currentDate} - ${inputText}`;
-      addAnswer(newAnswer);
-    }
-  };
-  return (
-    <Flex direction="column" justifyItems={"self-start"} width={"90%"}>
-      <TitleName textAlign="start" title={"Pytanie miesiąca"} />
-      <Input
-        focusBorderColor="teal.500"
-        mb={4}
-        mt={2}
-        placeholder="Enter your answer"
-        value={inputText}
-        width={"100%"}
-        onChange={handleInputChange}
-      />
-      {/* podmienic powyzszy input na TextForm */}
-      <Button colorScheme="teal" mt={2} onClick={handleAddAnswer}>
-        Add Answer
-      </Button>
-      <List alignItems={"center"} width={"80%"}>
-        {answers.map((answer) => (
-          <ListItem key={answer} textAlign={"start"}>
-            {answer}
-          </ListItem>
-        ))}
-      </List>
-    </Flex>
-  );
+const DEFAULT_ANSWER_MODEL = {
+  date: currentDay,
+  // id: "",
+  text: '',
+  // date: new Date().toISOString().split("T")[0],
 };
 
-export default MonthAnswersList;
+// type FormData = {
+//   answers: (typeof DEFAULT_ANSWER_MODEL)[];
+//   month: string;
+//   questionTitle: string;
+//   userId: string;
+// };
+
+export const MonthAnswerList = () => {
+  const { user } = useAuth();
+  const userId = user?.uid || '';
+  const { data, isError, isLoading } = useGetCurrentMonthAnswerQuestion(userId);
+  const answerDataId = data?.id || '';
+  const editAnswerQuestionWithId = useAddCurrentAnswerForMonthQuestion(answerDataId);
+  const editAnswerQuestionWithoutId = useAddCurrentAnswerForMonthQuestion();
+  const [canUserAddAnswer, setCanUserAddAnswer] = useState(true);
+
+  const { control, handleSubmit, register, setValue } = useForm<monthAnswerData>({
+    defaultValues: {
+      answers: [],
+      id: '',
+      month: format(new Date(), 'MM.yyyy'),
+      questionTitle: '',
+      userId: userId,
+    },
+    resolver: zodResolver(monthAnswerSchema),
+  });
+  useEffect(() => {
+    if (data) {
+      setValue('questionTitle', data.questionTitle);
+      setValue('month', data.month);
+      setValue('answers', data.answers);
+      setValue('userId', data.userId);
+    }
+  }, [data, setValue]);
+  const onSubmit = async (formData: monthAnswerData) => {
+    if (answerDataId) {
+      editAnswerQuestionWithId.mutate(formData);
+    } else {
+      editAnswerQuestionWithoutId.mutate(formData);
+    }
+  };
+  const { append, fields } = useFieldArray({ control, name: 'answers' });
+
+  const handleAddNext = () => {
+    setCanUserAddAnswer(false);
+    append(DEFAULT_ANSWER_MODEL);
+  };
+  if (isLoading) {
+    return <div>isLoading</div>;
+  }
+  if (isError) {
+    return <div>isError</div>;
+  }
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <TextForm
+        control={control}
+        isInput={true}
+        placeholder={'Wpisz Pytanie miesiąca'}
+        isDisabled={data?.questionTitle
+? true
+: false}
+        {...register(`questionTitle`)}
+      />
+      {fields.map((el, i) => {
+        const answerDate = parse(el.date, 'dd.MM.yyyy', new Date());
+        answerDate < parse(currentDay, 'dd.MM.yyyy', new Date());
+
+        return (
+          <TextForm
+            key={el.id}
+            control={control}
+            isInput={true}
+            label={data?.answers[i]?.date || ''}
+            // isDisabled={isDisabled}
+            placeholder={'Wpisz'}
+            {...register(`answers.${i}.text`)}
+          />
+        );
+      })}
+      <Button
+        isDisabled={data?.answers.some((answer) => answer.date === currentDay) || !canUserAddAnswer}
+        type='button'
+        onClick={handleAddNext}
+      >
+        Dodaj odpowiedź
+      </Button>
+      <Button type='submit'>Wyślij </Button>
+    </form>
+  );
+};

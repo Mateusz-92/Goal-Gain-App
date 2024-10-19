@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Box, Button, Input, useDisclosure } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { Box, Button, Input, useDisclosure } from '@chakra-ui/react';
 
-import { useUser } from "../../../context/UserContext";
-import { useEditHabits } from "../../../firebase/mutations";
-import ModalApp from "../../Modal/ModalApp";
+import { useAuth } from '../../../context/AuthContext';
+import { useUser } from '../../../context/UserContext';
+import { useEditHabits } from '../../../firebase/mutations';
+import ModalApp from '../../Modal/ModalApp';
 
 export type Habit = {
   id: number;
@@ -36,19 +37,12 @@ const initialHabitData: HabitFormData = {
 const habitsLength: number = 4;
 
 const HabitsEditor = () => {
+  const { user } = useAuth();
+  const userId = user?.uid || '';
   const [habitData, setHabitData] = useState<HabitFormData>(initialHabitData);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { addPoints } = useUser();
-  const onAddHabitsMutation = useEditHabits();
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof HabitFormData
-  ) => {
-    setHabitData({
-      ...habitData,
-      [field]: e.target.value,
-    });
-  };
+  const onAddHabitsMutation = useEditHabits(userId);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHabitData({
@@ -60,31 +54,27 @@ const HabitsEditor = () => {
   const addHabitLocal = () => {
     const newHabit = {
       id: Date.now(),
-      name: "",
+      name: '',
       status: false,
     };
-    // eslint-disable-next-line no-magic-numbers
-    const currentDateString = habitData.date.toISOString().split("T")[0];
+
+    const currentDateString = habitData.date.toISOString().split('T')[0];
 
     setHabitData({
       ...habitData,
       habits: {
         ...habitData.habits,
         [currentDateString]: {
-          habits: [
-            ...(habitData.habits[currentDateString]?.habits || []),
-            newHabit,
-          ],
+          habits: [...(habitData.habits[currentDateString]?.habits || []), newHabit],
         },
       },
     });
   };
 
   const removeHabitLocal = async (id: number) => {
-    // eslint-disable-next-line no-magic-numbers
-    const currentDateString = habitData.date.toISOString().split("T")[0];
+    const currentDateString = habitData.date.toISOString().split('T')[0];
     const updatedHabits = habitData.habits[currentDateString]?.habits.filter(
-      (habit) => habit.id !== id
+      (habit) => habit.id !== id,
     );
 
     setHabitData({
@@ -99,7 +89,6 @@ const HabitsEditor = () => {
   };
 
   const addHabitsHandler = async () => {
-    // eslint-disable-next-line no-magic-numbers
     addPoints(1000);
     onAddHabitsMutation.mutate(habitData);
     onClose();
@@ -108,26 +97,17 @@ const HabitsEditor = () => {
   const saveData = () => {
     onOpen();
   };
-  // eslint-disable-next-line no-magic-numbers
-  const currentDateString = habitData.date.toISOString().split("T")[0];
-  const habitsForCurrentDate =
-    habitData.habits[currentDateString]?.habits || [];
+
+  const currentDateString = habitData.date.toISOString().split('T')[0];
+  const habitsForCurrentDate = habitData.habits[currentDateString]?.habits || [];
 
   return (
     <Box>
       <Input
-        placeholder="Data"
-        type="date"
-        // eslint-disable-next-line no-magic-numbers
-        value={habitData.date?.toISOString().split("T")[0] || ""}
+        placeholder='Data'
+        type='date'
+        value={habitData.date?.toISOString().split('T')[0] || ''}
         onChange={handleDateChange}
-      />
-      <Input
-        mt={4}
-        placeholder="Pytanie miesiąca"
-        type="text"
-        value={habitData.questionTitle}
-        onChange={(e) => handleFormChange(e, "questionTitle")}
       />
 
       {habitsForCurrentDate.map((habit) => (
@@ -136,12 +116,12 @@ const HabitsEditor = () => {
             mt={4}
             placeholder={`Wpisz nawyk `}
             value={habit.name}
-            width={"70%"}
+            width={'70%'}
             onChange={(e) => {
               const updatedHabits = habitsForCurrentDate.map((item) =>
                 item.id === habit.id
 ? { ...item, name: e.target.value }
-: item
+: item,
               );
               setHabitData({
                 ...habitData,
@@ -168,13 +148,11 @@ const HabitsEditor = () => {
         Zapisz
       </Button>
       <ModalApp
-        cancelText="Anuluj"
-        confirmText="Potwierdź"
-        header="Gratulacje! Określiłeś swoje nawyki, które chcesz wprowadzić w życie, otrzymujesz 500 punktów"
+        body={'Potwierdź, aby dodać punkty oraz nawyki do tabeli lub anuluj, aby zmodyfikować dane'}
+        cancelText='Anuluj'
+        confirmText='Potwierdź'
+        header='Gratulacje! Określiłeś swoje nawyki, które chcesz wprowadzić w życie, otrzymujesz 500 punktów'
         isOpen={isOpen}
-        body={
-          "Potwierdź, aby dodać punkty oraz nawyki do tabeli lub anuluj, aby zmodyfikować dane"
-        }
         onClose={onClose}
         onConfirm={addHabitsHandler}
       />
