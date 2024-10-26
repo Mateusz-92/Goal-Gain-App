@@ -2,12 +2,13 @@ import React from 'react';
 import { Button, ButtonProps } from '@chakra-ui/react';
 
 type BtnProps = ButtonProps & {
+  isDisabled?: boolean;
   onClick?: () => void;
   text: string;
   type: 'button' | 'submit';
 };
 
-const Btn: React.FC<BtnProps> = ({ onClick, text, type }) => {
+const Btn: React.FC<BtnProps> = ({ isDisabled, onClick, text, type }) => {
   return (
     <Button
       bg='black'
@@ -15,6 +16,8 @@ const Btn: React.FC<BtnProps> = ({ onClick, text, type }) => {
       borderRadius='15px'
       borderWidth='1px'
       color='var(--light-gray)'
+      mr={2}
+      isDisabled={isDisabled}
       size='lg'
       textTransform='uppercase'
       type={type}
