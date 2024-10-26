@@ -57,13 +57,14 @@ const CircleItem: React.FC<CircleItemProps> = ({
         as='button'
         borderRadius='50%'
         display='flex'
+        fontWeight='bold'
         height='50px'
         justifyContent='center'
         margin='10px'
         width='50px'
         backgroundColor={isCrossOut
-? 'green.500'
-: 'gray.300'}
+? 'var(--green)'
+: 'var(--olive)'}
         onClick={handleClick}
       >
         {value}
