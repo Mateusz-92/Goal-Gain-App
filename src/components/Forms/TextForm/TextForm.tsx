@@ -8,7 +8,7 @@ type InputQuestionProps<T extends FieldValues> = {
   isDisabled?: boolean;
   isInput?: boolean;
   placeholder: string;
-  type?: 'text' | 'date' | 'email' | 'password';
+  type?: 'text' | 'date' | 'email' | 'password' | 'month';
   value?: string;
 } & BaseInputProps<T>;
 
