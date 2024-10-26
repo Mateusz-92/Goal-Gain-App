@@ -302,3 +302,44 @@ export const useUserAvatarData = (userId: string) => {
     isLoading: allQueries.some((query) => query.isLoading),
   };
 };
+export const getHabitsForMonthChartQueryConfig = (userId: string) => {
+  return {
+    enabled: !!userId,
+    queryFn: async () => {
+      return fetchLatestHabitForMonth(userId);
+    },
+
+    queryKey: [QUERY_KEYS.habits],
+  };
+};
+
+export const getUserHabitNamesForMonthQueryConfig = (monthAndYear: string, userId: string) => {
+  return {
+    enabled: !!userId,
+    queryFn: async () => {
+      return fetchHabitsPerMonth(monthAndYear, userId);
+    },
+    queryKey: ['userHabitNamesForMonth'],
+
+    // enabled: !!clientId,
+  };
+};
+export const useGetHabitsChartsData = (monthAndYear: string, userId: string) => {
+  const allQueries = useQueries({
+    queries: [
+      getHabitsForMonthChartQueryConfig(userId),
+      getUserHabitNamesForMonthQueryConfig(monthAndYear, userId),
+    ],
+  });
+
+  const [habitsDataQuery, userHabitNamesQuery] = allQueries;
+
+  return {
+    data: {
+      habitsData: habitsDataQuery.data,
+      userHabitNames: userHabitNamesQuery.data,
+    },
+    isError: allQueries.some((query) => query.isError),
+    isLoading: allQueries.some((query) => query.isLoading),
+  };
+};
