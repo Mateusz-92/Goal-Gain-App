@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { Button } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
@@ -9,23 +8,17 @@ import {} from // fetchMonthAnswerQuestionData,
 '../../../firebase/Api';
 import { useAddCurrentAnswerForMonthQuestion } from '../../../firebase/mutations';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
+import Btn from '../../../UI/Btn/Btn';
 import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
 const currentDay = format(new Date(), 'dd.MM.yyyy');
 
 const DEFAULT_ANSWER_MODEL = {
   date: currentDay,
-  // id: "",
   text: '',
-  // date: new Date().toISOString().split("T")[0],
 };
 
-// type FormData = {
-//   answers: (typeof DEFAULT_ANSWER_MODEL)[];
-//   month: string;
-//   questionTitle: string;
-//   userId: string;
-// };
+
 
 export const MonthAnswerList = () => {
   const { user } = useAuth();
@@ -100,14 +93,13 @@ export const MonthAnswerList = () => {
           />
         );
       })}
-      <Button
+      <Btn
         isDisabled={data?.answers.some((answer) => answer.date === currentDay) || !canUserAddAnswer}
+        text='Dodaj odpowiedź'
         type='button'
         onClick={handleAddNext}
-      >
-        Dodaj odpowiedź
-      </Button>
-      <Button type='submit'>Wyślij </Button>
+      />
+      <Btn text='Wyślij' type='submit' />
     </form>
   );
 };
