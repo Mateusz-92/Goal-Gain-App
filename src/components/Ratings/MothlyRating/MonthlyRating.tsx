@@ -4,14 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import {
   Box,
-  Button,
   Container,
   Flex,
-  Input,
   Radio,
   RadioGroup,
   Text,
-  Textarea,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -19,7 +16,9 @@ import { indexNum } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useEditMonthRate } from '../../../firebase/mutations';
 import { useGetMonthlyEvaluation } from '../../../firebase/queries';
+import Btn from '../../../UI/Btn/Btn';
 import { MonthlyRatingData, MonthlyValuesRatingSchema } from '../../../validators/validators';
+import { TextForm } from '../../Forms/TextForm/TextForm';
 
 type monthlyRating = {
   explanationOfRate: string;
@@ -51,6 +50,7 @@ const MonthlyRating: React.FC = () => {
 : editMonthRateWithoutId;
 
   const {
+    control,
     formState: { errors },
     handleSubmit,
     register,
@@ -88,16 +88,27 @@ const MonthlyRating: React.FC = () => {
     <Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
-          <Text>Miesiąc</Text>
-          <Input placeholder='wybierz miesiąc' type='month' {...register(`date`)} />
+          <Text fontWeight={'bold'} textAlign={'center'}>
+            Miesiąc
+          </Text>
+          <TextForm
+            control={control}
+            isInput={true}
+            placeholder='Wybierz miesiąc'
+            type='month'
+            {...register(`date`)}
+          />
         </Container>
 
         <Box mb={4}>
-          <Text>{t('monthlyRating.monthlyRatingQuestion')}</Text>
+          <Text fontWeight={'bold'} textAlign={'center'}>
+            {t('monthlyRating.monthlyRatingQuestion')}
+          </Text>
           <Flex alignItems='center' direction={'column'} justifyContent='center'>
             <RadioGroup mb={5} mt={5} value={value} onChange={(value) => setValue('value', value)}>
               {[...Array(arrRadioLength)].map((_, index) => (
                 <Radio
+                  colorScheme='white'
                   {...register(`value`)}
                   // key={index}
                   key={`radio_${Math.random()}`}
@@ -110,36 +121,42 @@ const MonthlyRating: React.FC = () => {
             </RadioGroup>
             {errors.value && <Text color={'red'}>{errors.value.message}</Text>}
           </Flex>
-          <Textarea
-            {...register(`monthsRate`)}
+
+          <TextForm
+            control={control}
+            isInput={false}
             placeholder={t('monthlyRating.explanationOfQuestion')}
+            {...register(`monthsRate`)}
           />
-
-          {errors.monthsRate && <Text color={'red'}>{errors.monthsRate.message}</Text>}
         </Box>
         <Box>
-          <Text mb={5}>{t('monthlyRating.Question1')}</Text>
-          <Textarea {...register(`explanationOfRate`)} placeholder={t('monthlyRating.answer')} />
-
-          {errors.explanationOfRate && (
-            <Text color={'red'}>{errors.explanationOfRate.message}</Text>
-          )}
+          <TextForm
+            control={control}
+            isInput={false}
+            label={t('monthlyRating.Question1')}
+            placeholder='Opisz lekcję życia'
+            {...register(`explanationOfRate`)}
+          />
         </Box>
-        <Box>
-          <Text mb={5}>{t('monthlyRating.Question2')}</Text>
-          <Textarea {...register(`theBiggestChalange`)} placeholder={t('monthlyRating.answer')} />
 
-          {errors.theBiggestChalange && (
-            <Text color={'red'}>{errors.theBiggestChalange.message}</Text>
-          )}
-        </Box>
-        <Box>
-          <Text mb={5}>{t('monthlyRating.Question3')}</Text>
-          <Textarea {...register(`lessonOfLife`)} placeholder={t('monthlyRating.answer')} />
+        <TextForm
+          control={control}
+          isInput={false}
+          label={t('monthlyRating.Question2')}
+          placeholder='Największe wyzwanie'
+          {...register(`theBiggestChalange`)}
+        />
 
-          {errors.lessonOfLife && <Text color={'red'}>{errors.lessonOfLife.message}</Text>}
-        </Box>
-        <Button type='submit'>Zapisz</Button>
+        <TextForm
+          control={control}
+          isInput={false}
+          label={t('monthlyRating.Question3')}
+          placeholder='Opisz lekcję życia'
+          {...register(`lessonOfLife`)}
+        />
+        <Flex justify='center' mt={4}>
+          <Btn text='Zapisz' type='submit' />
+        </Flex>
       </form>
     </Box>
   );
