@@ -1,16 +1,16 @@
-import { Checkbox } from '@chakra-ui/react';
 import { UseFormRegisterReturn } from 'react-hook-form';
+import { Checkbox } from '@chakra-ui/react';
 
 type CustomCheckboxProps = {
-  registerProps?: UseFormRegisterReturn;
   isChecked?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  registerProps?: UseFormRegisterReturn;
 };
 
 export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
-  registerProps = {},
   isChecked,
   onChange,
+  registerProps = {},
 }) => {
   return (
     <Checkbox
@@ -20,8 +20,8 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
       color='var(--dark-gray)'
       colorScheme='transparent'
       iconColor='black'
-      ml={2}
       isChecked={isChecked}
+      ml={2}
       onChange={onChange}
       {...registerProps}
     />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Checkbox, Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
+import { Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useUser } from '../../../context/UserContext';
 import { useEditDayHabit } from '../../../firebase/mutations';
+import { CustomCheckbox } from '../../common/CustomCheckbox/CustomCheckbox';
 import ModalApp from '../../Modal/ModalApp';
 import { DayHabit, HabitFormData } from '../HabitsEditor/HabitsEditor';
 
@@ -136,13 +137,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
                 <Td textAlign='left'>{getDayFromDate(day)}</Td>
                 {extractedHabits.map((habit) => (
                   <Td key={habit.id || uuidv4()} color='var(--dark-gray)' textAlign='center'>
-                    <Checkbox
-                      _hover={{ opacity: 0.8 }}
-                      bg={'transparent'}
-                      borderColor='var(--dark-gray)'
-                      color='var(--dark-gray)'
-                      colorScheme='transparent'
-                      iconColor='black'
+                    <CustomCheckbox
                       isChecked={habit.status}
                       onChange={() => handleCheckboxChange(day, habit.id)}
                     />
