@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
-import {} from // fetchMonthAnswerQuestionData,
+import {} from 
 '../../../firebase/Api';
 import { useAddCurrentAnswerForMonthQuestion } from '../../../firebase/mutations';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
@@ -17,7 +17,6 @@ const DEFAULT_ANSWER_MODEL = {
   date: currentDay,
   text: '',
 };
-
 
 
 export const MonthAnswerList = () => {
