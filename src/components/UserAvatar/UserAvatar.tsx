@@ -1,11 +1,13 @@
 import React from 'react';
-import { Avatar, Badge, Box, Button, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Badge, Box, HStack, Text, VStack } from '@chakra-ui/react';
 
 import { useAuth } from '../../context/AuthContext';
 import { useUser } from '../../context/UserContext';
 import { handleLogout } from '../../firebase/Api';
 import { useUserAvatarData } from '../../firebase/queries';
+import Btn from '../../UI/Btn/Btn';
 import { ammountBord } from '../SavingScratch/CircleList/CircleList';
+import BadgeDisplay from '../UserLevel/UserLevel';
 
 export type Badge = {
   id: string;
@@ -62,39 +64,33 @@ const UserAvatar: React.FC = () => {
   if (isError) return <div>isError</div>;
   if (roulette)
     return (
-      <Box overflow='hidden' p={5}>
+      <Box overflow='hidden'>
         <VStack>
           <HStack>
-            <Avatar size='xl' src={'user.avatar'} />
+            <Avatar
+              size='xl'
+              src={
+                'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg'
+              }
+            />
             <VStack>
               <Text fontSize='2xl' fontWeight='bold'>
                 {user.name}
               </Text>
-              <Text color='gray.500' fontSize='md'>
-                Points: {sumOfUserPoints}
-              </Text>
             </VStack>
           </HStack>
           <Box>
-            <Text fontSize='lg' fontWeight='bold'>
-              Badges:
-            </Text>
             <HStack spacing={2}>
-              {user.badges.map((badge) => (
-                <Badge key={badge.id} borderRadius='full' colorScheme='teal' px='2'>
-                  <Image alt={badge.name} boxSize='30px' src={badge.imgUrl} />
-                  {badge.name}
-                </Badge>
-              ))}
+              <BadgeDisplay points={sumOfUserPoints} />
             </HStack>
           </Box>
-          <Box>
-            <Text fontSize='lg' fontWeight='bold'>
-              {`Savings (łącznie ${sumOfSavings})`}
+          <Box textAlign={'center'}>
+            <Text fontSize='lg' fontWeight='bold' mb={2}>
+              {`Suma oszczędności :  ${sumOfSavings}`}
             </Text>
-            <Text>Roulette: {sumOfroulette} PLN</Text>
-            <Text>Cross Out Puzzle: {sumOfCrossoutSaving} PLN</Text>
-            <Button onClick={() => handleLogout()}>LOGOUT </Button>
+            <Text mb={1}>Ruletka: {sumOfroulette} PLN</Text>
+            <Text mb={2}>Wykreślanka: {sumOfCrossoutSaving} PLN</Text>
+            <Btn text={'Wyloguj'} type={'button'} onClick={handleLogout} />
           </Box>
         </VStack>
       </Box>
