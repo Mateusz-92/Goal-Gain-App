@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useUser } from '../../../context/UserContext';
 import { useEditDayHabit } from '../../../firebase/mutations';
-import { CustomCheckbox } from '../../common/CustomCheckbox/CustomCheckbox';
+import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
 import ModalApp from '../../Modal/ModalApp';
 import { DayHabit, HabitFormData } from '../HabitsEditor/HabitsEditor';
 
