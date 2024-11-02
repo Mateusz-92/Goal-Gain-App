@@ -17,6 +17,7 @@ import MonthlyRating from './components/Ratings/MothlyRating/MonthlyRating';
 import Roulette from './components/Roulette/Roulette';
 import ChoiceVariant from './components/SavingScratch/ChoiceVariant/ChoiceVariant';
 import SavingsComponent from './components/SavingScratch/SavingsComponent/SavingsComponent';
+import { UserSettings } from './components/UserSettings/UserSettings';
 import { useAuth } from './context/AuthContext';
 import Layout from './layout/Layout';
 import { CreateHabits } from './pages/CreateHabits';
@@ -47,6 +48,8 @@ export const ROUTES = {
   threeMonthsGoalsPlanner: '/threeMonthsGoalsPlanner',
   threeMonthsGoalsPlannerData: '/threeMonthsGoalsPlanner/:goalId',
   threeMonthsGoalsPlannerList: '/threeMonthsGoalsPlannerList',
+  updatePassword: '/updatePassword',
+  userSettings: '/userSettings',
   weeklyRate: '/weeklyRate',
   weekPlanner: '/weekPlanner',
   weekPlannerData: '/weekPlanner/:weekId',
@@ -161,6 +164,14 @@ export const router = createBrowserRouter([
       {
         element: <PointsChartPage />,
         path: ROUTES.monthlyPointsChart,
+      },
+      {
+        element: <UserSettings />,
+        path: ROUTES.userSettings,
+      },
+      {
+        element: <AuthForm changeUserPassword={true} />,
+        path: ROUTES.updatePassword,
       },
     ],
     element: (
