@@ -27,6 +27,7 @@ import {
   fetchMonthCurrentAnswerQuestion,
   FetchMonthlyEvaluation,
   fetchMonthRateData,
+  fetchUserAvatar,
   fetchUserPoints,
   fetchWeekData,
   fetchWeekDay,
@@ -35,6 +36,7 @@ import {
 export const QUERY_KEYS = {
   amount: 'amount',
   answerList: 'answerList',
+  avatar: 'avatar',
   dayHabits: 'dayHabits',
   goals: 'goals',
   habits: 'habits',
@@ -342,4 +344,13 @@ export const useGetHabitsChartsData = (monthAndYear: string, userId: string) => 
     isError: allQueries.some((query) => query.isError),
     isLoading: allQueries.some((query) => query.isLoading),
   };
+};
+export const useGetUserAvatar = (userId: string) => {
+  return useQuery<string | null>({
+    enabled: !!userId,
+    queryFn: async () => {
+      return fetchUserAvatar(userId);
+    },
+    queryKey: [QUERY_KEYS.avatar],
+  });
 };

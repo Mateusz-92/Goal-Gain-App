@@ -11,6 +11,14 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import {
+  getDownloadURL,
+  getStorage,
+  listAll,
+  ref,
+  uploadBytes,
+  UploadResult,
+} from 'firebase/storage';
 
 import { DayHabit, Habit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 import { getDaysInMonth } from '../components/habits/HabitsForm/HabitsForm';
@@ -41,7 +49,6 @@ export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: st
     const userDocSnapshot = await getDoc(userDocRef);
     const userData = userDocSnapshot.data();
 
-     
     const monthYearString = monthYear.toISOString().split('T')[0].slice(0, 7);
 
     const updatedHabits = userData?.habitsListForMonth ?? {};
@@ -85,7 +92,7 @@ export const updateHabitStatus = async (
 
     const existingHabits = userData.habitsListForMonth?.[date]?.habits || [];
 
-    const updatedHabitsForDate = existingHabits.map((habit:any) =>
+    const updatedHabitsForDate = existingHabits.map((habit: any) =>
       habit.id === habitId
 ? { ...habit, status: newStatus }
 : habit,
@@ -882,5 +889,62 @@ export const fetchMonthCurrentAnswerQuestion = async (
     // eslint-disable-next-line no-console
     console.log(error);
     return null;
+  }
+};
+const storage = getStorage();
+
+export const uploadAvatarToFirebase = async (
+  file: File,
+  userId: string,
+): Promise<string | null> => {
+  if (!file) return null;
+
+  try {
+    const timestamp = Date.now();
+    const avatarRef = ref(storage, `avatars/${userId}/avatar_${timestamp}.jpg`);
+
+    const snapshot: UploadResult = await uploadBytes(avatarRef, file);
+
+    const downloadURL: string = await getDownloadURL(snapshot.ref);
+    // eslint-disable-next-line no-console
+    console.log('File available at:', downloadURL);
+
+    return downloadURL;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error uploading file:', error);
+    throw error;
+  }
+};
+
+export const fetchUserAvatar = async (userId: string): Promise<string | null> => {
+  try {
+    const folderRef = ref(storage, `avatars/${userId}`);
+    const list = await listAll(folderRef);
+
+    const sortedItems = list.items.sort((a, b) => {
+      const aTimestamp = parseInt(a.name.split('_')[1].split('.')[0]);
+      const bTimestamp = parseInt(b.name.split('_')[1].split('.')[0]);
+      return bTimestamp - aTimestamp;
+    });
+
+    if (sortedItems.length === 0) {
+      // eslint-disable-next-line no-console
+      console.warn('No avatar found for user:', userId);
+      return null;
+    }
+
+    const downloadURL = await getDownloadURL(sortedItems[0]);
+    return downloadURL;
+  } catch (error) {
+    if ((error as any).code === 'storage/object-not-found') {
+      // eslint-disable-next-line no-console
+      console.warn('Avatar not found for user:', userId);
+      return null;
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('Error fetching avatar:', error);
+      throw error;
+    }
   }
 };

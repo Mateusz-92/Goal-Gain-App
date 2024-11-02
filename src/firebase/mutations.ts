@@ -23,6 +23,7 @@ import {
   addUserPointsData,
   addWeekPlan,
   updateHabitStatus,
+  uploadAvatarToFirebase,
 } from './Api';
 import { QUERY_KEYS } from './queries';
 
@@ -196,6 +197,22 @@ export const useAddCurrentAnswerForMonthQuestion = (id?: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.answerList] });
+    },
+  });
+};
+export const useAddAvatar = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ file, userId }: { file: File; userId: string }) => {
+      return await uploadAvatarToFirebase(file, userId);
+    },
+    onError: (error) => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.avatar] });
     },
   });
 };
