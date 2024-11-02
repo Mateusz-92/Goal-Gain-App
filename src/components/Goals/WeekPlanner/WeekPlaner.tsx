@@ -58,7 +58,9 @@ const WeekPlanner: React.FC = () => {
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
 
-  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
+  const onAddWeekPlannMutation = weekId
+? editWeekWithId
+: editWeekWithoutId;
   const pointsValue: number = 250;
   const {
     control,
