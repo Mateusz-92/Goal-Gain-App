@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import {
   Box,
-  Checkbox,
   Container,
   Flex,
   Radio,
@@ -23,6 +22,7 @@ import { useUser } from '../../../context/UserContext';
 import { useEditWeekPlan } from '../../../firebase/mutations';
 import { useGetWeekPlan } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
+import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
 import { WeekPlannerData, WeekPlannerDataSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
 import ModalApp from '../../Modal/ModalApp';
@@ -58,9 +58,7 @@ const WeekPlanner: React.FC = () => {
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
 
-  const onAddWeekPlannMutation = weekId
-? editWeekWithId
-: editWeekWithoutId;
+  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
   const pointsValue: number = 250;
   const {
     control,
@@ -141,16 +139,8 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.0.name')}
           />
-          <Checkbox
-            _hover={{ opacity: 0.8 }}
-            bg={'transparent'}
-            borderColor='var(--dark-gray)'
-            color='var(--dark-gray)'
-            colorScheme='transparent'
-            iconColor='black'
-            ml={2}
-            {...register(`goal.0.status`)}
-          />
+
+          <CustomCheckbox {...register(`goal.0.status`)} />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -161,16 +151,8 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.1.name')}
           />
-          <Checkbox
-            _hover={{ opacity: 0.8 }}
-            bg={'transparent'}
-            borderColor='var(--dark-gray)'
-            color='var(--dark-gray)'
-            colorScheme='transparent'
-            iconColor='black'
-            ml={2}
-            {...register(`goal.1.status`)}
-          />
+
+          <CustomCheckbox {...register(`goal.1.status`)} />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -181,16 +163,8 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.2.name')}
           />
-          <Checkbox
-            _hover={{ opacity: 0.8 }}
-            bg={'transparent'}
-            borderColor='var(--dark-gray)'
-            color='var(--dark-gray)'
-            colorScheme='transparent'
-            iconColor='black'
-            ml={2}
-            {...register(`goal.2.status`)}
-          />
+
+          <CustomCheckbox {...register(`goal.2.status`)} />
         </Container>
 
         {fields.map((field, index) => {
