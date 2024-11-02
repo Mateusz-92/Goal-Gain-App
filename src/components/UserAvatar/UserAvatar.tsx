@@ -1,10 +1,12 @@
 import React from 'react';
-import { Avatar, Badge, Box, HStack, Text, VStack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { SettingsIcon } from '@chakra-ui/icons';
+import { Badge, Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
 
 import { useAuth } from '../../context/AuthContext';
-import { useUser } from '../../context/UserContext';
 import { handleLogout } from '../../firebase/Api';
 import { useUserAvatarData } from '../../firebase/queries';
+import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';
 import { ammountBord } from '../SavingScratch/CircleList/CircleList';
 import BadgeDisplay from '../UserLevel/UserLevel';
@@ -50,9 +52,9 @@ export type UserAvatarData = {
 };
 
 const UserAvatar: React.FC = () => {
-  const { user } = useUser();
   const { user: userAvatar } = useAuth();
   const userId = userAvatar?.uid || '';
+  const navigate = useNavigate();
 
   const {
     data: { roulette, sumOfCrossoutSaving, sumOfroulette, sumOfSavings, sumOfUserPoints },
@@ -67,15 +69,20 @@ const UserAvatar: React.FC = () => {
       <Box overflow='hidden'>
         <VStack>
           <HStack>
-            <Avatar
-              size='xl'
-              src={
-                'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg'
-              }
-            />
             <VStack>
-              <Text fontSize='2xl' fontWeight='bold'>
-                {user.name}
+              <AvatarIcon />
+              <IconButton
+                _hover={'transparent'}
+                aria-label='Settings'
+                bg={'transparent'}
+                onClick={() => {
+                  navigate('/userSettings');
+                }}
+              >
+                <SettingsIcon color={'black'} />
+              </IconButton>
+              <Text fontSize='sm' fontWeight='bold'>
+                {userAvatar?.email}
               </Text>
             </VStack>
           </HStack>
