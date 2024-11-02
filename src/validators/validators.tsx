@@ -106,10 +106,9 @@ export const answerForMonthSchema = z.object({
 
 export type answerForMonthData = z.infer<typeof answerForMonthSchema>;
 export const answer = z.object({
-  
   date: z.string(),
   // id: z.string().uuid().default(generateUUID),
-text: z.string().min(minLength, { message: 'field is required' }),
+  text: z.string().min(minLength, { message: 'field is required' }),
 });
 export const monthAnswerSchema = z.object({
   answers: z.array(answer),
@@ -131,12 +130,35 @@ export const questionForMonthSchema = z.object({
 });
 export type questionForMonthData = z.infer<typeof questionForMonthSchema>;
 
-export const loginSchema = z.object({
-  email: z.string().email('Nieprawidłowy email'),
-   
+// export const loginSchema = z.object({
+//   email: z.string().email('Nieprawidłowy email'),
+
+//   password: z.string().min(6, 'Hasło musi mieć co najmniej 6 znaków'),
+// });
+
+// export const registerSchema = loginSchema
+//   .extend({
+//     confirmPassword: z.string().nonempty('Potwierdzenie hasła jest wymagane'),
+//   })
+//   .refine((data) => data.password === data.confirmPassword, {
+//     message: 'Hasła się nie zgadzają',
+//     path: ['confirmPassword'],
+//   });
+// export type FormData = z.infer<typeof loginSchema> & {
+//   confirmPassword?: string;
+// };
+
+// Base schema for password
+const passwordSchema = z.object({
   password: z.string().min(6, 'Hasło musi mieć co najmniej 6 znaków'),
 });
 
+// Login schema (requires email and password)
+export const loginSchema = passwordSchema.extend({
+  email: z.string().email('Nieprawidłowy email'),
+});
+
+// Register schema (requires email, password, confirmPassword)
 export const registerSchema = loginSchema
   .extend({
     confirmPassword: z.string().nonempty('Potwierdzenie hasła jest wymagane'),
@@ -145,6 +167,18 @@ export const registerSchema = loginSchema
     message: 'Hasła się nie zgadzają',
     path: ['confirmPassword'],
   });
+
+// Change password schema (only requires password and confirmPassword)
+export const changePasswordSchema = passwordSchema
+  .extend({
+    confirmPassword: z.string().nonempty('Potwierdzenie hasła jest wymagane'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Hasła się nie zgadzają',
+    path: ['confirmPassword'],
+  });
+
+// Type inference for form data, with confirmPassword optional
 export type FormData = z.infer<typeof loginSchema> & {
   confirmPassword?: string;
 };
