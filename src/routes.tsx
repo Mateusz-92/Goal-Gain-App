@@ -9,6 +9,7 @@ import { WeeklyRateChartPage } from './components/Charts/PagesCharts/WeeklyRateC
 import ThreeMonthsGoalsPlanner from './components/Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
 import WeekPlanner from './components/Goals/WeekPlanner/WeekPlaner';
 import HabitsTracker from './components/habits/HabitsTracker/HabitsTracker';
+import { CrossOutSavingList } from './components/ListDataEditor/CrossOutSavingsList/CrossOutSavingList';
 import GoalsPlannerEditor from './components/ListDataEditor/GoalsPlannerList/GoalsPlannerList';
 import HabitsTrackerList from './components/ListDataEditor/HabitsTrackerList/HabitsTrackerList';
 import MonthEvaulationList from './components/ListDataEditor/MonthRatingList/MonthRatingList';
@@ -43,6 +44,8 @@ export const ROUTES = {
   roulette: '/roulette',
   savingCrossOut: '/savingCrossOut',
   savingCrossOutCreator: '/savingCrossOutCretor',
+  savingCrossOutData: '/savingCrossOut/:crossOutSavingId',
+  savingCrossOutList: '/savingCrossOutList',
   savingsChartPage: '/savingsCharPage',
   showcase: '/showcase',
   threeMonthsGoalsPlanner: '/threeMonthsGoalsPlanner',
@@ -153,9 +156,18 @@ export const router = createBrowserRouter([
         element: <MonthlyRateChartPage />,
         path: ROUTES.monthlyRate,
       },
+
       {
         element: <SavingsComponent />,
         path: ROUTES.savingCrossOut,
+      },
+      {
+        element: <SavingsComponent />,
+        path: ROUTES.savingCrossOutData,
+      },
+      {
+        element: <CrossOutSavingList />,
+        path: ROUTES.savingCrossOutList,
       },
       {
         element: <ChoiceVariant />,
