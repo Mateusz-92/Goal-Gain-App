@@ -2,45 +2,30 @@ import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import { Heading, useDisclosure, VStack } from '@chakra-ui/react';
 
+import { rouletteAmount } from '../../constants';
 import { useAuth } from '../../context/AuthContext';
 import { useAddRouletteSaving } from '../../firebase/mutations';
 import Btn from '../../UI/Btn/Btn';
 import ModalApp from '../Modal/ModalApp';
 
-type Option = {
-  option: string;
-};
-
-const data: Option[] = [
-  { option: '1' },
-  { option: '5' },
-  { option: '7' },
-  { option: '9' },
-  { option: '15' },
-  { option: '20' },
-  { option: '22' },
-  { option: '25' },
-  { option: '30' },
-];
-
 export const Roulette: React.FC = () => {
   const { user } = useAuth();
   const userId = user?.uid || '';
   const [mustSpin, setMustSpin] = useState<boolean>(false);
-   
+
   const [prizeNumber, setPrizeNumber] = useState<number>(0);
   const [savingValue, setSavingValue] = useState<number>();
   const onAddRouletteSaving = useAddRouletteSaving(userId);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const handleSpinClick: () => void = () => {
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
+    const newPrizeNumber = Math.floor(Math.random() * rouletteAmount.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
   };
 
   const handleStopSpinning: () => void = () => {
-    setSavingValue(parseInt(data[prizeNumber].option));
+    setSavingValue(parseInt(rouletteAmount[prizeNumber].option));
     onOpen();
     setMustSpin(false);
   };
@@ -63,7 +48,7 @@ export const Roulette: React.FC = () => {
         </Heading>
         <Wheel
           backgroundColors={['#afac95', '#ef9335']}
-          data={data}
+          data={rouletteAmount}
           mustStartSpinning={mustSpin}
           prizeNumber={prizeNumber}
           onStopSpinning={handleStopSpinning}
