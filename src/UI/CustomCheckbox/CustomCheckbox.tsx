@@ -1,17 +1,41 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { Checkbox } from '@chakra-ui/react';
 
-type CustomCheckboxProps = {
+type CustomCheckboxProps<T extends FieldValues> = {
+  control?: Control<T>;
   isChecked?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  registerProps?: UseFormRegisterReturn;
+  name?: Path<T>;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
+export const CustomCheckbox = <T extends FieldValues>({
+  control,
   isChecked,
+  name,
   onChange,
-  registerProps = {},
-}) => {
+}: CustomCheckboxProps<T>) => {
+  if (control && name) {
+    return (
+      <Controller
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <Checkbox
+            _hover={{ opacity: 0.8 }}
+            bg='transparent'
+            borderColor='var(--dark-gray)'
+            color='var(--dark-gray)'
+            colorScheme='transparent'
+            iconColor='black'
+            isChecked={field.value}
+            ml={2}
+            onChange={field.onChange}
+          />
+        )}
+      />
+    );
+  }
+
   return (
     <Checkbox
       _hover={{ opacity: 0.8 }}
@@ -23,7 +47,6 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
       isChecked={isChecked}
       ml={2}
       onChange={onChange}
-      {...registerProps}
     />
   );
 };
