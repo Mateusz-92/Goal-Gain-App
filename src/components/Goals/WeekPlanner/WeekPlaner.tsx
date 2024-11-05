@@ -141,8 +141,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.0.name')}
           />
-
-          <CustomCheckbox {...register(`goal.0.status`)} />
+          <CustomCheckbox control={control} name='goal.0.status' />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -153,8 +152,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.1.name')}
           />
-
-          <CustomCheckbox {...register(`goal.1.status`)} />
+          <CustomCheckbox control={control} name='goal.1.status' />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -165,8 +163,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.2.name')}
           />
-
-          <CustomCheckbox {...register(`goal.2.status`)} />
+          <CustomCheckbox control={control} name='goal.2.status' />
         </Container>
 
         {fields.map((field, index) => {
