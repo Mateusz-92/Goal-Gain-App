@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 
+import { ammountBord } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useEditCrossOutSavingComponent } from '../../../firebase/mutations';
 import ModalApp from '../../Modal/ModalApp';
-import { ammountBord } from '../CircleList/CircleList';
 
 type CircleItemProps = {
   amounts: ammountBord[];
-  savingCrossOutId: string;
+  savingCrossOutId: string | undefined;
 } & ammountBord;
 
 const CircleItem: React.FC<CircleItemProps> = ({
@@ -21,7 +21,7 @@ const CircleItem: React.FC<CircleItemProps> = ({
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { user } = useAuth();
   const userId = user?.uid || '';
-  const editCrossOutSaving = useEditCrossOutSavingComponent(userId);
+  const editCrossOutSaving = useEditCrossOutSavingComponent();
 
   const handleAddToCrossOutSavings = () => {
     const newSaving = {
@@ -32,16 +32,18 @@ const CircleItem: React.FC<CircleItemProps> = ({
     };
 
     const existingIndex = amounts.findIndex((item) => item.id === newSaving.id);
+    const newAmounts = [...amounts];
 
     if (existingIndex !== -1) {
-      const newAmounts = [...amounts];
       newAmounts[existingIndex] = newSaving;
-
-      editCrossOutSaving.mutate({ amounts: newAmounts, id: savingCrossOutId });
     } else {
-      const newAmounts = [...amounts, newSaving];
-      editCrossOutSaving.mutate({ amounts: newAmounts, id: savingCrossOutId });
+      newAmounts.push(newSaving);
     }
+
+    editCrossOutSaving.mutate({
+      userId: userId,
+      value: { amounts: newAmounts, id: savingCrossOutId },
+    });
 
     onClose();
   };
@@ -58,13 +60,16 @@ const CircleItem: React.FC<CircleItemProps> = ({
         borderRadius='50%'
         display='flex'
         fontWeight='bold'
-        height='50px'
+        height='80px'
         justifyContent='center'
         margin='10px'
-        width='50px'
+        width='80px'
+        _hover={{ backgroundColor: isCrossOut
+? 'var(--green)'
+: 'var(--orange)' }}
         backgroundColor={isCrossOut
 ? 'var(--green)'
-: 'var(--olive)'}
+: 'var(--light-gray)'}
         onClick={handleClick}
       >
         {value}
