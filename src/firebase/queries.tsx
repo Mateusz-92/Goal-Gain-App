@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useQueries } from '@tanstack/react-query';
+
 import { DayHabit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
+import { ammountBord, Saving, SavingCrossOut } from '../types';
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -32,7 +34,6 @@ import {
   fetchWeekDay,
   fetchWeekRateData,
 } from './Api';
-import { ammountBord, Saving, SavingCrossOut } from '../types';
 export const QUERY_KEYS = {
   amount: 'amount',
   answerList: 'answerList',
