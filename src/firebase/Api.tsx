@@ -22,8 +22,7 @@ import {
 
 import { DayHabit, Habit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 import { getDaysInMonth } from '../components/habits/HabitsForm/HabitsForm';
-import { ammountBord } from '../components/SavingScratch/CircleList/CircleList';
-import { Points, Saving, SavingCrossOut } from '../components/UserAvatar/UserAvatar';
+import { ammountBord, Points,Saving, SavingCrossOut } from '../types';
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -580,8 +579,8 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
 };
 
 export const addCrossoutSaving = async (
-  amounts: ammountBord[],
   userId: string,
+  amounts: ammountBord[],
   variantName?: string,
   id?: string,
 ) => {
@@ -603,8 +602,8 @@ export const addCrossoutSaving = async (
       date: userData?.crossOutSaving.date || format(new Date(), 'yyyy-MM-dd'),
       id: userDocRef.id,
       isCrossOut: false,
-      name: userData?.crossOutSaving.name || variantName,
       userId: userId,
+      variantName: userData?.crossOutSaving.variantName || variantName,
     };
     await setDoc(userDocRef, { crossOutSaving: updatedCrossOutSaving }, { merge: true });
   } catch (error) {
@@ -946,5 +945,59 @@ export const fetchUserAvatar = async (userId: string): Promise<string | null> =>
       console.error('Error fetching avatar:', error);
       throw error;
     }
+  }
+};
+export const fetchCrossOutSavingName = async (
+  userId: string,
+  id: string,
+): Promise<string | null> => {
+  try {
+    const q = query(
+      apiBaseCollection,
+      where('crossOutSaving.userId', '==', userId),
+      where('crossOutSaving.id', '==', id),
+    );
+    const docsSnap = await getDocs(q);
+
+    if (docsSnap.empty) {
+      return null;
+    }
+
+    let name: string | null = null;
+    docsSnap.forEach((doc) => {
+      const data = doc.data();
+      name = data.crossOutSaving.variantName;
+    });
+
+    return name;
+  } catch (error) {
+    return null;
+  }
+};
+export const fetchCrossOutSavingDetails = async (
+  userId: string,
+): Promise<SavingCrossOut[] | null> => {
+  try {
+    const q = query(apiBaseCollection, where('crossOutSaving.userId', '==', userId));
+    const docsSnap = await getDocs(q);
+
+    if (docsSnap.empty) {
+      return null;
+    }
+
+    const savingDetails: SavingCrossOut[] = [];
+    docsSnap.forEach((doc) => {
+      const data = doc.data().crossOutSaving;
+      savingDetails.push({
+        amounts: data.amounts,
+        date: data.date,
+        id: data.id,
+        isCrossOut: data.isCrossOut,
+        variantName: data.variantName,
+      });
+    });
+    return savingDetails;
+  } catch (error) {
+    return null;
   }
 };
