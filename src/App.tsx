@@ -37,8 +37,6 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <UserProvider>
-            {/* <UserAvatar /> */}
-
             <RouterProvider router={router} />
           </UserProvider>
         </AuthProvider>

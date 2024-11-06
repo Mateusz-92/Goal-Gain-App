@@ -1,4 +1,3 @@
-import React from 'react';
 export const StaticSlider = () => {
   return (
     <div className='static-slider-container'>

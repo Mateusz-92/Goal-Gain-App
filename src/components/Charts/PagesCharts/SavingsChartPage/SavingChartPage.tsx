@@ -2,8 +2,8 @@ import { getMonth } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
-import { SavingChart } from '../../SavingsChart/SavingChart';
 import { ammountBord, Saving } from '../../../../types';
+import { SavingChart } from '../../SavingsChart/SavingChart';
 
 const calculateMonthlySavings = (savings: Saving[]): number[] => {
   const monthlySums: number[] = new Array(12).fill(0);
