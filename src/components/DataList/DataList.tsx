@@ -18,7 +18,7 @@ const DataList = ({ data }: DataListProps) => {
           <ListItem key={item.id} textAlign={'start'}>
             <Flex alignItems='center' justifyContent='space-around'>
               <Text color={textColor} fontSize='md' fontWeight='medium'>
-                {item.title}
+                {item.title?.toString()}
               </Text>
               <Text color={textColor} fontSize='md'>
                 {item.date?.toString()}
