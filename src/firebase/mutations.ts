@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
-import { ammountBord } from '../components/SavingScratch/CircleList/CircleList';
-import { Saving } from '../components/UserAvatar/UserAvatar';
+
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -26,6 +24,7 @@ import {
   uploadAvatarToFirebase,
 } from './Api';
 import { QUERY_KEYS } from './queries';
+import { ammountBord, Saving } from '../types';
 
 export const useEditHabits = (userId: string) => {
   const queryClient = useQueryClient();
@@ -118,12 +117,19 @@ export const useEditDayHabit = () => {
     },
   });
 };
-export const useEditCrossOutSavingComponent = (userId: string) => {
+
+export const useEditCrossOutSavingComponent = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (value: { amounts: ammountBord[]; id?: string; variantName?: string }) => {
-      return await addCrossoutSaving(value.amounts, value.variantName || '', userId, value.id);
+    mutationFn: async ({
+      userId,
+      value,
+    }: {
+      userId: string;
+      value: { amounts: ammountBord[]; id?: string; variantName?: string };
+    }) => {
+      return await addCrossoutSaving(userId, value.amounts, value.variantName || '', value.id);
     },
 
     onError: (error) => {
