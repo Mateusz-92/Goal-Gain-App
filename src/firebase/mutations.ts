@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 
+import { HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
+import { ammountBord, Saving } from '../types';
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -24,7 +25,6 @@ import {
   uploadAvatarToFirebase,
 } from './Api';
 import { QUERY_KEYS } from './queries';
-import { ammountBord, Saving } from '../types';
 
 export const useEditHabits = (userId: string) => {
   const queryClient = useQueryClient();
