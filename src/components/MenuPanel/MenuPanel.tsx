@@ -40,7 +40,7 @@ export const MenuPanel = () => {
     },
   ];
   const savingsMenu = [
-    { path: ROUTES.savingCrossOut, title: 'wykreślaj kwote' },
+    { path: ROUTES.savingCrossOutList, title: 'Twoje wykreślanki' },
     { path: ROUTES.savingCrossOutCreator, title: 'kreator wykreślanki' },
     { path: ROUTES.roulette, title: 'ruletka' },
   ];

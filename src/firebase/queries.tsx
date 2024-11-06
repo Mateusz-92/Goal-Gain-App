@@ -1,9 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useQueries } from '@tanstack/react-query';
-
 import { DayHabit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
-import { ammountBord } from '../components/SavingScratch/CircleList/CircleList';
-import { Saving, SavingCrossOut } from '../components/UserAvatar/UserAvatar';
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -20,6 +17,8 @@ import {
   FetchAllRouletteInSaving,
   fetchAllWeekData,
   FetchCrossOutAmounts,
+  fetchCrossOutSavingDetails,
+  fetchCrossOutSavingName,
   fetchGoalsData,
   fetchHabitsPerMonth,
   fetchLatestHabitForMonth,
@@ -33,6 +32,7 @@ import {
   fetchWeekDay,
   fetchWeekRateData,
 } from './Api';
+import { ammountBord, Saving, SavingCrossOut } from '../types';
 export const QUERY_KEYS = {
   amount: 'amount',
   answerList: 'answerList',
@@ -46,6 +46,7 @@ export const QUERY_KEYS = {
   roulette: 'roulette',
   savingsCrossout: 'savingsCrossout',
   userPoints: 'userPoints',
+  variant: 'variant',
   weekDay: 'weekDay',
   weekPlan: 'weekPlan',
   weekRate: 'weekRate',
@@ -322,8 +323,6 @@ export const getUserHabitNamesForMonthQueryConfig = (monthAndYear: string, userI
       return fetchHabitsPerMonth(monthAndYear, userId);
     },
     queryKey: ['userHabitNamesForMonth'],
-
-    // enabled: !!clientId,
   };
 };
 export const useGetHabitsChartsData = (monthAndYear: string, userId: string) => {
@@ -352,5 +351,23 @@ export const useGetUserAvatar = (userId: string) => {
       return fetchUserAvatar(userId);
     },
     queryKey: [QUERY_KEYS.avatar],
+  });
+};
+export const useGetCrossOutSavingName = (userId: string, id: string) => {
+  return useQuery<string | null>({
+    enabled: !!userId,
+    queryFn: async () => {
+      return fetchCrossOutSavingName(userId, id);
+    },
+    queryKey: [QUERY_KEYS.variant],
+  });
+};
+export const useGetCrossOutSavingDetails = (userId: string) => {
+  return useQuery({
+    enabled: !!userId,
+    queryFn: async () => {
+      return fetchCrossOutSavingDetails(userId);
+    },
+    queryKey: [QUERY_KEYS.savingsCrossout],
   });
 };
