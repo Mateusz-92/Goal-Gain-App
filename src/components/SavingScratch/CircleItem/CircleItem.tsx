@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, useDisclosure } from '@chakra-ui/react';
 
-import { ammountBord } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useEditCrossOutSavingComponent } from '../../../firebase/mutations';
+import { ammountBord } from '../../../types';
 import ModalApp from '../../Modal/ModalApp';
 
 type CircleItemProps = {
