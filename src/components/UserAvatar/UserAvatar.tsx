@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsIcon } from '@chakra-ui/icons';
 import { Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
+
 import { useAuth } from '../../context/AuthContext';
 import { handleLogout } from '../../firebase/Api';
 import { useUserAvatarData } from '../../firebase/queries';
@@ -9,7 +10,6 @@ import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';
 import BadgeDisplay from '../UserLevel/UserLevel';
 
-//
 const UserAvatar: React.FC = () => {
   const { user } = useAuth();
   const userId = user?.uid || '';
