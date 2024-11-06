@@ -1,59 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SettingsIcon } from '@chakra-ui/icons';
-import { Badge, Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
-
+import { Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
 import { useAuth } from '../../context/AuthContext';
 import { handleLogout } from '../../firebase/Api';
 import { useUserAvatarData } from '../../firebase/queries';
 import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';
-import { ammountBord } from '../SavingScratch/CircleList/CircleList';
 import BadgeDisplay from '../UserLevel/UserLevel';
 
-export type Badge = {
-  id: string;
-  imgUrl: string;
-  name: string;
-};
-
-export type Saving = {
-  amount: number;
-  date: string;
-};
-export type SavingCrossOut = {
-  // amount: number;
-  amounts: ammountBord[];
-  colId?: number;
-  date: string;
-  id: string;
-  isActive?: boolean;
-  isCrossOut: boolean;
-  variantName?: string;
-};
-export type Points = {
-  date: string;
-  id?: string;
-  points: number;
-};
-
-export type UserAvatarData = {
-  avatar: string;
-  badges: Badge[];
-  name: string;
-  points: Points[];
-  savings: {
-    crossOutPuzzle: SavingCrossOut[];
-    // crossOutPuzzle: Saving[];
-    roulette: Saving[];
-  };
-  totalTestCrossout: number;
-  userId: string;
-};
-
+//
 const UserAvatar: React.FC = () => {
-  const { user: userAvatar } = useAuth();
-  const userId = userAvatar?.uid || '';
+  const { user } = useAuth();
+  const userId = user?.uid || '';
   const navigate = useNavigate();
 
   const {
@@ -82,7 +41,7 @@ const UserAvatar: React.FC = () => {
                 <SettingsIcon color={'black'} />
               </IconButton>
               <Text fontSize='sm' fontWeight='bold'>
-                {userAvatar?.email}
+                {user?.email}
               </Text>
             </VStack>
           </HStack>
