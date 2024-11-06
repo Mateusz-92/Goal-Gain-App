@@ -1,10 +1,9 @@
 import { getMonth } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
-import { useGetCrossOutSaving, useGetRouletteSaving } from '../../../../firebase/queries';
-import { ammountBord } from '../../../SavingScratch/CircleList/CircleList';
-import { Saving } from '../../../UserAvatar/UserAvatar';
+import { useUserAvatarData } from '../../../../firebase/queries';
 import { SavingChart } from '../../SavingsChart/SavingChart';
+import { ammountBord, Saving } from '../../../../types';
 
 const calculateMonthlySavings = (savings: Saving[]): number[] => {
   const monthlySums: number[] = new Array(12).fill(0);
@@ -41,23 +40,23 @@ const calculateTotalMonthlySavings = (
 export const SavingChartPage = () => {
   const { user } = useAuth();
   const userId = user?.uid || '';
-  const { data, isError, isLoading } = useGetRouletteSaving(userId);
   const {
-    data: crossOutData,
-    isError: isError2,
-    isLoading: isLoading2,
-  } = useGetCrossOutSaving(userId);
-  const isCrossOut = crossOutData?.map((el) => el.amounts.filter((el) => el.isCrossOut));
-  const montlhlySumOfRouletteSaving = calculateMonthlySavings(data || []);
+    data: { crossOutSaving, roulette },
+    isError,
+    isLoading,
+  } = useUserAvatarData(userId);
+
+  const isCrossOut = crossOutSaving?.map((el) => el.amounts.filter((el) => el.isCrossOut));
+  const montlhlySumOfRouletteSaving = calculateMonthlySavings(roulette || []);
   const montlhlySumOfCrossOutSaving = calculateMonthlyCrossOutSavings(isCrossOut || []);
   const totalMonthlySavings = calculateTotalMonthlySavings(
     montlhlySumOfRouletteSaving,
     montlhlySumOfCrossOutSaving,
   );
-  if (isLoading || isLoading2) {
+  if (isLoading) {
     return <div> isLoading</div>;
   }
-  if (isError || isError2 || !data || !crossOutData) {
+  if (isError || !roulette || !crossOutSaving) {
     return <div> isError</div>;
   }
   return (
