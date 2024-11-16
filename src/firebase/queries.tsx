@@ -4,7 +4,6 @@ import { useQueries } from '@tanstack/react-query';
 import { DayHabit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 import { ammountBord, Saving, SavingCrossOut } from '../types';
 import {
-  answerForMonthData,
   GoalFormValuesSchema,
   MonthlyValuesRatingSchema,
   SingleGoalValuesSchema,
@@ -15,6 +14,7 @@ import {
   FetchAllCrossOutAmountsInSaving,
   fetchAllGoalsData,
   FetchAllHabits,
+  fetchAllMonthAnswerQuestion,
   FetchAllMonthlyEvaluation,
   FetchAllRouletteInSaving,
   fetchAllWeekData,
@@ -24,7 +24,6 @@ import {
   fetchGoalsData,
   fetchHabitsPerMonth,
   fetchLatestHabitForMonth,
-  fetchMonthAnswerData,
   fetchMonthCurrentAnswerQuestion,
   FetchMonthlyEvaluation,
   fetchMonthRateData,
@@ -35,6 +34,7 @@ import {
   fetchWeekRateData,
 } from './Api';
 export const QUERY_KEYS = {
+  allAnswerList: 'allAnswerList',
   amount: 'amount',
   answerList: 'answerList',
   avatar: 'avatar',
@@ -96,9 +96,9 @@ export const useGetUserHabitNamesForMonth = (monthAndYear: string, userId: strin
   });
 };
 
-export const useGetGoals = (goalId: string, userId: string) => {
+export const useGetGoals = (goalId: string, userId: string, mode: 'add' | 'edit') => {
   return useQuery<SingleGoalValuesSchema[] | null>({
-    enabled: !!goalId && !!userId,
+    enabled: !!goalId && !!userId && mode === 'edit',
     queryFn: async () => {
       return fetchGoalsData(goalId, userId);
     },
@@ -238,32 +238,43 @@ const crossOutSavingQueryConfig = (userId: string) => ({
     const data = await FetchAllCrossOutAmountsInSaving(userId);
     return data;
   },
-  queryKey: [QUERY_KEYS.savingsCrossout], // Add enabled property here
+  queryKey: [QUERY_KEYS.savingsCrossout],
 });
 
 export const useGetCrossOutSaving = (userId: string) => {
   return useQuery<SavingCrossOut[] | null>(crossOutSavingQueryConfig(userId));
 };
-export const useGetMonthAnswerList = (userId: string) => {
-  return useQuery<answerForMonthData[] | null>({
+// export const useGetMonthAnswerList = (userId: string) => {
+//   return useQuery<answerForMonthData[] | null>({
+//     enabled: !!userId,
+//     queryFn: async () => {
+//       const data = await fetchMonthAnswerData(userId);
+
+//       return data;
+//     },
+//     queryKey: [QUERY_KEYS.answerList],
+//   });
+// };
+export const useGetCurrentMonthAnswerQuestion = (userId: string, id?: string) => {
+  return useQuery({
     enabled: !!userId,
     queryFn: async () => {
-      const data = await fetchMonthAnswerData(userId);
+      const data = await fetchMonthCurrentAnswerQuestion(userId, id);
 
       return data;
     },
     queryKey: [QUERY_KEYS.answerList],
   });
 };
-export const useGetCurrentMonthAnswerQuestion = (userId: string) => {
+export const useGetAllMonthAnswerQuestion = (userId: string) => {
   return useQuery({
     enabled: !!userId,
     queryFn: async () => {
-      const data = await fetchMonthCurrentAnswerQuestion(userId);
+      const data = await fetchAllMonthAnswerQuestion(userId);
 
       return data;
     },
-    queryKey: [QUERY_KEYS.answerList],
+    queryKey: [QUERY_KEYS.allAnswerList],
   });
 };
 
