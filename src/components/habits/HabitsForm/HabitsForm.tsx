@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useUser } from '../../../context/UserContext';
-import { useEditDayHabit } from '../../../firebase/mutations';
+import { useAuth } from '../../../context/AuthContext';
+import { useAddUserPoints, useEditDayHabit } from '../../../firebase/mutations';
 import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
 import ModalApp from '../../Modal/ModalApp';
 import { DayHabit, HabitFormData } from '../HabitsEditor/HabitsEditor';
@@ -55,10 +55,12 @@ const HabitsForm: React.FC<HabitFormData> = ({
   const [currentHabits, setCurrentHabits] = useState<DayHabit>(habits);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [selectedHabitId, setSelectedHabitId] = useState<number | null>(null);
+  const { user } = useAuth();
+  const userId = user?.uid || '';
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
   const onDayHabitMutation = useEditDayHabit();
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { addPoints, subtractPoints } = useUser();
 
   const handleCheckboxChange = (day: string, habitId: number) => {
     setSelectedDay(day);
@@ -89,17 +91,18 @@ const HabitsForm: React.FC<HabitFormData> = ({
       );
 
       if (updatedHabit) {
-        const test = {
+        const data = {
           date: selectedDay,
           habitId: selectedHabitId,
           id: currentHabits.id || ' ',
           newStatus: !updatedHabit.status,
         };
-        test.newStatus
-? addPoints(250)
-: subtractPoints(250);
+
+        data.newStatus
+? onAddUserPoints({ points: 2 })
+: onAddUserPoints({ points: -2 });
         try {
-          await onDayHabitMutation.mutate(test);
+          await onDayHabitMutation.mutate(data);
           // eslint-disable-next-line no-console
           console.log(
             `Successfully updated habit with ID ${selectedHabitId} for ${selectedDay}. New status: ${!updatedHabit.status}`,
