@@ -29,7 +29,12 @@ export const CustomCheckbox = <T extends FieldValues>({
             iconColor='black'
             isChecked={field.value}
             ml={2}
-            onChange={field.onChange}
+            onChange={onChange
+? (e)=>{
+              onChange(e)
+              field.onChange(e) 
+            }
+: field.onChange}
           />
         )}
       />
