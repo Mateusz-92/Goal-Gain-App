@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
+import { useAlert } from '../context/AlertContext';
 import { ammountBord, Saving } from '../types';
 import {
   answerForMonthData,
@@ -25,7 +26,6 @@ import {
   uploadAvatarToFirebase,
 } from './Api';
 import { QUERY_KEYS } from './queries';
-
 export const useEditHabits = (userId: string) => {
   const queryClient = useQueryClient();
 
@@ -158,19 +158,23 @@ export const useAddRouletteSaving = (userId: string) => {
     },
   });
 };
+
 export const useAddUserPoints = (userId: string) => {
+  const { showAlert } = useAlert();
+
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (points: number) => {
+    mutationFn: async ({ points }: { points: number }) => {
       return await addUserPointsData(points, userId);
     },
     onError: (error) => {
       // eslint-disable-next-line no-console
       console.log(error);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userPoints] });
+      showAlert(variables.points);
     },
   });
 };
