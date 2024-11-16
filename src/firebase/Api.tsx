@@ -22,7 +22,7 @@ import {
 
 import { DayHabit, Habit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 import { getDaysInMonth } from '../components/habits/HabitsForm/HabitsForm';
-import { ammountBord, Points,Saving, SavingCrossOut } from '../types';
+import { ammountBord, Points, Saving, SavingCrossOut } from '../types';
 import {
   answerForMonthData,
   GoalFormValuesSchema,
@@ -39,6 +39,7 @@ import { auth } from './FirebaseConfig';
 
 const db = getFirestore(firebaseApp);
 const apiBaseCollection = collection(db, 'ApiBase');
+const storage = getStorage();
 
 export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: string) => {
   try {
@@ -214,7 +215,7 @@ export const addGoals = async (data: GoalFormValuesSchema, userId: string, id?: 
     const userData = userDocSnapshot.data();
 
     const updatedGoals = {
-      ...(userData?.threeMonthsGoals ?? {}),
+      ...(userData?.C ?? {}),
       date: userData?.threeMonthsGoals.date
         ? userData.threeMonthsGoals.date
         : format(new Date(), 'yyyy-MM-dd'),
@@ -863,13 +864,17 @@ export const addMonthAnswerQuestion = async (data: monthAnswerData, id?: string)
 
 export const fetchMonthCurrentAnswerQuestion = async (
   userId: string,
+  id?: string,
 ): Promise<monthAnswerData | null> => {
   try {
-    const q = query(
-      apiBaseCollection,
-      where('monthAnswer.userId', '==', userId),
-      where('monthAnswer.month', '==', format(new Date(), 'MM.yyyy')),
-    );
+    let q = query(apiBaseCollection, where('monthAnswer.userId', '==', userId));
+
+    if (id) {
+      q = query(q, where('monthAnswer.id', '==', id));
+    } else {
+      q = query(q, where('monthAnswer.month', '==', format(new Date(), 'MM.yyyy')));
+    }
+
     const docsSnap = await getDocs(q);
 
     if (docsSnap.empty) {
@@ -886,11 +891,40 @@ export const fetchMonthCurrentAnswerQuestion = async (
     return parsedData;
   } catch (error) {
     // eslint-disable-next-line no-console
+    console.error(error);
+    return null;
+  }
+};
+
+export const fetchAllMonthAnswerQuestion = async (
+  userId: string,
+): Promise<monthAnswerData[] | null> => {
+  try {
+    const q = query(apiBaseCollection, where('monthAnswer.userId', '==', userId));
+    const docsSnap = await getDocs(q);
+
+    if (docsSnap.empty) {
+      return null;
+    }
+
+    const answersDetails: monthAnswerData[] = [];
+    docsSnap.forEach((doc) => {
+      const data = doc.data().monthAnswer;
+      answersDetails.push({
+        answers: data.amounts,
+        id: data.id,
+        month: data.month,
+        questionTitle: data.questionTitle,
+        userId: data.userId,
+      });
+    });
+    return answersDetails;
+  } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error);
     return null;
   }
 };
-const storage = getStorage();
 
 export const uploadAvatarToFirebase = async (
   file: File,
