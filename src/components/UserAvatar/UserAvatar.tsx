@@ -16,51 +16,51 @@ const UserAvatar: React.FC = () => {
   const navigate = useNavigate();
 
   const {
-    data: { roulette, sumOfCrossoutSaving, sumOfroulette, sumOfSavings, sumOfUserPoints },
+    data: {  sumOfCrossoutSaving, sumOfroulette, sumOfSavings, sumOfUserPoints },
     isError,
     isLoading,
   } = useUserAvatarData(userId);
 
   if (isLoading) return <div>isLoading</div>;
   if (isError) return <div>isError</div>;
-  if (roulette)
-    return (
-      <Box overflow='hidden'>
-        <VStack>
-          <HStack>
-            <VStack>
-              <AvatarIcon />
-              <IconButton
-                _hover={'transparent'}
-                aria-label='Settings'
-                bg={'transparent'}
-                onClick={() => {
-                  navigate('/userSettings');
-                }}
-              >
-                <SettingsIcon color={'black'} />
-              </IconButton>
-              <Text fontSize='sm' fontWeight='bold'>
-                {user?.email}
-              </Text>
-            </VStack>
-          </HStack>
-          <Box>
-            <HStack spacing={2}>
-              <BadgeDisplay points={sumOfUserPoints} />
-            </HStack>
-          </Box>
-          <Box textAlign={'center'}>
-            <Text fontSize='lg' fontWeight='bold' mb={2}>
-              {`Suma oszczędności :  ${sumOfSavings}`}
+  // if (roulette)
+  return (
+    <Box overflow='hidden'>
+      <VStack>
+        <HStack>
+          <VStack>
+            <AvatarIcon />
+            <IconButton
+              _hover={'transparent'}
+              aria-label='Settings'
+              bg={'transparent'}
+              onClick={() => {
+                navigate('/userSettings');
+              }}
+            >
+              <SettingsIcon color={'black'} />
+            </IconButton>
+            <Text fontSize='sm' fontWeight='bold'>
+              {user?.email}
             </Text>
-            <Text mb={1}>Ruletka: {sumOfroulette} PLN</Text>
-            <Text mb={2}>Wykreślanka: {sumOfCrossoutSaving} PLN</Text>
-            <Btn text={'Wyloguj'} type={'button'} onClick={handleLogout} />
-          </Box>
-        </VStack>
-      </Box>
-    );
+          </VStack>
+        </HStack>
+        <Box>
+          <HStack spacing={2}>
+            <BadgeDisplay points={sumOfUserPoints} />
+          </HStack>
+        </Box>
+        <Box textAlign={'center'}>
+          <Text fontSize='lg' fontWeight='bold' mb={2}>
+            {`Suma oszczędności :  ${sumOfSavings || 0}`}
+          </Text>
+          <Text mb={1}>Ruletka: {sumOfroulette || 0} PLN</Text>
+          <Text mb={2}>Wykreślanki: {sumOfCrossoutSaving || 0} PLN</Text>
+          <Btn text={'Wyloguj'} type={'button'} onClick={handleLogout} />
+        </Box>
+      </VStack>
+    </Box>
+  );
 };
 
 export default UserAvatar;
