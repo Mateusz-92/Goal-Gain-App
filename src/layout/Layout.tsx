@@ -5,7 +5,7 @@ import { Box, Flex, Heading, IconButton, VStack } from '@chakra-ui/react';
 
 import { MenuPanel } from '../components/MenuPanel/MenuPanel';
 import UserAvatar from '../components/UserAvatar/UserAvatar';
-import StaticSlider from '../UI/Btn/StaticSlider/StaticSlider';
+import StaticSlider from '../UI/StaticSlider/StaticSlider';
 
 const Layout: React.FC = () => {
   const navigate = useNavigate();
