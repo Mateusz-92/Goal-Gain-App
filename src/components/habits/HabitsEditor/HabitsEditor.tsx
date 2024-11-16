@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, Input, useDisclosure } from '@chakra-ui/react';
 
 import { useAuth } from '../../../context/AuthContext';
-import { useUser } from '../../../context/UserContext';
-import { useEditHabits } from '../../../firebase/mutations';
+import { useAddUserPoints, useEditHabits } from '../../../firebase/mutations';
 import ModalApp from '../../Modal/ModalApp';
 
 export type Habit = {
@@ -41,8 +40,8 @@ const HabitsEditor = () => {
   const userId = user?.uid || '';
   const [habitData, setHabitData] = useState<HabitFormData>(initialHabitData);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { addPoints } = useUser();
   const onAddHabitsMutation = useEditHabits(userId);
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHabitData({
@@ -89,8 +88,9 @@ const HabitsEditor = () => {
   };
 
   const addHabitsHandler = async () => {
-    addPoints(1000);
     onAddHabitsMutation.mutate(habitData);
+    onAddUserPoints({ points: 50 });
+
     onClose();
   };
 

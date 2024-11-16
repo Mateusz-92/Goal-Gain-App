@@ -18,8 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { indexNum } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
-import { useUser } from '../../../context/UserContext';
-import { useEditWeekPlan } from '../../../firebase/mutations';
+import { useAddUserPoints, useEditWeekPlan } from '../../../firebase/mutations';
 import { useGetWeekPlan } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
 import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
@@ -51,9 +50,9 @@ const WeekPlanner: React.FC = () => {
   const { weekId } = useParams();
   const { user } = useAuth();
   const userId = user?.uid || '';
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
   const { data, isError, isLoading } = useGetWeekPlan(weekId || '', userId);
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { addPoints } = useUser();
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
@@ -61,7 +60,6 @@ const WeekPlanner: React.FC = () => {
   const onAddWeekPlannMutation = weekId
 ? editWeekWithId
 : editWeekWithoutId;
-  const pointsValue: number = 250;
   const {
     control,
     formState: { errors },
@@ -84,7 +82,7 @@ const WeekPlanner: React.FC = () => {
   });
   const handleAddPointsandData = () => {
     handleSubmit(onSubmit)();
-    if (!weekId) addPoints(pointsValue);
+    if (!weekId) onAddUserPoints({ points: 25 });
   };
   const startDay = watch('startDay');
   const rate = watch('rate');
