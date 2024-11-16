@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
+import { useDisclosure } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
-import {} from 
-'../../../firebase/Api';
-import { useAddCurrentAnswerForMonthQuestion } from '../../../firebase/mutations';
+import {} from '../../../firebase/Api';
+import { useAddCurrentAnswerForMonthQuestion, useAddUserPoints } from '../../../firebase/mutations';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
 import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
+import ModalApp from '../../Modal/ModalApp';
 const currentDay = format(new Date(), 'dd.MM.yyyy');
 
 const DEFAULT_ANSWER_MODEL = {
@@ -18,14 +19,17 @@ const DEFAULT_ANSWER_MODEL = {
   text: '',
 };
 
-
 export const MonthAnswerList = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   const { user } = useAuth();
   const userId = user?.uid || '';
   const { data, isError, isLoading } = useGetCurrentMonthAnswerQuestion(userId);
   const answerDataId = data?.id || '';
   const editAnswerQuestionWithId = useAddCurrentAnswerForMonthQuestion(answerDataId);
   const editAnswerQuestionWithoutId = useAddCurrentAnswerForMonthQuestion();
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
+
   const [canUserAddAnswer, setCanUserAddAnswer] = useState(true);
 
   const { control, handleSubmit, register, setValue } = useForm<monthAnswerData>({
@@ -65,6 +69,13 @@ export const MonthAnswerList = () => {
   if (isError) {
     return <div>isError</div>;
   }
+  const handleConfirmSubmit = () => {
+    if (!data?.answers.some((answer) => answer.date === currentDay)) {
+      onAddUserPoints({ points: 5 });
+    }
+    handleSubmit(onSubmit)();
+    onClose();
+  };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <TextForm
@@ -98,7 +109,17 @@ export const MonthAnswerList = () => {
         type='button'
         onClick={handleAddNext}
       />
-      <Btn text='Wyślij' type='submit' />
+      <ModalApp
+        body={`Potwierdź, aby zapisać `}
+        cancelText='Anuluj'
+        confirmText='Tak'
+        header='Czy napewno chcesz dodać dane  ?'
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleConfirmSubmit}
+      />
+      <Btn text='Wyślij' type='button' onClick={() => onOpen()} />
+      {/* <Btn text='Wyślij' type='submit' /> */}
     </form>
   );
 };
