@@ -1,10 +1,11 @@
 import React from 'react';
 import { Control, useFieldArray } from 'react-hook-form';
 import { MinusIcon } from '@chakra-ui/icons';
-import { Box, Checkbox, Container, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Container, IconButton, VStack } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Btn from '../../../../UI/Btn/Btn';
+import { CustomCheckbox } from '../../../../UI/CustomCheckbox/CustomCheckbox';
 import { TextForm } from '../../../Forms/TextForm/TextForm';
 
 export const DEFAULT_TASK_MODEL = {
@@ -55,17 +56,10 @@ const ThreeMonthsTasks: React.FC<{
                 {...register(`${nestedTaskName}.${i}.finishDate`)}
               />
               {isDisplay && (
-                <Checkbox
-                  _hover={{ opacity: 0.8 }}
-                  alignSelf={'center'}
-                  bg={'transparent'}
-                  borderColor='var(--dark-gray)'
-                  color='var(--dark-gray)'
-                  colorScheme='transparent'
-                  iconColor='black'
-                  justifyItems={'end'}
-                  ml='5px'
+                <CustomCheckbox
+                  control={control}
                   {...register(`${nestedTaskName}.${i}.isEnded`)}
+                 
                 />
               )}
             </Container>

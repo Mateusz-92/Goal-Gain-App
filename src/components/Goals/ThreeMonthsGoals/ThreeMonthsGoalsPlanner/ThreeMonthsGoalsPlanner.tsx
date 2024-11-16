@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useBlocker, useParams } from 'react-router-dom';
 import { Box, Container, Flex, Heading, useDisclosure, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useAuth } from '../../../../context/AuthContext';
-import { useUser } from '../../../../context/UserContext';
-import { useEditGoals } from '../../../../firebase/mutations';
+import { useAddUserPoints, useEditGoals } from '../../../../firebase/mutations';
 import { useGetGoals } from '../../../../firebase/queries';
 import Btn from '../../../../UI/Btn/Btn';
 import {
@@ -30,50 +29,84 @@ const DEAFAULT_GOAL_MODEL: SingleGoalValuesSchema = {
 };
 const countValue: number = 1;
 
-const ThreeMonthsGoalsPlanner: React.FC = () => {
+type ThreeMonthsGoalsPlannerProps = { mode: 'add' | 'edit' };
+
+const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
   const { user } = useAuth();
   const userId = user?.uid || '';
   const { goalId } = useParams();
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const pointsValue: number = 500;
   const { t } = useTranslation(['common']);
-  const { data, isError, isLoading } = useGetGoals(goalId || '', userId);
+  const { data, isError, isLoading } = useGetGoals(goalId || '', userId, mode);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(userId, goalId);
   const editGoalsWithoutId = useEditGoals(userId);
   const onAddGoalsMutation = goalId
 ? editGoalsWithId
 : editGoalsWithoutId;
-  const { addPoints } = useUser();
-  const { control, handleSubmit, register, setValue } = useForm<GoalFormValuesSchema>({
+
+  const {
+    control,
+    formState: { isDirty },
+    handleSubmit,
+    register,
+    reset,
+    setValue,
+  } = useForm<GoalFormValuesSchema>({
     defaultValues: {
       goals: [DEAFAULT_GOAL_MODEL],
     },
     resolver: zodResolver(goalSchema),
   });
 
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      isDirty && currentLocation.pathname !== nextLocation.pathname,
+  );
+
   useEffect(() => {
+    if (mode === 'add') {
+      reset({ goals: [DEAFAULT_GOAL_MODEL] });
+    }
     if (data) {
-       
-      setValue('goals', data[0]);
+      //@ts-expect-error Type ingore error
+      reset({ goals: data[0] });
     }
   }, [data, setValue]);
 
   const { append, fields, remove } = useFieldArray({ control, name: 'goals' });
 
-  const onSubmit = (data: GoalFormValuesSchema) => {
-    onAddGoalsMutation.mutate(data);
-
+  const onSubmit = (formData: GoalFormValuesSchema) => {
+    onAddGoalsMutation.mutate(formData, {
+      onSuccess: () => {
+        if (mode === 'add') {
+          reset({ goals: [DEAFAULT_GOAL_MODEL] });
+        }
+      },
+    });
+    if (goalId) {
+      formData.goals.forEach((goal) => {
+        goal.tasks.forEach((task, taskIndex) => {
+          if (task.isEnded !== data[0][0].tasks[taskIndex].isEnded) {
+            onAddUserPoints({ points: task.isEnded
+? 25
+: -25 });
+          }
+        });
+      });
+    }
     onClose();
   };
+
 
   const handleSave = handleSubmit(() => {
     onOpen();
   });
 
-  const handleAddPointsandData = () => {
+  const handleAddData = () => {
     handleSubmit(onSubmit)();
-    if (!goalId) addPoints(pointsValue);
+    if (!goalId) onAddUserPoints({ points: 25 });
   };
 
   if (isLoading) {
@@ -150,10 +183,23 @@ const ThreeMonthsGoalsPlanner: React.FC = () => {
             header='Czy chcesz dodać/ edytować dane?'
             isOpen={isOpen}
             onClose={onClose}
-            onConfirm={handleAddPointsandData}
+            onConfirm={handleAddData}
           />
         </>
       </form>
+      {blocker.state === 'blocked'
+? (
+        <ModalApp
+          body={`Masz nie zapisane dane.`}
+          cancelText='Nie'
+          confirmText='Tak'
+          header=' Czy na pewno chcesz wyjść?'
+          isOpen={blocker.state === 'blocked'}
+          onClose={() => blocker.reset()}
+          onConfirm={() => blocker.proceed()}
+        />
+      )
+: null}
     </Box>
   );
 };
