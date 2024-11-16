@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box } from '@chakra-ui/react';
+import { Box, Link } from '@chakra-ui/react';
+import { isSameMonth } from 'date-fns';
 
 import { months } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
@@ -13,7 +14,6 @@ const HabitsTracker = () => {
   const userId = user?.uid || '';
 
   const { habitListId } = useParams();
-
   const { data, isError, isLoading } = useGetHabits(userId, habitListId);
   useEffect(() => {}, [userId, data]);
 
@@ -29,10 +29,20 @@ const HabitsTracker = () => {
   }
 
   const dateKey = Object.keys(data)[2];
+  const isCurrentMonth = isSameMonth(new Date(dateKey), new Date());
 
   const monthName = months[new Date(dateKey).getMonth()];
   if (!data) {
     return <p>No habits data available</p>;
+  }
+  if (!habitListId && !isCurrentMonth) {
+    return (
+      <Box fontSize={18} textAlign={'center'}>
+        <Link href='/createHabits' mt={25}>
+          Nie masz utworzonych nawyków, przejdz do kreatora
+        </Link>
+      </Box>
+    );
   }
   return (
     <>
