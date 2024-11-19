@@ -16,6 +16,8 @@ const queryClient = new QueryClient({
 });
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
+import { AlertProvider } from './context/AlertContext';
+
 const theme = extendTheme({
   fonts: {
     body: 'Poppins, sans-serif',
@@ -35,11 +37,13 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <UserProvider>
-            <RouterProvider router={router} />
-          </UserProvider>
-        </AuthProvider>
+        <AlertProvider>
+          <AuthProvider>
+            <UserProvider>
+              <RouterProvider router={router} />
+            </UserProvider>
+          </AuthProvider>
+        </AlertProvider>
       </QueryClientProvider>
     </ChakraProvider>
   );
