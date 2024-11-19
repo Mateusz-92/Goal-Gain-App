@@ -85,20 +85,27 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
         }
       },
     });
+
     if (goalId) {
-      formData.goals.forEach((goal) => {
-        goal.tasks.forEach((task, taskIndex) => {
-          if (task.isEnded !== data[0][0].tasks[taskIndex].isEnded) {
-            onAddUserPoints({ points: task.isEnded
+      let pointsChange = 0;
+      formData.goals.forEach((goal, goalIndex) => {
+        const previousGoal = data[0][goalIndex];
+
+        if (previousGoal) {
+          goal.tasks.forEach((task, taskIndex) => {
+            const previousTask = previousGoal.tasks[taskIndex];
+            if (previousTask && task.isEnded !== previousTask.isEnded) {
+              pointsChange += task.isEnded
 ? 25
-: -25 });
-          }
-        });
+: -25;
+            }
+          });
+        }
       });
+      onAddUserPoints({ points: pointsChange });
     }
     onClose();
   };
-
 
   const handleSave = handleSubmit(() => {
     onOpen();

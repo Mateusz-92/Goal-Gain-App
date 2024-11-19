@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useBlocker,useParams } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -27,6 +27,7 @@ import { TextForm } from '../../Forms/TextForm/TextForm';
 import ModalApp from '../../Modal/ModalApp';
 
 import { WeekHeader } from './WeekHeader';
+type WeekPlannerProps = { mode: 'add' | 'edit' };
 
 const arrLength = 7;
 const arrRadioLength = 10;
@@ -44,27 +45,31 @@ const DEFAULT_WEEK_MODEL: WeekPlannerData = {
   startDay: '',
 };
 
-const WeekPlanner: React.FC = () => {
+const WeekPlanner = ({ mode }: WeekPlannerProps) => {
   const { t } = useTranslation(['common']);
 
   const { weekId } = useParams();
+
   const { user } = useAuth();
   const userId = user?.uid || '';
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
-  const { data, isError, isLoading } = useGetWeekPlan(weekId || '', userId);
+  const { data, isError, isLoading } = useGetWeekPlan(weekId || '', userId, mode);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
-
+  const isDisplay = data
+? true
+: false;
   const onAddWeekPlannMutation = weekId
 ? editWeekWithId
 : editWeekWithoutId;
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     register,
+    reset,
     setValue,
     watch,
   } = useForm<WeekPlannerData>({
@@ -73,10 +78,32 @@ const WeekPlanner: React.FC = () => {
   });
   const { fields, replace } = useFieldArray({ control, name: 'days' });
 
-  const onSubmit = (data: WeekPlannerData) => {
-    onAddWeekPlannMutation.mutate(data);
+  const onSubmit = (formData: WeekPlannerData) => {
+    onAddWeekPlannMutation.mutate(formData, {
+      onSuccess: () => {
+        if (mode === 'add') {
+          reset(DEFAULT_WEEK_MODEL);
+        }
+      },
+    });
+
+    if (weekId) {
+      let pointsChange = 0;
+      formData.goal.forEach((goal, goalIndex) => {
+        const previousStatus = data?.goal[goalIndex]?.status;
+        if (previousStatus !== undefined) {
+          if (goal.status && !previousStatus) {
+            pointsChange += 10;
+          } else if (!goal.status && previousStatus) {
+            pointsChange -= 10;
+          }
+        }
+      });
+      onAddUserPoints({ points: pointsChange });
+    }
     onClose();
   };
+
   const handleSave = handleSubmit(() => {
     onOpen();
   });
@@ -90,8 +117,14 @@ const WeekPlanner: React.FC = () => {
   const isValidDate = (date: string): boolean => {
     return !isNaN(Date.parse(date));
   };
-
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      isDirty && currentLocation.pathname !== nextLocation.pathname,
+  );
   useEffect(() => {
+    if (mode === 'add') {
+      reset(DEFAULT_WEEK_MODEL);
+    }
     if (data) {
       setValue('days', data.days);
       setValue('explanation', data.explanation);
@@ -99,6 +132,7 @@ const WeekPlanner: React.FC = () => {
       setValue('rate', data.rate);
       setValue('startDay', data.startDay);
       replace(data.days);
+      reset(data);
     }
   }, [data, replace, setValue]);
 
@@ -139,7 +173,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.0.name')}
           />
-          <CustomCheckbox control={control} name='goal.0.status' />
+          {isDisplay && <CustomCheckbox control={control} name='goal.0.status' />}
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -150,7 +184,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.1.name')}
           />
-          <CustomCheckbox control={control} name='goal.1.status' />
+          {isDisplay && <CustomCheckbox control={control} name='goal.1.status' />}
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
           <TextForm
@@ -161,7 +195,7 @@ const WeekPlanner: React.FC = () => {
             type='text'
             {...register('goal.2.name')}
           />
-          <CustomCheckbox control={control} name='goal.2.status' />
+          {isDisplay && <CustomCheckbox control={control} name='goal.2.status' />}
         </Container>
 
         {fields.map((field, index) => {
@@ -217,6 +251,19 @@ const WeekPlanner: React.FC = () => {
           onConfirm={handleAddPointsandData}
         />
       </form>
+      {blocker.state === 'blocked'
+? (
+        <ModalApp
+          body={`Masz nie zapisane dane.`}
+          cancelText='Nie'
+          confirmText='Tak'
+          header=' Czy na pewno chcesz wyjść?'
+          isOpen={blocker.state === 'blocked'}
+          onClose={() => blocker.reset()}
+          onConfirm={() => blocker.proceed()}
+        />
+      )
+: null}
     </Box>
   );
 };
