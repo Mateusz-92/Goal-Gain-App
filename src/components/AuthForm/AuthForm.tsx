@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Box, Button, Heading, Stack } from '@chakra-ui/react';
+import { Box, Button, Heading, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updatePassword } from 'firebase/auth';
 
+import { useAlert } from '../../context/AlertContext';
 import { useAuth } from '../../context/AuthContext';
 import { loginWithEmailAndPassword, registerWithEmailAndPassword } from '../../firebase/Api';
 import { ROUTES } from '../../routes';
@@ -24,9 +25,8 @@ type AuthFormProps = {
 
 const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin = false }) => {
   const { user } = useAuth();
+  const { showAlert } = useAlert();
   const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       confirmPassword: '',
@@ -51,12 +51,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
         if (user) {
           await updatePassword(user, data.password)
             .then(() => {
-              setShowAlert(true);
-              setAlertMessage('Hasło zostało pomyślnie zmienione');
+              showAlert({ status: 'success', title: 'Hasło zostało pomyślnie' });
             })
             .catch((error) => {
-              setShowAlert(true);
-              setAlertMessage('Wystąpił błąd podczas zmiany hasła: ' + error.message);
+              showAlert({ status: 'error', title: 'Wystąpił błąd' });
+              // eslint-disable-next-line no-console
+              console.log(error);
             });
         }
       } else {
@@ -71,23 +71,6 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
 
   return (
     <Box maxW='400px' mx='auto' padding={'25px'}>
-      {showAlert && (
-        <Alert
-          borderRadius={10}
-          mb={4}
-          colorScheme={alertMessage.includes('błąd')
-? 'red'
-: 'teal'}
-          status={alertMessage.includes('błąd')
-? 'error'
-: 'success'}
-          onClick={() => {
-            setShowAlert(false);
-          }}
-        >
-          {alertMessage}
-        </Alert>
-      )}
       <Heading fontSize='42px' mb='50px'>
         {isLogin && 'Zaloguj się'}
         {!isLogin && !changeUserPassword && 'Zarejestruj się'}
