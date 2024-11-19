@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { Text } from '@chakra-ui/react';
 
 import AuthForm from './components/AuthForm/AuthForm';
 import { HabitChartPages } from './components/Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
@@ -9,11 +10,15 @@ import { WeeklyRateChartPage } from './components/Charts/PagesCharts/WeeklyRateC
 import ThreeMonthsGoalsPlanner from './components/Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
 import WeekPlanner from './components/Goals/WeekPlanner/WeekPlaner';
 import HabitsTracker from './components/habits/HabitsTracker/HabitsTracker';
+import { MonthAnswerList } from './components/habits/MonthAnswerList/MonthAnswerList';
+import { MonthEndedAnswerListDetails } from './components/habits/MonthAnswerList/MonthEndedAnswerListDetails';
 import { CrossOutSavingList } from './components/ListDataEditor/CrossOutSavingsList/CrossOutSavingList';
 import GoalsPlannerEditor from './components/ListDataEditor/GoalsPlannerList/GoalsPlannerList';
 import HabitsTrackerList from './components/ListDataEditor/HabitsTrackerList/HabitsTrackerList';
+import { MonthEndedAnswerList } from './components/ListDataEditor/MonthEndedAnswerList/MonthEndedAnswerList';
 import MonthEvaulationList from './components/ListDataEditor/MonthRatingList/MonthRatingList';
 import WeekPlannerDataListData from './components/ListDataEditor/WeekPlanerListData/WeekPlanerListData';
+import Loader from './components/Loader/Loader';
 import MonthlyRating from './components/Ratings/MothlyRating/MonthlyRating';
 import Roulette from './components/Roulette/Roulette';
 import ChoiceVariant from './components/SavingScratch/ChoiceVariant/ChoiceVariant';
@@ -35,6 +40,9 @@ export const ROUTES = {
   habitsTrackerList: '/habitsTrackerList',
   home: '/',
   login: '/login',
+  monthAnswerDetails: '/monthAnswerDetails',
+  monthAnswerDetailsData: '/monthAnswerDetails/:monthAnswerId',
+  monthAnswerList: '/monthAnswerList',
   monthEvaluation: '/monthEvaluation',
   monthEvaluationData: '/monthEvaluation/:monthId',
   monthEvaluationList: '/monthEvaluationList',
@@ -63,7 +71,14 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }): JSX
   const { loading, user } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Loader />
+        <Text mt={50} textAlign={'center'}>
+          Sprawdzanie danych użytkownika
+        </Text>
+      </div>
+    );
   }
 
   if (!user) {
@@ -97,19 +112,19 @@ export const router = createBrowserRouter([
         path: ROUTES.roulette,
       },
       {
-        element: <ThreeMonthsGoalsPlanner />,
+        element: <ThreeMonthsGoalsPlanner mode='add' />,
         path: ROUTES.threeMonthsGoalsPlanner,
       },
       {
-        element: <ThreeMonthsGoalsPlanner />,
+        element: <ThreeMonthsGoalsPlanner mode='edit' />,
         path: ROUTES.threeMonthsGoalsPlannerData,
       },
       {
-        element: <WeekPlanner />,
+        element: <WeekPlanner mode='add' />,
         path: ROUTES.weekPlanner,
       },
       {
-        element: <WeekPlanner />,
+        element: <WeekPlanner mode='edit' />,
         path: ROUTES.weekPlannerData,
       },
       {
@@ -165,6 +180,19 @@ export const router = createBrowserRouter([
         element: <SavingsComponent />,
         path: ROUTES.savingCrossOutData,
       },
+      {
+        element: <MonthAnswerList />,
+        path: ROUTES.monthAnswerList,
+      },
+      {
+        element: <MonthEndedAnswerList />,
+        path: ROUTES.monthAnswerDetails,
+      },
+      {
+        element: <MonthEndedAnswerListDetails />,
+        path: ROUTES.monthAnswerDetailsData,
+      },
+
       {
         element: <CrossOutSavingList />,
         path: ROUTES.savingCrossOutList,
