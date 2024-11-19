@@ -31,7 +31,7 @@ const UserLevel: React.FC<UserLevelProps> = ({ points }) => {
   }, badgeLevels[0]);
 
   return (
-    <VStack align='center' bg='transparent' borderRadius='md' p={5} spacing={4}>
+    <VStack align='center' bg='transparent' borderRadius='md' spacing={2}>
       <Box boxSize='75px'>
         <Image alt={earnedBadge.name} height='100%' src={earnedBadge.image} width='100%' />
       </Box>

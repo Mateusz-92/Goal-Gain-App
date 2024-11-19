@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useLocation,useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Flex, Heading, IconButton, VStack } from '@chakra-ui/react';
 
@@ -17,7 +17,9 @@ const Layout: React.FC = () => {
     <div>
       <Flex>
         <Box p={15} width='35%'>
-          <Heading textAlign='left'>Goal Gain App</Heading>
+          <Heading fontSize={32} textAlign='right'>
+            Goal Gain App
+          </Heading>
           <VStack align='end' mt={10}>
             <MenuPanel />
             <UserAvatar />
