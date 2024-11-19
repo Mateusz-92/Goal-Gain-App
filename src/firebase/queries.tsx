@@ -115,9 +115,9 @@ export const useGetAllGoals = (userId: string) => {
   });
 };
 
-export const useGetWeekPlan = (weekId: string, userId: string) => {
+export const useGetWeekPlan = (weekId: string, userId: string, mode: 'add' | 'edit') => {
   return useQuery<WeekPlannerData | null>({
-    enabled: !!weekId && !!userId,
+    enabled: !!weekId && !!userId && mode === 'edit',
     queryFn: async () => {
       const data = await fetchWeekData(weekId, userId);
 
@@ -263,7 +263,7 @@ export const useGetCurrentMonthAnswerQuestion = (userId: string, id?: string) =>
 
       return data;
     },
-    queryKey: [QUERY_KEYS.answerList],
+    queryKey: [QUERY_KEYS.answerList, userId],
   });
 };
 export const useGetAllMonthAnswerQuestion = (userId: string) => {
