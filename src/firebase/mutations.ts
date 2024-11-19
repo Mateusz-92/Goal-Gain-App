@@ -161,7 +161,6 @@ export const useAddRouletteSaving = (userId: string) => {
 
 export const useAddUserPoints = (userId: string) => {
   const { showAlert } = useAlert();
-
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -170,14 +169,25 @@ export const useAddUserPoints = (userId: string) => {
     },
     onError: (error) => {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.error(error);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userPoints] });
-      showAlert(variables.points);
+
+      showAlert({
+        points: variables.points,
+        status: variables.points > 0
+? 'success'
+: 'warning',
+        title:
+          variables.points > 0
+            ? `Dodano ${variables.points} punkty!`
+            : `Odjęto ${Math.abs(variables.points)} punkty.`,
+      });
     },
   });
 };
+
 export const useAddAnswerForMonth = (userId: string, id?: string) => {
   const queryClient = useQueryClient();
 
