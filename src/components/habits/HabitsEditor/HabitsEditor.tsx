@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Button, Input, useDisclosure } from '@chakra-ui/react';
+import { Box, Input, useDisclosure } from '@chakra-ui/react';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditHabits } from '../../../firebase/mutations';
+import Btn from '../../../UI/Btn/Btn';
 import ModalApp from '../../Modal/ModalApp';
 
 export type Habit = {
@@ -104,19 +105,62 @@ const HabitsEditor = () => {
   return (
     <Box>
       <Input
-        placeholder='Data'
+        bg='white'
+        border='2px solid'
+        borderColor={'transparent'}
+        borderRadius='15px'
+        height='52px'
+        mb='3'
+        textAlign='left'
         type='date'
         value={habitData.date?.toISOString().split('T')[0] || ''}
+        width='100%'
+        _disabled={{
+          _hover: {
+            bg: 'white',
+            borderColor: 'black',
+            cursor: 'not-allowed',
+            fontWeight: 'bold',
+          },
+        }}
+        _focus={{
+          borderColor: 'var(--dark-gray)',
+        }}
+        _focusVisible={{
+          outline: 'none',
+        }}
         onChange={handleDateChange}
       />
 
       {habitsForCurrentDate.map((habit) => (
         <div key={habit.id}>
           <Input
-            mt={4}
+            bg='white'
+            border='2px solid'
+            borderColor={'transparent'}
+            borderRadius='15px'
+            height='52px'
+            mb='2'
+            mr={2}
             placeholder={`Wpisz nawyk `}
+            textAlign='left'
+            type='text'
             value={habit.name}
             width={'70%'}
+            _disabled={{
+              _hover: {
+                bg: 'white',
+                borderColor: 'black',
+                cursor: 'not-allowed',
+                fontWeight: 'bold',
+              },
+            }}
+            _focus={{
+              borderColor: 'var(--dark-gray)',
+            }}
+            _focusVisible={{
+              outline: 'none',
+            }}
             onChange={(e) => {
               const updatedHabits = habitsForCurrentDate.map((item) =>
                 item.id === habit.id
@@ -134,19 +178,13 @@ const HabitsEditor = () => {
               });
             }}
           />
-          <Button mt={2} onClick={() => removeHabitLocal(habit.id)}>
-            Usuń nawyk
-          </Button>
+          <Btn text='  Usuń nawyk' type='button' onClick={() => removeHabitLocal(habit.id)} />
         </div>
       ))}
       {habitsForCurrentDate.length < habitsLength && (
-        <Button mt={4} onClick={addHabitLocal}>
-          Dodaj nawyk
-        </Button>
+        <Btn text='Dodaj nawyk' type='button' onClick={addHabitLocal} />
       )}
-      <Button mt={4} onClick={saveData}>
-        Zapisz
-      </Button>
+      <Btn text='Zapisz ' type='button' onClick={saveData} />
       <ModalApp
         body={'Potwierdź, aby dodać punkty oraz nawyki do tabeli lub anuluj, aby zmodyfikować dane'}
         cancelText='Anuluj'
