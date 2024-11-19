@@ -86,13 +86,13 @@ export const WeekPlannerDataSchema = z.object({
   }),
   goal: z.array(GoalWeekSchema),
   id: string().optional(),
-  rate: z.string().min(minLength, { message: i18n.t('common:validations.rateRequired') }),
+  rate: z.string().optional(),
+  // rate: z.string().min(minLength, { message: i18n.t('common:validations.rateRequired') }),
   startDay: z.string().min(minLength, { message: 'Week is required' }),
 });
 export type WeekPlannerData = z.infer<typeof WeekPlannerDataSchema>;
 
 export const answerForMonthSchema = z.object({
-
   answer: z.string().min(minLength, { message: 'answer is required' }),
   date: z.string().optional(),
   id: z.string().optional(),
@@ -102,6 +102,7 @@ export const answerForMonthSchema = z.object({
 export type answerForMonthData = z.infer<typeof answerForMonthSchema>;
 export const answer = z.object({
   date: z.string(),
+  id: z.string().uuid().default(generateUUID),
   text: z.string().min(minLength, { message: 'field is required' }),
 });
 export const monthAnswerSchema = z.object({
@@ -120,7 +121,6 @@ export const questionForMonthSchema = z.object({
   question: z.string().min(minLength, { message: 'answer is required' }),
 });
 export type questionForMonthData = z.infer<typeof questionForMonthSchema>;
-
 
 const passwordSchema = z.object({
   password: z.string().min(6, 'Hasło musi mieć co najmniej 6 znaków'),
