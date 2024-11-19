@@ -8,6 +8,7 @@ import { handleLogout } from '../../firebase/Api';
 import { useUserAvatarData } from '../../firebase/queries';
 import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';
+import Loader from '../Loader/Loader';
 import BadgeDisplay from '../UserLevel/UserLevel';
 
 const UserAvatar: React.FC = () => {
@@ -16,17 +17,17 @@ const UserAvatar: React.FC = () => {
   const navigate = useNavigate();
 
   const {
-    data: {  sumOfCrossoutSaving, sumOfroulette, sumOfSavings, sumOfUserPoints },
+    data: { sumOfCrossoutSaving, sumOfroulette, sumOfSavings, sumOfUserPoints },
     isError,
     isLoading,
   } = useUserAvatarData(userId);
 
-  if (isLoading) return <div>isLoading</div>;
+  if (isLoading) return <Loader />;
   if (isError) return <div>isError</div>;
   // if (roulette)
   return (
     <Box overflow='hidden'>
-      <VStack>
+      <VStack align='end'>
         <HStack>
           <VStack>
             <AvatarIcon />
