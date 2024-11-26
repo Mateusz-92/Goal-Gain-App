@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useBlocker } from 'react-router-dom';
 import { Box, Input, useDisclosure } from '@chakra-ui/react';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -43,12 +44,24 @@ const HabitsEditor = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const onAddHabitsMutation = useEditHabits(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
+  const [formChanged, setFormChanged] = useState(false);
+
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      formChanged && currentLocation.pathname !== nextLocation.pathname,
+  );
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setHabitData({
-      ...habitData,
-      date: new Date(e.target.value),
-    });
+    const newDate = new Date(e.target.value);
+
+    //check if date is changed
+    if (newDate.getTime() !== habitData.date.getTime()) {
+      setHabitData({
+        ...habitData,
+        date: newDate,
+      });
+    }
+    setFormChanged(true);
   };
 
   const addHabitLocal = () => {
@@ -69,6 +82,7 @@ const HabitsEditor = () => {
         },
       },
     });
+    setFormChanged(true);
   };
 
   const removeHabitLocal = async (id: number) => {
@@ -86,6 +100,7 @@ const HabitsEditor = () => {
         },
       },
     });
+    setFormChanged(true);
   };
 
   const addHabitsHandler = async () => {
@@ -93,6 +108,7 @@ const HabitsEditor = () => {
     onAddUserPoints({ points: 50 });
 
     onClose();
+    setFormChanged(false);
   };
 
   const saveData = () => {
@@ -194,6 +210,19 @@ const HabitsEditor = () => {
         onClose={onClose}
         onConfirm={addHabitsHandler}
       />
+      {blocker.state === 'blocked'
+? (
+        <ModalApp
+          body={`Masz nie zapisane dane.`}
+          cancelText='Nie'
+          confirmText='Tak'
+          header=' Czy na pewno chcesz wyjść?'
+          isOpen={blocker.state === 'blocked'}
+          onClose={() => blocker.reset()}
+          onConfirm={() => blocker.proceed()}
+        />
+      )
+: null}
     </Box>
   );
 };
