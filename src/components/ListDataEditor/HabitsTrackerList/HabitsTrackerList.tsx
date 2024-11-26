@@ -2,6 +2,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetAllHabits } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
+import Loader from '../../Loader/Loader';
 
 const HabitTrackerList = () => {
   const { user } = useAuth();
@@ -13,8 +14,8 @@ const HabitTrackerList = () => {
     routes: ROUTES.habitsTracker,
     title: 'Lista nawyków',
   }));
-  if (isLoading) return <div>isLoading</div>;
-  if (isError) return <div>isError</div>;
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Somethig went wrong</div>;
   if (data) return <DataList data={habitData || []} />;
 };
 

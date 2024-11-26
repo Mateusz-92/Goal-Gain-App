@@ -12,8 +12,8 @@ import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
 import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
-import ModalApp from '../../Modal/ModalApp';
 import Loader from '../../Loader/Loader';
+import ModalApp from '../../Modal/ModalApp';
 const currentDay = format(new Date(), 'dd.MM.yyyy');
 
 const DEFAULT_ANSWER_MODEL = {
@@ -105,7 +105,9 @@ export const MonthAnswerList = () => {
           control={control}
           isInput={true}
           placeholder={'Wpisz Pytanie miesiąca'}
-          isDisabled={data?.questionTitle ? true : false}
+          isDisabled={data?.questionTitle
+? true
+: false}
           {...register(`questionTitle`)}
         />
         {fields.map((el, i) => {
@@ -144,7 +146,8 @@ export const MonthAnswerList = () => {
         <Btn text='Wyślij' type='button' onClick={() => onOpen()} />
         {/* <Btn text='Wyślij' type='submit' /> */}
       </form>
-      {blocker.state === 'blocked' ? (
+      {blocker.state === 'blocked'
+? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -154,7 +157,8 @@ export const MonthAnswerList = () => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      ) : null}
+      )
+: null}
     </>
   );
 };
