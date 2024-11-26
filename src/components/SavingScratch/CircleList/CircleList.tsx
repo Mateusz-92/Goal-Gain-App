@@ -5,6 +5,7 @@ import { Box } from '@chakra-ui/react';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutAmounts } from '../../../firebase/queries';
 import CircleItem from '../CircleItem/CircleItem';
+import Loader from '../../Loader/Loader';
 
 const CircleList: React.FC = () => {
   const { crossOutSavingId } = useParams();
@@ -12,8 +13,8 @@ const CircleList: React.FC = () => {
   const userId = user?.uid || '';
   const { data, isError, isLoading } = useGetCrossOutAmounts(crossOutSavingId || '', userId);
 
-  if (isLoading) return <div>isLoading</div>;
-  if (isError) return <div>isError</div>;
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Somethig went wrong</div>;
   if (data)
     return (
       <Box

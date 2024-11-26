@@ -23,8 +23,7 @@ const UserAvatar: React.FC = () => {
   } = useUserAvatarData(userId);
 
   if (isLoading) return <Loader />;
-  if (isError) return <div>isError</div>;
-  // if (roulette)
+  if (isError) return <div>Somethig went wrong</div>;
   return (
     <Box overflow='hidden'>
       <VStack align='end'>

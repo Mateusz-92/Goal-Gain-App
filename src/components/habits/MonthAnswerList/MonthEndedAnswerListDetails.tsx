@@ -1,9 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { Box,Heading, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
+import { Box, Heading, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import { lastDayOfMonth, parse } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
+import Loader from '../../Loader/Loader';
 
 const getDaysInMonth = (monthYear: string): number => {
   const parsedDate = parse(monthYear, 'MM.yyyy', new Date());
@@ -22,10 +23,10 @@ export const MonthEndedAnswerListDetails = () => {
   const amountOfDaysInMonth = getDaysInMonth(data?.month || '');
 
   if (isLoading) {
-    return <div>isLoading</div>;
+    return <Loader />;
   }
   if (isError || !data) {
-    return <div>isError</div>;
+    return <div>Somethig went wrong</div>;
   }
 
   return (

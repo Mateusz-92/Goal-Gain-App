@@ -2,6 +2,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthlyEvaluation } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
+import Loader from '../../Loader/Loader';
 
 const MonthRatingList = () => {
   const { user } = useAuth();
@@ -13,8 +14,8 @@ const MonthRatingList = () => {
     routes: ROUTES.monthEvaluation,
     title: 'Ocena miesięczna',
   }));
-  if (isLoading) return <div>isLoading</div>;
-  if (isError) return <div>isError</div>;
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Somethig went wrong</div>;
   if (data) return <DataList data={evaulationData || []} />;
 };
 

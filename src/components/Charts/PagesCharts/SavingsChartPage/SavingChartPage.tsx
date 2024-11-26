@@ -4,6 +4,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
 import { ammountBord, Saving } from '../../../../types';
 import { SavingChart } from '../../SavingsChart/SavingChart';
+import Loader from '../../../Loader/Loader';
 
 const calculateMonthlySavings = (savings: Saving[]): number[] => {
   const monthlySums: number[] = new Array(12).fill(0);
@@ -54,10 +55,10 @@ export const SavingChartPage = () => {
     montlhlySumOfCrossOutSaving,
   );
   if (isLoading) {
-    return <div> isLoading</div>;
+    return <Loader />;
   }
   if (isError || !roulette || !crossOutSaving) {
-    return <div> isError</div>;
+    return <div> Somethig went wrong</div>;
   }
   return (
     <div>

@@ -8,6 +8,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetHabits } from '../../../firebase/queries';
 import TitleName from '../../../UI/TitleName/TitleName';
 import HabitsForm from '../HabitsForm/HabitsForm';
+import Loader from '../../Loader/Loader';
 
 const HabitsTracker = () => {
   const { user } = useAuth();
@@ -18,10 +19,10 @@ const HabitsTracker = () => {
   useEffect(() => {}, [userId, data]);
 
   if (isError) {
-    return <p>Cannot get data</p>;
+    return <p>Somethig went wrong</p>;
   }
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   if (!data || Object.keys(data).length === 0) {
@@ -38,7 +39,7 @@ const HabitsTracker = () => {
   if (!habitListId && !isCurrentMonth) {
     return (
       <Box fontSize={18} textAlign={'center'}>
-        <Link href='/createHabits' mt={25}>
+        <Link variant={'underline'} href='/createHabits' mt={25}>
           Nie masz utworzonych nawyków, przejdz do kreatora
         </Link>
       </Box>

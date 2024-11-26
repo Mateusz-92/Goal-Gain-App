@@ -4,6 +4,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthAnswerQuestion } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
+import Loader from '../../Loader/Loader';
 
 export const MonthEndedAnswerList = () => {
   const actualDate = format(new Date(), 'MM.yyyy');
@@ -12,8 +13,8 @@ export const MonthEndedAnswerList = () => {
   const userId = user?.uid || '';
   const { data, isError, isLoading } = useGetAllMonthAnswerQuestion(userId);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading data</div>;
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Somethig went wrong</div>;
   if (!data) return <div>Nie masz jeszcze danych</div>;
 
   const answerListData = data

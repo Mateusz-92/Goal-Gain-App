@@ -1,5 +1,6 @@
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetWeekRate } from '../../../../firebase/queries';
+import Loader from '../../../Loader/Loader';
 import { WeeklyRateChart } from '../../WeeklyRateChart/WeeklyRateChart';
 export const WeeklyRateChartPage = () => {
   const { user } = useAuth();
@@ -7,10 +8,10 @@ export const WeeklyRateChartPage = () => {
   const { data, isError, isLoading } = useGetWeekRate(userId);
 
   if (isLoading) {
-    return <div>sloading</div>;
+    return <Loader />;
   }
   if (isError || !data) {
-    <div>error</div>;
+    <div>Somethig went wrong</div>;
   }
 
   return (

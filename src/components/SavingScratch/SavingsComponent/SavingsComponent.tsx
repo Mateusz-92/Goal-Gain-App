@@ -5,6 +5,7 @@ import { Box, Text } from '@chakra-ui/react';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutSavingName } from '../../../firebase/queries';
 import CircleList from '../CircleList/CircleList';
+import Loader from '../../Loader/Loader';
 
 const SavingsComponent: React.FC = () => {
   const { user } = useAuth();
@@ -12,8 +13,8 @@ const SavingsComponent: React.FC = () => {
   const { crossOutSavingId } = useParams();
 
   const { data, isError, isLoading } = useGetCrossOutSavingName(userId, crossOutSavingId || '');
-  if (isLoading) return <div>isLoading</div>;
-  if (isError || !data) return <div>isError</div>;
+  if (isLoading) return <Loader />;
+  if (isError || !data) return <div>Somethig went wrong</div>;
   return (
     <Box>
       {data && (

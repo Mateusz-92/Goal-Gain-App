@@ -1,5 +1,6 @@
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserPoints } from '../../../../firebase/queries';
+import Loader from '../../../Loader/Loader';
 import { MonthlyChart } from '../../MonthlyChart/MonthlyChart';
 import { calculateMonthlyChart } from '../MonthlyRateChartPage/MonthlyRateChartPage';
 
@@ -9,10 +10,10 @@ export const PointsChartPage = () => {
   const { data, isError, isLoading } = useGetUserPoints(userId);
   const monthlyPoints = calculateMonthlyChart(data || []);
   if (isLoading) {
-    return <div>loading</div>;
+    return <Loader />;
   }
   if (isError || !data) {
-    <div>error</div>;
+    <div>Somethig went wrong</div>;
   }
 
   return (

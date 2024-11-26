@@ -3,8 +3,9 @@ import { getMonth } from 'date-fns';
 import { useAuth } from '../../../../context/AuthContext';
 import { monthRateType } from '../../../../firebase/Api';
 import { useGetWMonthRate } from '../../../../firebase/queries';
-import { Points } from '../../../UserAvatar/UserAvatar';
 import { MonthlyChart } from '../../MonthlyChart/MonthlyChart';
+import { Points } from '../../../../types';
+import Loader from '../../../Loader/Loader';
 
 export const calculateMonthlyChart = (scope: monthRateType[] | Points[]): number[] => {
   const monthlyScope: number[] = new Array(12).fill(0);
@@ -27,10 +28,10 @@ export const MonthlyRateChartPage = () => {
   const { data, isError, isLoading } = useGetWMonthRate(userId);
   const monthlyRates = calculateMonthlyChart(data || []);
   if (isLoading) {
-    return <div>loading</div>;
+    return <Loader />;
   }
   if (isError || !data) {
-    <div>error</div>;
+    <div>Somethig went wrong</div>;
   }
 
   return (
