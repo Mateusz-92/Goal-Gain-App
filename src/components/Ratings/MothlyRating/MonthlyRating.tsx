@@ -1,34 +1,33 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import {
-  Box,
-  Container,
-  Flex,
-  Radio,
-  RadioGroup,
-  Text,
-} from '@chakra-ui/react';
+import { useBlocker, useParams } from 'react-router-dom';
+import { Box, Container, Flex, Radio, RadioGroup, Text, useDisclosure } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { indexNum } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
-import { useEditMonthRate } from '../../../firebase/mutations';
+import { useAddUserPoints, useEditMonthRate } from '../../../firebase/mutations';
 import { useGetMonthlyEvaluation } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
 import { MonthlyRatingData, MonthlyValuesRatingSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
+import Loader from '../../Loader/Loader';
+import ModalApp from '../../Modal/ModalApp';
 
 type monthlyRating = {
+  date: string;
   explanationOfRate: string;
   lessonOfLife: string;
   monthsRate: string;
   theBiggestChalange: string;
   value: string;
 };
+type MonthRateProps = { mode: 'add' | 'edit' };
+
 const arrRadioLength: number = 10;
 const DEAFAULT_RATING_MODEL: monthlyRating = {
+  date: '',
   explanationOfRate: '',
   lessonOfLife: '',
   monthsRate: '',
@@ -36,14 +35,17 @@ const DEAFAULT_RATING_MODEL: monthlyRating = {
   value: '',
 };
 
-const MonthlyRating: React.FC = () => {
+const MonthlyRating = ({ mode }: MonthRateProps) => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   const { monthId } = useParams();
   const { t } = useTranslation(['common']);
   const { user } = useAuth();
   const userId = user?.uid || '';
-  const { data, isError, isLoading } = useGetMonthlyEvaluation(monthId || '', userId);
+  const { data, isError, isLoading } = useGetMonthlyEvaluation(monthId || '', userId, mode);
   const editMonthRateWithId = useEditMonthRate(userId, monthId);
   const editMonthRateWithoutId = useEditMonthRate(userId);
+  const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
   const onAddMonthRateMutation = monthId
 ? editMonthRateWithId
@@ -51,9 +53,10 @@ const MonthlyRating: React.FC = () => {
 
   const {
     control,
-    formState: { errors },
+    formState: { errors, isDirty },
     handleSubmit,
     register,
+    reset,
     setValue,
     watch,
   } = useForm<MonthlyValuesRatingSchema>({
@@ -61,14 +64,27 @@ const MonthlyRating: React.FC = () => {
     resolver: zodResolver(MonthlyRatingData),
   });
 
-  const onSubmit = async (data: MonthlyValuesRatingSchema) => {
+  const onSubmit = async (formData: MonthlyValuesRatingSchema) => {
     // eslint-disable-next-line no-console
     console.log('data', data);
-    await onAddMonthRateMutation.mutate(data);
+    await onAddMonthRateMutation.mutate(formData, {
+      onSuccess: () => {
+        if (mode === 'add') {
+          reset(DEAFAULT_RATING_MODEL);
+        }
+      },
+    });
+    onClose();
   };
   const value = watch('value');
-
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      isDirty && currentLocation.pathname !== nextLocation.pathname,
+  );
   useEffect(() => {
+    if (mode === 'add') {
+      reset(DEAFAULT_RATING_MODEL);
+    }
     if (data) {
       setValue('date', data.date);
       setValue('explanationOfRate', data.explanationOfRate);
@@ -76,13 +92,22 @@ const MonthlyRating: React.FC = () => {
       setValue('monthsRate', data.monthsRate);
       setValue('theBiggestChalange', data.theBiggestChalange);
       setValue('value', data.value);
+      reset(data);
     }
-  }, [data, setValue]);
+  }, [data, setValue, reset]);
+  const handleSave = handleSubmit(() => {
+    onOpen();
+  });
+  const handleAddDataAndPoints = () => {
+    handleSubmit(onSubmit)();
+    if (!monthId) onAddUserPoints({ points: 25 });
+  };
+
   if (isLoading) {
-    return <div>isLoading</div>;
+    return <Loader />;
   }
   if (isError) {
-    return <div>isError</div>;
+    return <div>Somethig went wrong</div>;
   }
   return (
     <Box>
@@ -155,9 +180,31 @@ const MonthlyRating: React.FC = () => {
           {...register(`lessonOfLife`)}
         />
         <Flex justify='center' mt={4}>
-          <Btn text='Zapisz' type='submit' />
+          <Btn text='Zapisz' type='button' onClick={handleSave} />
         </Flex>
+        <ModalApp
+          body={`Potwierdź, aby dodać dane`}
+          cancelText='Anuluj'
+          confirmText='Tak'
+          header='Czy chcesz dodać/ edytować dane?'
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleAddDataAndPoints}
+        />
       </form>
+      {blocker.state === 'blocked'
+? (
+        <ModalApp
+          body={`Masz nie zapisane dane.`}
+          cancelText='Nie'
+          confirmText='Tak'
+          header=' Czy na pewno chcesz wyjść?'
+          isOpen={blocker.state === 'blocked'}
+          onClose={() => blocker.reset()}
+          onConfirm={() => blocker.proceed()}
+        />
+      )
+: null}
     </Box>
   );
 };
