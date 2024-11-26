@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useBlocker,useParams } from 'react-router-dom';
+import { useBlocker, useParams } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -24,6 +24,7 @@ import Btn from '../../../UI/Btn/Btn';
 import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
 import { WeekPlannerData, WeekPlannerDataSchema } from '../../../validators/validators';
 import { TextForm } from '../../Forms/TextForm/TextForm';
+import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 
 import { WeekHeader } from './WeekHeader';
@@ -145,10 +146,10 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
     }
   }, [fields, replace, startDay, setValue]);
   if (isLoading) {
-    return <div>isLoading</div>;
+    return <Loader />;
   }
   if (isError) {
-    return <div>isError</div>;
+    return <div>Somethig went wrong</div>;
   }
   return (
     <Box>
