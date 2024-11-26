@@ -1,10 +1,11 @@
 import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Box, Flex, Heading, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 
 import { MenuPanel } from '../components/MenuPanel/MenuPanel';
 import UserAvatar from '../components/UserAvatar/UserAvatar';
+import Logo from '../UI/Logo/Logo';
 import StaticSlider from '../UI/StaticSlider/StaticSlider';
 
 const Layout: React.FC = () => {
@@ -17,9 +18,9 @@ const Layout: React.FC = () => {
     <div>
       <Flex>
         <Box p={15} width='35%'>
-          <Heading fontSize={32} textAlign='right'>
-            Goal Gain App
-          </Heading>
+          <Flex justifyContent='end'>
+            <Logo />
+          </Flex>
           <VStack align='end' mt={10}>
             <MenuPanel />
             <UserAvatar />
