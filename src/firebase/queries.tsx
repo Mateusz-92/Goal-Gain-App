@@ -170,15 +170,15 @@ export const useGetDayPlan = (userId: string) => {
     queryKey: [QUERY_KEYS.weekDay],
   });
 };
-export const useGetMonthlyEvaluation = (rateId: string, userId: string) => {
+export const useGetMonthlyEvaluation = (rateId: string, userId: string, mode: 'add' | 'edit') => {
   return useQuery<MonthlyValuesRatingSchema | null>({
-    enabled: !!rateId && !!userId,
+    enabled: !!rateId && !!userId && mode === 'edit',
     queryFn: async () => {
       const data = await FetchMonthlyEvaluation(rateId, userId);
 
       return data;
     },
-    queryKey: [QUERY_KEYS.monthEvaulation],
+    queryKey: [QUERY_KEYS.monthEvaulation, rateId],
     // queryKey: [QUERY_KEYS.monthEvaulation, rateId],
   });
 };
@@ -324,7 +324,7 @@ export const getHabitsForMonthChartQueryConfig = (userId: string) => {
       return fetchLatestHabitForMonth(userId);
     },
 
-    queryKey: [QUERY_KEYS.habits],
+    queryKey: [QUERY_KEYS.habits, userId],
   };
 };
 
@@ -334,7 +334,7 @@ export const getUserHabitNamesForMonthQueryConfig = (monthAndYear: string, userI
     queryFn: async () => {
       return fetchHabitsPerMonth(monthAndYear, userId);
     },
-    queryKey: ['userHabitNamesForMonth'],
+    queryKey: ['userHabitNamesForMonth', monthAndYear, userId],
   };
 };
 export const useGetHabitsChartsData = (monthAndYear: string, userId: string) => {
