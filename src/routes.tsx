@@ -7,6 +7,7 @@ import { MonthlyRateChartPage } from './components/Charts/PagesCharts/MonthlyRat
 import { PointsChartPage } from './components/Charts/PagesCharts/PointsChartPage/PointsChartPage';
 import { SavingChartPage } from './components/Charts/PagesCharts/SavingsChartPage/SavingChartPage';
 import { WeeklyRateChartPage } from './components/Charts/PagesCharts/WeeklyRateChartPage/WeeklyRateChartPage';
+import ErrorBoundary from './components/Errors/ErrorBoundery';
 import ThreeMonthsGoalsPlanner from './components/Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
 import WeekPlanner from './components/Goals/WeekPlanner/WeekPlaner';
 import HabitsTracker from './components/habits/HabitsTracker/HabitsTracker';
@@ -85,7 +86,11 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }): JSX
     return <Navigate to='/login' />;
   }
 
-  return <>{children}</>;
+  return (
+    <ErrorBoundary>
+      <>{children}</>
+    </ErrorBoundary>
+  );
 };
 
 export const router = createBrowserRouter([
@@ -136,11 +141,11 @@ export const router = createBrowserRouter([
         path: ROUTES.threeMonthsGoalsPlannerList,
       },
       {
-        element: <MonthlyRating />,
+        element: <MonthlyRating mode='add' />,
         path: ROUTES.monthEvaluation,
       },
       {
-        element: <MonthlyRating />,
+        element: <MonthlyRating mode='edit' />,
         path: ROUTES.monthEvaluationData,
       },
       {
