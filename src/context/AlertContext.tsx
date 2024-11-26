@@ -7,7 +7,7 @@ type AlertOptions = {
   duration?: number;
   points?: number;
   status: 'success' | 'warning' | 'info' | 'error';
-  title: string; // Duration in milliseconds
+  title: string;
 };
 
 type AlertContextType = {
