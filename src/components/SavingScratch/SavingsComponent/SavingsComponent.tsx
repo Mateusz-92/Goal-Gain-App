@@ -4,8 +4,8 @@ import { Box, Text } from '@chakra-ui/react';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutSavingName } from '../../../firebase/queries';
-import CircleList from '../CircleList/CircleList';
 import Loader from '../../Loader/Loader';
+import CircleList from '../CircleList/CircleList';
 
 const SavingsComponent: React.FC = () => {
   const { user } = useAuth();
