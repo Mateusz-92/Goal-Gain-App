@@ -4,8 +4,8 @@ import { Box } from '@chakra-ui/react';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutAmounts } from '../../../firebase/queries';
-import CircleItem from '../CircleItem/CircleItem';
 import Loader from '../../Loader/Loader';
+import CircleItem from '../CircleItem/CircleItem';
 
 const CircleList: React.FC = () => {
   const { crossOutSavingId } = useParams();
