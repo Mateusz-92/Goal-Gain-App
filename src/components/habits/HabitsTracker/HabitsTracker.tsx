@@ -7,8 +7,8 @@ import { months } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetHabits } from '../../../firebase/queries';
 import TitleName from '../../../UI/TitleName/TitleName';
-import HabitsForm from '../HabitsForm/HabitsForm';
 import Loader from '../../Loader/Loader';
+import HabitsForm from '../HabitsForm/HabitsForm';
 
 const HabitsTracker = () => {
   const { user } = useAuth();
@@ -39,7 +39,7 @@ const HabitsTracker = () => {
   if (!habitListId && !isCurrentMonth) {
     return (
       <Box fontSize={18} textAlign={'center'}>
-        <Link variant={'underline'} href='/createHabits' mt={25}>
+        <Link href='/createHabits' mt={25} variant={'underline'}>
           Nie masz utworzonych nawyków, przejdz do kreatora
         </Link>
       </Box>
