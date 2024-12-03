@@ -90,7 +90,7 @@ export const useGetUserHabitNamesForMonth = (monthAndYear: string, userId: strin
     queryFn: async () => {
       return fetchHabitsPerMonth(monthAndYear, userId);
     },
-    queryKey: ['userHabitNamesForMonth'],
+    queryKey: ['userHabitNamesForMonth', monthAndYear, userId],
 
     // enabled: !!clientId,
   });
@@ -317,7 +317,7 @@ export const useUserAvatarData = (userId: string) => {
     isLoading: allQueries.some((query) => query.isLoading),
   };
 };
-export const getHabitsForMonthChartQueryConfig = (userId: string) => {
+export const getHabitsForLatestMonthChartQueryConfig = (userId: string) => {
   return {
     enabled: !!userId,
     queryFn: async () => {
@@ -337,25 +337,7 @@ export const getUserHabitNamesForMonthQueryConfig = (monthAndYear: string, userI
     queryKey: ['userHabitNamesForMonth', monthAndYear, userId],
   };
 };
-export const useGetHabitsChartsData = (monthAndYear: string, userId: string) => {
-  const allQueries = useQueries({
-    queries: [
-      getHabitsForMonthChartQueryConfig(userId),
-      getUserHabitNamesForMonthQueryConfig(monthAndYear, userId),
-    ],
-  });
 
-  const [habitsDataQuery, userHabitNamesQuery] = allQueries;
-
-  return {
-    data: {
-      habitsData: habitsDataQuery.data,
-      userHabitNames: userHabitNamesQuery.data,
-    },
-    isError: allQueries.some((query) => query.isError),
-    isLoading: allQueries.some((query) => query.isLoading),
-  };
-};
 export const useGetUserAvatar = (userId: string) => {
   return useQuery<string | null>({
     enabled: !!userId,
