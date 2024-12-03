@@ -53,6 +53,7 @@ export const SavingChart: React.FC<SavingChartProps> = ({
       },
       legend: {
         data: ['ruletka', 'wykreślanka', 'razem'],
+        top: 20,
       },
       series: [
         {
@@ -106,5 +107,5 @@ export const SavingChart: React.FC<SavingChartProps> = ({
     option && myChart.setOption(option);
   }, [rouletteSavings, crossOutSavings, totalSavings]);
 
-  return <div id='savingChart' style={{ height: '600px', width: '600px' }} />;
+  return <div id='savingChart' style={{ height: '600px', width: '100%' }} />;
 };
