@@ -20,7 +20,7 @@ import {
   UploadResult,
 } from 'firebase/storage';
 
-import { DayHabit, Habit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
+import { DayHabit, HabitFormData } from '../components/habits/HabitsEditor/HabitsEditor';
 import { getDaysInMonth } from '../components/habits/HabitsForm/HabitsForm';
 import { ammountBord, Points, Saving, SavingCrossOut } from '../types';
 import {
@@ -172,32 +172,19 @@ export const fetchHabitsPerMonth = async (monthAndYear: string, userId: string) 
         habitData.push(data.habitsListForMonth as HabitFormData);
       }
     });
-
-    if (habitData.length > 0) {
-      const firstHabitData = habitData[0];
-
-      const matchingDateKey = Object.keys(firstHabitData).find((key) => {
-        if (key !== 'userId' && key !== 'id') {
-          const dateParts = key.split('-');
-          const yearAndMonth = `${dateParts[0]}-${dateParts[1]}`;
-          return yearAndMonth === monthAndYear;
-        }
-        return false;
-      });
-
-      if (matchingDateKey) {
-        const habitsForMatchingDate = firstHabitData[matchingDateKey].habits;
-        const allNames = habitsForMatchingDate.map((habit: Habit) => habit.name);
-
-        return allNames;
-      }
+    const monthArrIndex = habitData.findIndex((arr, index) => {
+      const dateParts = Object.entries(arr)[index][0].split('-');
+      const yearAndMonth = `${dateParts[0]}-${dateParts[1]}`;
+      return yearAndMonth === monthAndYear;
+    });
+    if (monthArrIndex !== -1) {
+      return habitData[monthArrIndex];
     }
-
-    return [];
+    return {} as HabitFormData;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
-    return null;
+    return {} as HabitFormData;
   }
 };
 
