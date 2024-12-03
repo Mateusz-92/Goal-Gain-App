@@ -35,7 +35,7 @@ const UserLevel: React.FC<UserLevelProps> = ({ points }) => {
       <Box boxSize='75px'>
         <Image alt={earnedBadge.name} height='100%' src={earnedBadge.image} width='100%' />
       </Box>
-      <Text fontSize='xl' fontWeight='bold'>
+      <Text fontSize='xl' fontWeight='bold' textAlign={'center'}>
         {earnedBadge.name}
       </Text>
       <Text fontSize='md'>Punkty: {points}</Text>
