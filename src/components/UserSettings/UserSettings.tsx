@@ -34,7 +34,14 @@ export const UserSettings = () => {
   };
 
   return (
-    <Container border={'solid'} borderRadius={35} p={10}>
+    <Container
+      borderRadius={35}
+      p={10}
+      border={{
+        base: 'none',
+        md: 'solid',
+      }}
+    >
       <Flex alignItems='center' direction='column' gap={2}>
         <Heading mb={5}>Ustawienia</Heading>
 
