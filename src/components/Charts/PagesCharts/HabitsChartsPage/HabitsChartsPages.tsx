@@ -1,21 +1,49 @@
 import { useState } from 'react';
-import { Input } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { format } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
-import { useGetHabitsChartsData } from '../../../../firebase/queries';
-import { DataSeries, HabitChart } from '../../HabitChart/HabitChart/HabitChart';
+import { useGetUserHabitNamesForMonth } from '../../../../firebase/queries';
+import { DateHabitInput } from '../../../../UI/DateHabitInput/DateHabitInput';
+import { DayHabit, Habit } from '../../../habits/HabitsEditor/HabitsEditor';
+import Loader from '../../../Loader/Loader';
+import { colors, DataSeries, HabitChart, pathes } from '../../HabitChart/HabitChart/HabitChart';
+import { LegendCalendar } from '../../LegendCalendar/LegendCalendar';
 
 export const HabitChartPages = () => {
-  const [isFocused, setIsFocused] = useState(false);
-
   const { user } = useAuth();
   const userId = user?.uid;
-  const [monthAndYear, setMonthAndYear] = useState('2024-07');
+  const [monthAndYear, setMonthAndYear] = useState(() => format(new Date(), 'yyyy-MM'));
+
   const {
-    data: { habitsData, userHabitNames },
+    data: habitsData,
     isError,
     isLoading,
-  } = useGetHabitsChartsData(monthAndYear, userId || '');
+  } = useGetUserHabitNamesForMonth(monthAndYear, userId || '');
+
+  const handleChange = (event: any) => {
+    setMonthAndYear(event.target.value);
+  };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError || !habitsData) {
+    return <div>Something went wrong</div>;
+  }
+  if (!habitsData || Object.keys(habitsData).length === 0) {
+    return (
+      <div>
+        <DateHabitInput value={monthAndYear} onChange={handleChange} />
+        <div>brak danych</div>
+      </div>
+    );
+  }
+  const userHabitsObj = Object.entries(habitsData)[0][1] as unknown as DayHabit;
+
+  const userHabitsNames = userHabitsObj.habits.map((el: Habit[]) => el.name);
+
+  //TODO: move to helpers, write tests for it!
 
   const convertDataToChartData = (data: any, monthAndYear: string): DataSeries[] => {
     const onlyFromSelectedMonth = Object.entries(data).filter(([key]) => {
@@ -23,26 +51,27 @@ export const HabitChartPages = () => {
       const yearMonth = splitted[0] + '-' + splitted[1];
       return yearMonth === monthAndYear;
     });
+
     const dateWithStatuses = onlyFromSelectedMonth.map((el: any) => {
       const onlyMarkedHabits = el[1].habits.filter((habit: any) => habit.status === true);
       const mappedToValues = onlyMarkedHabits
         .map((el: any) => {
           switch (el.name) {
-            case userHabitNames[0]:
-              return userHabitNames[0]
+            case userHabitsNames[0]:
+              return userHabitsNames[0]
+? '0'
+: '';
+            case userHabitsNames[1]:
+              return userHabitsNames[1]
 ? '1'
 : '';
-            case userHabitNames[1]:
-              return userHabitNames[1]
+            case userHabitsNames[2]:
+              return userHabitsNames[2]
 ? '2'
 : '';
-            case userHabitNames[2]:
-              return userHabitNames[2]
+            case userHabitsNames[3]:
+              return userHabitsNames[3]
 ? '3'
-: '';
-            case userHabitNames[3]:
-              return userHabitNames[3]
-? '4'
 : '';
             default:
               return '';
@@ -55,48 +84,17 @@ export const HabitChartPages = () => {
     return dateWithStatuses;
   };
 
-  const handleChange = (event: any) => setMonthAndYear(event.target.value);
-
-  if (isLoading) {
-    return <div>isLoading</div>;
-  }
-  if (isError || !habitsData || !userHabitNames) {
-    return <div>isError</div>;
-  }
   return (
-    <>
-      <Input
-        bg='white'
-        border='2px solid'
-        borderRadius='15px'
-        height='52px'
-        mt='0'
-        textAlign='left'
-        type='month'
-        value={monthAndYear}
-        width='100%'
-        _focus={{
-          borderColor: 'var(--dark-gray)',
-        }}
-        _focusVisible={{
-          outline: 'none',
-        }}
-        borderColor={isFocused
-? 'black'
-: 'transparent'}
-        fontWeight={isFocused
-? 'bold'
-: 'normal'}
-        onBlur={() => setIsFocused(false)}
-        onChange={handleChange}
-        onFocus={() => setIsFocused(true)}
-      />
+    <Box m={5}>
+      <DateHabitInput value={monthAndYear} onChange={handleChange} />
 
       <HabitChart
         key={monthAndYear}
         dataSeries={convertDataToChartData(habitsData, monthAndYear) || []}
         yearAndMonth={monthAndYear}
       />
-    </>
+
+      <LegendCalendar colors={colors} icons={pathes} names={userHabitsNames} />
+    </Box>
   );
 };
