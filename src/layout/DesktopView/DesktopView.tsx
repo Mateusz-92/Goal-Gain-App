@@ -3,12 +3,11 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 
-import { MenuPanel } from '../components/MenuPanel/MenuPanel';
-import UserAvatar from '../components/UserAvatar/UserAvatar';
-import Logo from '../UI/Logo/Logo';
-import StaticSlider from '../UI/StaticSlider/StaticSlider';
-
-const Layout: React.FC = () => {
+import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
+import UserAvatar from '../../components/UserAvatar/UserAvatar';
+import Logo from '../../UI/Logo/Logo';
+import StaticSlider from '../../UI/StaticSlider/StaticSlider';
+const DesktopView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -50,4 +49,4 @@ const Layout: React.FC = () => {
   );
 };
 
-export default Layout;
+export default DesktopView;
