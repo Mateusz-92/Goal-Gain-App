@@ -1,5 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { AuthProvider } from './context/AuthContext';
 import { UserProvider } from './context/UserContext';
@@ -37,6 +38,11 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
+        {process.env.NODE_ENV === 'development'
+? (
+          <ReactQueryDevtools initialIsOpen={false} />
+        )
+: null}
         <AlertProvider>
           <AuthProvider>
             <UserProvider>
