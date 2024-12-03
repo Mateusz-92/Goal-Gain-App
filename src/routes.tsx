@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { Text } from '@chakra-ui/react';
+import { Text,} from '@chakra-ui/react';
 
 import AuthForm from './components/AuthForm/AuthForm';
 import { HabitChartPages } from './components/Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
@@ -26,7 +26,9 @@ import ChoiceVariant from './components/SavingScratch/ChoiceVariant/ChoiceVarian
 import SavingsComponent from './components/SavingScratch/SavingsComponent/SavingsComponent';
 import { UserSettings } from './components/UserSettings/UserSettings';
 import { useAuth } from './context/AuthContext';
-import Layout from './layout/Layout';
+import DesktopView from './layout/DesktopView/DesktopView';
+import MobileView from './layout/MobileView/MobileView';
+import { withResponsiveView } from './layout/withResponsiveView';
 import { CreateHabits } from './pages/CreateHabits';
 import { Habits } from './pages/Habits';
 import { HomePage } from './pages/HomePage';
@@ -67,6 +69,7 @@ export const ROUTES = {
   weekPlannerData: '/weekPlanner/:weekId',
   weekPlannerList: '/weePlannerList',
 };
+const ResponsiveView = withResponsiveView(MobileView, DesktopView);
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }): JSX.Element => {
   const { loading, user } = useAuth();
@@ -221,7 +224,7 @@ export const router = createBrowserRouter([
     ],
     element: (
       <ProtectedRoute>
-        <Layout />
+        <ResponsiveView />
       </ProtectedRoute>
     ),
     path: ROUTES.home,
