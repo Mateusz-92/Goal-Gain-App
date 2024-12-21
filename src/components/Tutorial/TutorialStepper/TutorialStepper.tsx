@@ -22,7 +22,7 @@ const TutorialStepper: React.FC<TutorialProps> = ({ dataTutorial }) => {
   };
 
   return (
-    <Box>
+    <Box p={25}>
       {dataTutorial[currentIndex].src !== '' && (
         <Flex alignItems='center' height='400px' justifyContent='center'>
           <Image
@@ -30,7 +30,7 @@ const TutorialStepper: React.FC<TutorialProps> = ({ dataTutorial }) => {
             height='100%'
             objectFit='contain'
             src={dataTutorial[currentIndex].src}
-            width='100%'
+            width='90%'
           />
         </Flex>
       )}

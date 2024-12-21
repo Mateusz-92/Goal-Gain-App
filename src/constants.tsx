@@ -1,5 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import goalScreen2 from '../src/assets/tutorial/cel2.jpeg';
+import goalScreen3 from '../src/assets/tutorial/cel3.jpeg';
+import goalScreen1 from '../src/assets/tutorial/cele1.jpeg';
+import menuScreen from '../src/assets/tutorial/menu_tutorial.jpeg';
+import habitScreen from '../src/assets/tutorial/nawyki.jpeg';
+import questionScreen from '../src/assets/tutorial/pytanie_miesiaca.jpeg';
+import rouletteScreen from '../src/assets/tutorial/ruletka.jpeg';
+import habitTableScreen from '../src/assets/tutorial/tabelaNawyków.jpeg';
+import crossoutVariantScreen from '../src/assets/tutorial/variantOszczędności.jpeg';
+import crossoutScreen from '../src/assets/tutorial/wykreślanka.jpeg';
+
+import { TutorialProps } from './components/Tutorial/TutorialStepper/TutorialStepper';
 import { ammountBord, OptionRoulette } from './types';
 export const dummyAvatarIcon =
   'https://static.vecteezy.com/system/resources/previews/007/319/933/non_2x/black-avatar-person-icons-user-profile-icon-vector.jpg';
@@ -150,3 +162,72 @@ export const rouletteAmount: OptionRoulette[] = [
   { option: '50' },
   { option: '100' },
 ];
+
+// TODO change to translations
+const menuDescirption =
+  'Menu aplikacji składa się z 7 przycisków widocznych na zdjęciu. Każdy z nich ma swoją określoną rolę w aplikacji GoalGainApp.';
+const questionDescirption =
+  ' W tym miejscu określasz pytanie, na które będziesz odpowiadał każdego dnia w danym miesiącu ( np. Jaką drobną rzecz zrobiłem dziś dla siebie ?). Odnośnik aktualny miesiąc przenosi Cię do miejsca gdzie tworzysz pytanie i na nie odpowiadasz, odnośnik lista odpowiedzi miesięcznych przenosi Cię do całej historii wszystkich stworzonych odpowiedzi z poprzednich miesięcy.';
+const goalDescirption =
+  'Cele zawierają 4 odnośniki ( kreator celów-3 miesięcznych, lista twoich celoów 3-miesięcznych, zaplanuj cele tygodniowe, lista planów tygdoniowych. Mamy więc tutaj 2 kreatory i 2 listy do śledzenia historii celów, planów.';
+const habitDescirption =
+  'Nawyki( składają sie z kreatora nawyków, gdzie może utworzyć maksymalnie 4 nawyki oraz z tablicą nawyków ( jako przycisk z nazwą nawyki) na której zaznaczamy czy danego dnia wykonaliśmy nawyk, który chcemy wypracować.';
+const savingsDescription =
+  ' Oszczędności, w tej zakładce mamy 2 odnośniki ( kreator wykreślanki, twoja wykreślanka oraz ruletka). W kreatorze wybieramy wariant kwoty do wykreślenia, w odnośniku Twoja wykreślanka przenosimy się do miejsca gdzie zaznaczamy wybrane kwoty, natomiast w ruletce losujemy kwotę, którą odłożymy. Podgląd odłożonych kwot widzimy w panelu użytkownika poniżej Menu.';
+const mainDescripion =
+  'W tym samoczuczku postaram się w prosty sposób przeprowadzić Cię przez możliwości jakie daje aplikacja GoalGainApp, dzięki której będziesz mieć możliwość realizować swoje cele (osobiste, rozwojowe, finansowe) mając przy tym wgląd na swoje osiągnięcia.';
+const endDescription =
+  'Myślę, że ten krótki samouczek uświadomił Ci funkcje aplikacji GoalGainApp Jestem przekonany, że to narzędzie pozwoli Ci na uporządkowanie Twojego działania w określonym kierunku :-).';
+export const test: TutorialProps = {
+  dataTutorial: [
+    {
+      description: mainDescripion,
+      src: '',
+    },
+    {
+      description: menuDescirption,
+      src: menuScreen,
+    },
+    {
+      description: questionDescirption,
+      src: questionScreen,
+    },
+    {
+      description: goalDescirption,
+      src: goalScreen1,
+    },
+    {
+      description: goalDescirption,
+      src: goalScreen2,
+    },
+    {
+      description: goalDescirption,
+      src: goalScreen3,
+    },
+    {
+      description: habitDescirption,
+      src: habitScreen,
+    },
+    {
+      description: habitDescirption,
+      src: habitTableScreen,
+    },
+
+    {
+      description: savingsDescription,
+      src: crossoutVariantScreen,
+    },
+    {
+      description: savingsDescription,
+      src: crossoutScreen,
+    },
+    {
+      description: savingsDescription,
+      src: rouletteScreen,
+    },
+    {
+      description: endDescription,
+      src: '',
+    },
+  ],
+};

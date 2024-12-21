@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { Text,} from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 
 import AuthForm from './components/AuthForm/AuthForm';
 import { HabitChartPages } from './components/Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
@@ -33,6 +33,7 @@ import { CreateHabits } from './pages/CreateHabits';
 import { Habits } from './pages/Habits';
 import { HomePage } from './pages/HomePage';
 import { Showcase } from './Showcase';
+import { TutorialComponent } from './components/Tutorial/TutorialComponent/TutorialComponent';
 
 export const ROUTES = {
   createHabits: '/createHabits',
@@ -62,6 +63,7 @@ export const ROUTES = {
   threeMonthsGoalsPlanner: '/threeMonthsGoalsPlanner',
   threeMonthsGoalsPlannerData: '/threeMonthsGoalsPlanner/:goalId',
   threeMonthsGoalsPlannerList: '/threeMonthsGoalsPlannerList',
+  tutorial: '/tutorial',
   updatePassword: '/updatePassword',
   userSettings: '/userSettings',
   weeklyRate: '/weeklyRate',
@@ -236,5 +238,9 @@ export const router = createBrowserRouter([
   {
     element: <AuthForm isLogin={false} />,
     path: ROUTES.register,
+  },
+  {
+    element: <TutorialComponent />,
+    path: ROUTES.tutorial,
   },
 ]);
