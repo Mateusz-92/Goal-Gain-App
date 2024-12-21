@@ -13,6 +13,7 @@ const DataList = ({ data }: DataListProps) => {
 
   return (
     <Flex direction='column' width={'100%'}>
+      {!data && <div>Brak danych</div>}
       <List spacing={2}>
         {data.map((item) => (
           <ListItem key={item.id} textAlign={'start'}>

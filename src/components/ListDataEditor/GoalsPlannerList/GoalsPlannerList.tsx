@@ -3,6 +3,7 @@ import { useGetAllGoals } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
+import { RedirectBox } from '../../RedirectBox/RedirectBox';
 
 const GoalPlannerList = () => {
   const { user } = useAuth();
@@ -16,6 +17,8 @@ const GoalPlannerList = () => {
   }));
   if (isLoading) return <Loader />;
   if (isError) return <div>Somethig went wrong</div>;
+  if (!data)
+    return <RedirectBox href={ROUTES.threeMonthsGoalsPlanner} text='Przejdź do kreatora celów' />;
   if (data) return <DataList data={goalsData || []} />;
 };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
@@ -35,7 +35,9 @@ export const HabitChartPages = () => {
     return (
       <div>
         <DateHabitInput value={monthAndYear} onChange={handleChange} />
-        <div>brak danych</div>
+        <Text mt={'50px'} textAlign={'center'}>
+          Nie masz danych o nawykach w tym miesiącu.
+        </Text>
       </div>
     );
   }
