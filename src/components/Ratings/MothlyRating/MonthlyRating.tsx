@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
@@ -47,9 +47,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   const editMonthRateWithoutId = useEditMonthRate(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const onAddMonthRateMutation = monthId
-? editMonthRateWithId
-: editMonthRateWithoutId;
+  const onAddMonthRateMutation = monthId ? editMonthRateWithId : editMonthRateWithoutId;
 
   const {
     control,
@@ -192,8 +190,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onConfirm={handleAddDataAndPoints}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -203,8 +200,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

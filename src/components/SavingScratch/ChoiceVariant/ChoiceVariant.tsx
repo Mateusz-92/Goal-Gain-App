@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Radio, RadioGroup, Text, useDisclosure } from '@chakra-ui/react';
 
-import { ammountBord, variant2000, variant3000, variant4000 } from '../../../constants';
+import { variant2000, variant3000, variant4000 } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useEditCrossOutSavingComponent } from '../../../firebase/mutations';
 import Btn from '../../../UI/Btn/Btn';
 import ModalApp from '../../Modal/ModalApp';
+import { ammountBord } from '../../../types';
 
 type BordOption = {
   label: string;
@@ -57,7 +58,7 @@ const ChoiceVariant: React.FC = () => {
       </Text>
       <RadioGroup mb={2} value={JSON.stringify(selectedBord)} onChange={handleBordChange}>
         {bordOptions.map((option) => (
-          <Radio key={option.label} value={JSON.stringify(option.value)}>
+          <Radio colorScheme='white' key={option.label} value={JSON.stringify(option.value)}>
             {option.label}
           </Radio>
         ))}
@@ -78,3 +79,4 @@ const ChoiceVariant: React.FC = () => {
 };
 
 export default ChoiceVariant;
+ 

@@ -18,6 +18,7 @@ const Btn: React.FC<BtnProps> = ({ isDisabled, onClick, text, type }) => {
       color='var(--light-gray)'
       isDisabled={isDisabled}
       mr={2}
+      mb={2}
       size='lg'
       textTransform='uppercase'
       type={type}

@@ -1,5 +1,4 @@
 /* From Uiverse.io by Nawsome */
-import React from 'react';
 
 import './loader.css';
 

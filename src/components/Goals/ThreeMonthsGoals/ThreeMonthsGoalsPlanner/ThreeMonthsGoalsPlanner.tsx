@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
@@ -90,7 +90,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
     if (goalId) {
       let pointsChange = 0;
       formData.goals.forEach((goal, goalIndex) => {
-        const previousGoal = data[0][goalIndex];
+        const previousGoal = data ? data[goalIndex] : undefined;
 
         if (previousGoal) {
           goal.tasks.forEach((task, taskIndex) => {

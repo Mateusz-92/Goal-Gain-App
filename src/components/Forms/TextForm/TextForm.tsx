@@ -27,12 +27,9 @@ export const TextForm = <T extends FieldValues>({
     render={({ field: { onChange, value }, fieldState: { error } }) => {
       return (
         <FormControl>
-          <Flex direction='column' mb='20px' align={isInput
-? 'left'
-: 'center'}>
+          <Flex direction='column' mb='20px' align={isInput ? 'left' : 'center'}>
             <FormLabel fontWeight='bold'>{label}</FormLabel>
-            {isInput
-? (
+            {isInput ? (
               <Input
                 bg='white'
                 border='2px solid'
@@ -59,16 +56,12 @@ export const TextForm = <T extends FieldValues>({
                 _focusVisible={{
                   outline: 'none',
                 }}
-                borderColor={isDisabled
-? 'black'
-: 'transparent'}
-                fontWeight={isDisabled
-? 'bold'
-: 'normal'}
+                borderColor={isDisabled ? 'black' : 'transparent'}
+                fontWeight={isDisabled ? 'bold' : 'normal'}
                 onChange={onChange}
+                fontSize={['10px', 'md', 'lg']}
               />
-            )
-: (
+            ) : (
               <Textarea
                 bg='white'
                 border='2px solid'
@@ -94,12 +87,8 @@ export const TextForm = <T extends FieldValues>({
                 _focusVisible={{
                   outline: 'none',
                 }}
-                borderColor={isDisabled
-? 'black'
-: 'transparent'}
-                fontWeight={isDisabled
-? 'bold'
-: 'normal'}
+                borderColor={isDisabled ? 'black' : 'transparent'}
+                fontWeight={isDisabled ? 'bold' : 'normal'}
                 onChange={onChange}
               />
             )}

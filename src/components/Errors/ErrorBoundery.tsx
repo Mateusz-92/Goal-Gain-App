@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Component, ErrorInfo, ReactNode } from 'react';
 import { Box, Flex, Heading } from '@chakra-ui/react';
 
 import Btn from '../../UI/Btn/Btn';
@@ -16,7 +16,7 @@ class ErrorBoundary extends Component<Props, State> {
     hasError: false,
   };
 
-public static getDerivedStateFromError(): State {
+  public static getDerivedStateFromError(): State {
     return { hasError: true };
   }
 

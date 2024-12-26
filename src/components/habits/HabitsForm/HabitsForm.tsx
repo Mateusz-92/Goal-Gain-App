@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
+import { Box, Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -73,9 +73,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
       setCurrentHabits((prevHabits) => {
         const dayHabits = prevHabits[selectedDay]?.habits || [];
         const updatedHabits = dayHabits.map((habit) =>
-          habit.id === selectedHabitId
-? { ...habit, status: !habit.status }
-: habit,
+          habit.id === selectedHabitId ? { ...habit, status: !habit.status } : habit,
         );
 
         const newState = {
@@ -98,9 +96,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
           newStatus: !updatedHabit.status,
         };
 
-        data.newStatus
-? onAddUserPoints({ points: 2 })
-: onAddUserPoints({ points: -2 });
+        data.newStatus ? onAddUserPoints({ points: 2 }) : onAddUserPoints({ points: -2 });
         try {
           await onDayHabitMutation.mutate(data);
           // eslint-disable-next-line no-console
@@ -120,7 +116,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
 
   const habitNames = extractHabitNames(currentHabits);
   return (
-    <>
+    <Box overflowX='auto'>
       <Table colorScheme='var(--dark-gray)' width={'100%'}>
         <Tbody>
           <Tr>
@@ -160,7 +156,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
         onClose={onClose}
         onConfirm={handleStatusChange}
       />
-    </>
+    </Box>
   );
 };
 

@@ -3,7 +3,6 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { AuthProvider } from './context/AuthContext';
-import { UserProvider } from './context/UserContext';
 import { router } from './routes';
 
 import './App.css';
@@ -38,16 +37,12 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        {process.env.NODE_ENV === 'development'
-? (
+        {process.env.NODE_ENV === 'development' ? (
           <ReactQueryDevtools initialIsOpen={false} />
-        )
-: null}
+        ) : null}
         <AlertProvider>
           <AuthProvider>
-            <UserProvider>
-              <RouterProvider router={router} />
-            </UserProvider>
+            <RouterProvider router={router} />
           </AuthProvider>
         </AlertProvider>
       </QueryClientProvider>

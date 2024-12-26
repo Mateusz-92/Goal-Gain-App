@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserHabitNamesForMonth } from '../../../../firebase/queries';
 import { DateHabitInput } from '../../../../UI/DateHabitInput/DateHabitInput';
-import { DayHabit, Habit } from '../../../habits/HabitsEditor/HabitsEditor';
+import {  Habit } from '../../../habits/HabitsEditor/HabitsEditor';
 import Loader from '../../../Loader/Loader';
 import { colors, DataSeries, HabitChart, pathes } from '../../HabitChart/HabitChart/HabitChart';
 import { LegendCalendar } from '../../LegendCalendar/LegendCalendar';
@@ -41,9 +41,9 @@ export const HabitChartPages = () => {
       </div>
     );
   }
-  const userHabitsObj = Object.entries(habitsData)[0][1] as unknown as DayHabit;
+  const userHabitsObj = Object.entries(habitsData)[0][1] as unknown as { habits: Habit[] };
 
-  const userHabitsNames = userHabitsObj.habits.map((el: Habit[]) => el.name);
+  const userHabitsNames = userHabitsObj.habits.map((el: Habit) => el.name);
 
   //TODO: move to helpers, write tests for it!
 
@@ -60,21 +60,13 @@ export const HabitChartPages = () => {
         .map((el: any) => {
           switch (el.name) {
             case userHabitsNames[0]:
-              return userHabitsNames[0]
-? '0'
-: '';
+              return userHabitsNames[0] ? '0' : '';
             case userHabitsNames[1]:
-              return userHabitsNames[1]
-? '1'
-: '';
+              return userHabitsNames[1] ? '1' : '';
             case userHabitsNames[2]:
-              return userHabitsNames[2]
-? '2'
-: '';
+              return userHabitsNames[2] ? '2' : '';
             case userHabitsNames[3]:
-              return userHabitsNames[3]
-? '3'
-: '';
+              return userHabitsNames[3] ? '3' : '';
             default:
               return '';
           }
@@ -83,7 +75,7 @@ export const HabitChartPages = () => {
 
       return [el[0], mappedToValues];
     });
-    return dateWithStatuses;
+    return dateWithStatuses as DataSeries[];
   };
 
   return (
