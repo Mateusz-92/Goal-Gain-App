@@ -60,13 +60,21 @@ export const HabitChartPages = () => {
         .map((el: any) => {
           switch (el.name) {
             case userHabitsNames[0]:
-              return userHabitsNames[0] ? '0' : '';
+              return userHabitsNames[0]
+? '0'
+: '';
             case userHabitsNames[1]:
-              return userHabitsNames[1] ? '1' : '';
+              return userHabitsNames[1]
+? '1'
+: '';
             case userHabitsNames[2]:
-              return userHabitsNames[2] ? '2' : '';
+              return userHabitsNames[2]
+? '2'
+: '';
             case userHabitsNames[3]:
-              return userHabitsNames[3] ? '3' : '';
+              return userHabitsNames[3]
+? '3'
+: '';
             default:
               return '';
           }

@@ -59,8 +59,12 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
-  const isDisplay = data ? true : false;
-  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
+  const isDisplay = data
+? true
+: false;
+  const onAddWeekPlannMutation = weekId
+? editWeekWithId
+: editWeekWithoutId;
   const {
     control,
     formState: { errors, isDirty },
@@ -248,7 +252,8 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onConfirm={handleAddPointsandData}
         />
       </form>
-      {blocker.state === 'blocked' ? (
+      {blocker.state === 'blocked'
+? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -258,7 +263,8 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      ) : null}
+      )
+: null}
     </Box>
   );
 };

@@ -90,7 +90,9 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
     if (goalId) {
       let pointsChange = 0;
       formData.goals.forEach((goal, goalIndex) => {
-        const previousGoal = data ? data[goalIndex] : undefined;
+        const previousGoal = data
+? data[goalIndex]
+: undefined;
 
         if (previousGoal) {
           goal.tasks.forEach((task, taskIndex) => {

@@ -43,8 +43,8 @@ type HabitChartProps = {
 };
 
 export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProps>) => {
-  const cellSize = useBreakpointValue({ base: [35, 35], md: [50, 50], lg: [70, 70] });
-  const iconSize = useBreakpointValue({ base: 8, md: 12, lg: 16 }) || 8;
+  const cellSize = useBreakpointValue({ base: [35, 35], lg: [70, 70], md: [50, 50] });
+  const iconSize = useBreakpointValue({ base: 8, lg: 16, md: 12 }) || 8;
 
   const option = {
     calendar: [
@@ -181,13 +181,15 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
 
   return (
     <div>
-      {dataSeries.length > 0 ? (
+      {dataSeries.length > 0
+? (
         <Box
           height={['500px', '500%', '700px']}
           id='habit-chart'
           width={['100%', '500px', '500px']}
         />
-      ) : (
+      )
+: (
         <Text mt={'50px'} textAlign={'center'}>
           Nie masz danych o nawykach w tym miesiącu.
         </Text>

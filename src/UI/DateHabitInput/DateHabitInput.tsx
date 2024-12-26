@@ -25,8 +25,12 @@ export const DateHabitInput = ({ onChange, value }: HabitInputProps) => {
       _focusVisible={{
         outline: 'none',
       }}
-      borderColor={isFocused ? 'black' : 'transparent'}
-      fontWeight={isFocused ? 'bold' : 'normal'}
+      borderColor={isFocused
+? 'black'
+: 'transparent'}
+      fontWeight={isFocused
+? 'bold'
+: 'normal'}
       onBlur={() => setIsFocused(false)}
       onChange={onChange}
       onFocus={() => setIsFocused(true)}

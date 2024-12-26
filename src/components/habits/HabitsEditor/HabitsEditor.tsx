@@ -179,7 +179,9 @@ const HabitsEditor = () => {
             }}
             onChange={(e) => {
               const updatedHabits = habitsForCurrentDate.map((item) =>
-                item.id === habit.id ? { ...item, name: e.target.value } : item,
+                item.id === habit.id
+? { ...item, name: e.target.value }
+: item,
               );
               setHabitData({
                 ...habitData,
@@ -208,7 +210,8 @@ const HabitsEditor = () => {
         onClose={onClose}
         onConfirm={addHabitsHandler}
       />
-      {blocker.state === 'blocked' ? (
+      {blocker.state === 'blocked'
+? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -218,7 +221,8 @@ const HabitsEditor = () => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      ) : null}
+      )
+: null}
     </Box>
   );
 };

@@ -37,9 +37,11 @@ const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        {process.env.NODE_ENV === 'development' ? (
+        {process.env.NODE_ENV === 'development'
+? (
           <ReactQueryDevtools initialIsOpen={false} />
-        ) : null}
+        )
+: null}
         <AlertProvider>
           <AuthProvider>
             <RouterProvider router={router} />
