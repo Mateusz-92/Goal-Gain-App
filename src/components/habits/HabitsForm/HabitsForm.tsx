@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
+import { Box, Table, Tbody, Td, Th, Tr, useDisclosure } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -120,7 +120,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
 
   const habitNames = extractHabitNames(currentHabits);
   return (
-    <>
+    <Box overflowX='auto'>
       <Table colorScheme='var(--dark-gray)' width={'100%'}>
         <Tbody>
           <Tr>
@@ -160,7 +160,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
         onClose={onClose}
         onConfirm={handleStatusChange}
       />
-    </>
+    </Box>
   );
 };
 

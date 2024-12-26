@@ -45,7 +45,7 @@ export const WeeklyRateChart = ({ data }: { data: number[] }) => {
         boundaryGap: false,
         data: Array(54)
           .fill(0)
-          .map((el, index) => index + 1),
+          .map((_, index) => index + 1),
         name: 'Week',
         type: 'category',
       },

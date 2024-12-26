@@ -13,6 +13,7 @@ export const DateHabitInput = ({ onChange, value }: HabitInputProps) => {
       border='2px solid'
       borderRadius='15px'
       height='52px'
+      mb={'25px'}
       mt='0'
       textAlign='left'
       type='month'

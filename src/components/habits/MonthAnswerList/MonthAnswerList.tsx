@@ -144,7 +144,6 @@ export const MonthAnswerList = () => {
           onConfirm={handleConfirmSubmit}
         />
         <Btn text='Wyślij' type='button' onClick={() => onOpen()} />
-        {/* <Btn text='Wyślij' type='submit' /> */}
       </form>
       {blocker.state === 'blocked'
 ? (

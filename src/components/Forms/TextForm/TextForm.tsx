@@ -37,6 +37,7 @@ export const TextForm = <T extends FieldValues>({
                 bg='white'
                 border='2px solid'
                 borderRadius='15px'
+                fontSize={['10px', 'md', 'lg']}
                 height='52px'
                 isDisabled={isDisabled}
                 mt='0'

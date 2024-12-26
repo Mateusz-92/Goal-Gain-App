@@ -60,10 +60,10 @@ const CircleItem: React.FC<CircleItemProps> = ({
         borderRadius='50%'
         display='flex'
         fontWeight='bold'
-        height='80px'
+        height={['40px', '60px', '80px']}
         justifyContent='center'
         margin='10px'
-        width='80px'
+        width={['40px', '60px', '80px']}
         _hover={{ backgroundColor: isCrossOut
 ? 'var(--green)'
 : 'var(--orange)' }}

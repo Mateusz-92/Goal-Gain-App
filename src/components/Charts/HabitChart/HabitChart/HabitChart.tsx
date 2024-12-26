@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, useBreakpointValue } from '@chakra-ui/react';
 import { CustomChart } from 'echarts/charts';
 import { CalendarComponent, LegendComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -31,7 +31,6 @@ export const pathes = [
   'M533.504 268.288q33.792-41.984 71.68-75.776 32.768-27.648 74.24-50.176t86.528-19.456q63.488 5.12 105.984 30.208t67.584 63.488 34.304 87.04 6.144 99.84-17.92 97.792-36.864 87.04-48.64 74.752-53.248 61.952q-40.96 41.984-85.504 78.336t-84.992 62.464-73.728 41.472-51.712 15.36q-20.48 1.024-52.224-14.336t-69.632-41.472-79.872-61.952-82.944-75.776q-26.624-25.6-57.344-59.392t-57.856-74.24-46.592-87.552-21.504-100.352 11.264-99.84 39.936-83.456 65.536-61.952 88.064-35.328q24.576-5.12 49.152-1.536t48.128 12.288 45.056 22.016 40.96 27.648q45.056 33.792 86.016 80.896z',
   'M741.06368 733.310464c8.075264-29.262438 20.615373-40.632422 14.64105-162.810061C966.089728 361.789952 967.93897 72.37847 967.855002 54.693683c0.279347-0.279347 0.418509-0.419533 0.418509-0.419533s-0.17705-0.00512-0.428749-0.00512c0-0.251699 0-0.428749 0-0.428749s-0.139162 0.14633-0.418509 0.425677c-17.695744-0.083866-307.10784 1.760051-515.833958 212.142592-122.181632-5.984256-133.55305 6.563533-162.815693 14.644531C235.35063 295.798886 103.552614 436.975309 90.630758 486.076621c-12.921856 49.105408 39.634227 56.859034 58.579558 58.581197 18.953421 1.724314 121.471386-9.475789 130.09111 4.309094 0 0 16.367411 11.200102 17.226035 41.346662 0.850432 29.796659 15.173222 71.354163 37.123994 97.267302-0.028672 0.027648-0.05632 0.054272-0.083866 0.074752 0.158618 0.13097 0.316211 0.261939 0.474829 0.390861 0.129946 0.149402 0.261939 0.319283 0.393011 0.468685 0.019456-0.019456 0.04608-0.049152 0.075776-0.075674 25.918362 21.961216 67.477504 36.272128 97.269248 37.122458 30.149837 0.859546 41.354547 17.234534 41.354547 17.234534 13.779354 8.608051 2.583962 111.122842 4.302131 130.075546 1.727386 18.95168 9.477222 71.498445 58.579558 58.576077C585.12896 918.526771 726.311117 786.734182 741.06368 733.310464zM595.893555 426.206003c-39.961702-39.965184-39.961702-104.75991 0-144.720077 39.970918-39.96928 104.768307-39.96928 144.730112 0 39.970918 39.960064 39.970918 104.75479 0 144.720077C700.661862 466.171187 635.864474 466.171187 595.893555 426.206003zM358.53312 769.516032c-31.923302-4.573184-54.890394-18.410291-71.41847-35.402342-16.984474-16.526438-30.830387-39.495475-35.405824-71.420621-4.649062-28.082586-20.856832-41.167565-38.76649-38.763827-17.906586 2.40681-77.046886 66.714419-80.857805 89.475891-3.80887 22.752154 29.271859 12.081152 46.424166 27.654861 17.151283 15.590093-2.139853 61.93664-14.733107 86.845952-6.441984 12.735078-10.289766 26.42176-4.22953 33.76087 7.346586 6.070272 21.03593 2.222592 33.769472-4.220109 24.912384-12.585677 71.258829-31.872922 86.842368-14.731469 15.583539 17.160806 4.911002 50.229965 27.674419 46.419251 22.754099-3.807744 87.065395-62.946611 89.466163-80.85248C399.70857 790.374093 386.627072 774.166938 358.53312 769.516032z',
   'M492.63157894736844,52.0 L601.0105263157895,364.0 L936.0,364.0 L660.1263157894737,592.8000000000001 L738.9473684210527,936.0 L492.63157894736844,728.0 L246.31578947368422,936.0 L325.13684210526316,592.8000000000001 L49.26315789473684,364.0 L384.2526315789474,364.0 Z',
-
 ];
 
 export const colors = ['#c4332b', '#16B644', '#6862FD', '#808080'];
@@ -44,10 +43,14 @@ type HabitChartProps = {
 };
 
 export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProps>) => {
+  const cellSize = useBreakpointValue({ base: [35, 35], lg: [70, 70], md: [50, 50] });
+  const iconSize = useBreakpointValue({ base: 8, lg: 16, md: 12 }) || 8;
+
   const option = {
     calendar: [
       {
-        cellSize: [70, 70],
+        // cellSize: [70, 70],
+        cellSize: cellSize,
         dayLabel: {
           firstDay: 1,
           nameMap: 'cn',
@@ -56,7 +59,7 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
         monthLabel: {
           show: false,
         },
-        orient: 'horizontal',
+        orient: 'vertical',
         range: yearAndMonth,
         top: 'middle',
         yearLabel: { show: false },
@@ -107,11 +110,15 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
                       ),
                   ],
                   shape: {
-                    height: 16,
+                    height: iconSize,
+                    // height: 16,
                     pathData: pathes[+events[index]],
-                    width: 16,
-                    x: -8,
-                    y: -8,
+                    // width: 16,
+                    // x: -8,
+                    // y: -8,
+                    width: iconSize,
+                    x: -iconSize / 2,
+                    y: -iconSize / 2,
                   },
                   style: api.style({
                     fill: colors[+events[index]],
@@ -144,22 +151,42 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
     },
   };
 
+  // useEffect(() => {
+  //   const chartDom = document.getElementById('habit-chart');
+  //   if (dataSeries.length > 0 && chartDom) {
+  //     const myChart = echarts.init(chartDom);
+  //     option && myChart.setOption(option);
+  //   }
+  // }, [dataSeries, option, yearAndMonth]);
   useEffect(() => {
     const chartDom = document.getElementById('habit-chart');
     if (dataSeries.length > 0 && chartDom) {
       const myChart = echarts.init(chartDom);
+
+      // Ustawienie opcji wykresu
       option && myChart.setOption(option);
+
+      // Automatyczne skalowanie przy zmianie rozmiaru okna
+      const resizeObserver = new ResizeObserver(() => {
+        myChart.resize();
+      });
+      resizeObserver.observe(chartDom);
+
+      return () => {
+        resizeObserver.disconnect();
+        myChart.dispose();
+      };
     }
-  }, [dataSeries, option, yearAndMonth]);
+  }, [dataSeries, option, yearAndMonth, cellSize]);
 
   return (
     <div>
       {dataSeries.length > 0
 ? (
         <Box
-          height={['500px', '100%', '500px']}
+          height={['500px', '500%', '700px']}
           id='habit-chart'
-          width={['100%', '100%', '500px']}
+          width={['100%', '500px', '500px']}
         />
       )
 : (

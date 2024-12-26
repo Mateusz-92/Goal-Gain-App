@@ -24,6 +24,7 @@ import MonthlyRating from './components/Ratings/MothlyRating/MonthlyRating';
 import Roulette from './components/Roulette/Roulette';
 import ChoiceVariant from './components/SavingScratch/ChoiceVariant/ChoiceVariant';
 import SavingsComponent from './components/SavingScratch/SavingsComponent/SavingsComponent';
+import { TutorialComponent } from './components/Tutorial/TutorialComponent/TutorialComponent';
 import { UserSettings } from './components/UserSettings/UserSettings';
 import { useAuth } from './context/AuthContext';
 import DesktopView from './layout/DesktopView/DesktopView';
@@ -33,7 +34,6 @@ import { CreateHabits } from './pages/CreateHabits';
 import { Habits } from './pages/Habits';
 import { HomePage } from './pages/HomePage';
 import { Showcase } from './Showcase';
-import { TutorialComponent } from './components/Tutorial/TutorialComponent/TutorialComponent';
 
 export const ROUTES = {
   createHabits: '/createHabits',

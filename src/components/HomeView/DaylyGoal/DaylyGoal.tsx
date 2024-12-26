@@ -14,6 +14,8 @@ export const allWekkDaysName = [
   'Piątek',
   'Sobota',
 ];
+
+// This component is optional - it to think about it or use it
 export const DaylyGoal = () => {
   const { user } = useAuth();
   const userId = user?.uid || '';
