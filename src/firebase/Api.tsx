@@ -1,4 +1,5 @@
 import { format, getMonth } from 'date-fns';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import {
   collection,
@@ -93,9 +94,7 @@ export const updateHabitStatus = async (
     const existingHabits = userData.habitsListForMonth?.[date]?.habits || [];
 
     const updatedHabitsForDate = existingHabits.map((habit: any) =>
-      habit.id === habitId
-? { ...habit, status: newStatus }
-: habit,
+      habit.id === habitId ? { ...habit, status: newStatus } : habit,
     );
 
     const updatedHabits = {
@@ -206,9 +205,7 @@ export const addGoals = async (data: GoalFormValuesSchema, userId: string, id?: 
       date: userData?.threeMonthsGoals.date
         ? userData.threeMonthsGoals.date
         : format(new Date(), 'yyyy-MM-dd'),
-      goals: id
-? data.goals
-: [...(userData?.threeMonthsGoals?.goals ?? []), ...data.goals],
+      goals: id ? data.goals : [...(userData?.threeMonthsGoals?.goals ?? []), ...data.goals],
       id: userDocRef.id,
       userId: userId,
     };
@@ -366,13 +363,9 @@ export const addWeekPlan = async (data: WeekPlannerData, userId: string, id?: st
     const updatedWeekPlan = {
       ...(userData?.weekPlan ?? {}),
 
-      days: id
-? data.days
-: [...(userData?.weekPlan?.days ?? []), ...data.days],
+      days: id ? data.days : [...(userData?.weekPlan?.days ?? []), ...data.days],
       explanation: data.explanation,
-      goals: id
-? data.goal
-: [...(userData?.weekPlan?.goals ?? []), ...data.goal],
+      goals: id ? data.goal : [...(userData?.weekPlan?.goals ?? []), ...data.goal],
       id: userDocRef.id,
       rate: data.rate,
       startDay: data.startDay,
@@ -827,14 +820,10 @@ export const addMonthAnswerQuestion = async (data: monthAnswerData, id?: string)
 
     const updatedAnswers = {
       ...(userData?.monthAnswer ?? {}),
-      answers: id
-? data.answers
-: [...(userData?.monthAnswer?.answers ?? []), ...data.answers],
+      answers: id ? data.answers : [...(userData?.monthAnswer?.answers ?? []), ...data.answers],
 
       id: data.id || userDocRef.id,
-      month: userData?.monthAnswer.month
-? userData.monthAnswer.month
-: data.month,
+      month: userData?.monthAnswer.month ? userData.monthAnswer.month : data.month,
       questionTitle: userData?.monthAnswer.questionTitle
         ? userData.monthAnswer.questionTitle
         : data.questionTitle,
@@ -1020,5 +1009,15 @@ export const fetchCrossOutSavingDetails = async (
     return savingDetails;
   } catch (error) {
     return null;
+  }
+};
+
+const provider = new GoogleAuthProvider();
+export const loginWithGoogle = async (): Promise<void> => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error, 'error');
   }
 };
