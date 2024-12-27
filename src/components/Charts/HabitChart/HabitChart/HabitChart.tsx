@@ -49,7 +49,6 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
   const option = {
     calendar: [
       {
-        // cellSize: [70, 70],
         cellSize: cellSize,
         dayLabel: {
           firstDay: 1,
@@ -111,11 +110,8 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
                   ],
                   shape: {
                     height: iconSize,
-                    // height: 16,
                     pathData: pathes[+events[index]],
-                    // width: 16,
-                    // x: -8,
-                    // y: -8,
+
                     width: iconSize,
                     x: -iconSize / 2,
                     y: -iconSize / 2,
@@ -172,15 +168,13 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
 
   return (
     <div>
-      {dataSeries.length > 0
-? (
+      {dataSeries.length > 0 ? (
         <Box
           height={['500px', '500%', '700px']}
           id='habit-chart'
           width={['100%', '500px', '500px']}
         />
-      )
-: (
+      ) : (
         <Text mt={'50px'} textAlign={'center'}>
           Nie masz danych o nawykach w tym miesiącu.
         </Text>

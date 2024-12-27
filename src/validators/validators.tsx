@@ -11,7 +11,6 @@ export const taskSchema = z.object({
   }),
   id: z.string().uuid().default(generateUUID),
   isEnded: z.boolean(),
-  // id: z.string().uuid().optional(),
 
   name: z.string().min(minLength, { message: i18n.t('common:validations.taskNameRequired') }),
 });
@@ -20,7 +19,6 @@ export const singleGoalSchema = z.object({
   explanationQuestion: z.string().min(minLength, {
     message: i18n.t('common:validations.explanationQuestionRequired'),
   }),
-  // id: z.string().uuid().optional(),
   goalName: z
     .string({ required_error: i18n.t('common:validations.goalNameRequired') })
     .min(minLength, { message: i18n.t('common:validations.goalNameRequired') }),
@@ -79,7 +77,6 @@ const GoalWeekSchema = z.object({
 });
 
 export const WeekPlannerDataSchema = z.object({
-  // userId: z.string().min(minLength, { message: i18n.t("common:validations.userIdRequired") }),
   days: z.array(WeekDayPlanSchema),
   explanation: z.string().min(minLength, {
     message: i18n.t('common:validations.explanationRequired'),
@@ -87,7 +84,6 @@ export const WeekPlannerDataSchema = z.object({
   goal: z.array(GoalWeekSchema),
   id: string().optional(),
   rate: z.string().optional(),
-  // rate: z.string().min(minLength, { message: i18n.t('common:validations.rateRequired') }),
   startDay: z.string().min(minLength, { message: 'Week is required' }),
 });
 export type WeekPlannerData = z.infer<typeof WeekPlannerDataSchema>;

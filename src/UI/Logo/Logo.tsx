@@ -9,7 +9,7 @@ export const Logo = () => (
     maxW='100%'
     objectFit='contain'
     src={ggappLogo}
-    w={['150px', '150px', '200px']} // Adjust width for different screen sizes
+    w={['150px', '150px', '200px']}
   />
 );
 

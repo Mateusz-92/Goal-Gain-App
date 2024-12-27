@@ -57,7 +57,7 @@ export const UserSettings = () => {
         <Btn text='Zmien avatar' type='button' onClick={triggerFileInput} />
 
         <Btn text='Zmien hasło' type='button' onClick={changePasswordNavigator} />
-
+        {/* TODO : create delete account  function */}
         <Btn text='Usuń konto' type='button' />
       </Flex>
     </Container>

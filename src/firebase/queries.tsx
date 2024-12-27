@@ -244,17 +244,7 @@ const crossOutSavingQueryConfig = (userId: string) => ({
 export const useGetCrossOutSaving = (userId: string) => {
   return useQuery<SavingCrossOut[] | null>(crossOutSavingQueryConfig(userId));
 };
-// export const useGetMonthAnswerList = (userId: string) => {
-//   return useQuery<answerForMonthData[] | null>({
-//     enabled: !!userId,
-//     queryFn: async () => {
-//       const data = await fetchMonthAnswerData(userId);
 
-//       return data;
-//     },
-//     queryKey: [QUERY_KEYS.answerList],
-//   });
-// };
 export const useGetCurrentMonthAnswerQuestion = (userId: string, id?: string) => {
   return useQuery({
     enabled: !!userId,
