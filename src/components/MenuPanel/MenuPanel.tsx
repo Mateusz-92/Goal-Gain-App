@@ -11,11 +11,7 @@ export const MenuPanel = () => {
     { path: ROUTES.monthlyRate, title: 'Oceny miesięczne' },
     { path: ROUTES.monthlyPointsChart, title: 'Zdobyte punkty' },
   ];
-  const menuItems = [
-    { path: ROUTES.habitsTracker, title: 'Nawyki' },
-    { path: '/showcase', title: 'showcase' },
-    { path: ROUTES.roulette, title: 'ruletka' },
-  ];
+
   const habitsMenu = [
     { path: ROUTES.habitsTracker, title: 'Nawyki' },
     { path: ROUTES.createHabits, title: 'Kreator nawyków' },
@@ -56,9 +52,6 @@ export const MenuPanel = () => {
     <Box>
       <Grid gap={1} mb={1} templateColumns={'1fr'}>
         <GridItem>
-          <DropdownMenu buttonTitle='App Dummy' itemTitles={menuItems} />
-        </GridItem>
-        <GridItem>
           <DropdownMenu buttonTitle='Pytanie miesiąca' itemTitles={monthAnswerMenu} />
         </GridItem>
         <GridItem>
@@ -77,7 +70,10 @@ export const MenuPanel = () => {
           <DropdownMenu buttonTitle='Wykresy' itemTitles={chartMenu} />
         </GridItem>
         <GridItem>
-          <DropdownMenu buttonTitle='Samouczek' itemTitles={[{ path: ROUTES.tutorial, title: 'Samouczek' }]} />
+          <DropdownMenu
+            buttonTitle='Samouczek'
+            itemTitles={[{ path: ROUTES.tutorial, title: 'Samouczek' }]}
+          />
         </GridItem>
       </Grid>
     </Box>

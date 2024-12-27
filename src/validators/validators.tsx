@@ -102,7 +102,7 @@ export const answerForMonthSchema = z.object({
 export type answerForMonthData = z.infer<typeof answerForMonthSchema>;
 export const answer = z.object({
   date: z.string(),
-  id: z.string().uuid().default(generateUUID),
+  // id: z.string().uuid().default(generateUUID),
   text: z.string().min(minLength, { message: 'field is required' }),
 });
 export const monthAnswerSchema = z.object({

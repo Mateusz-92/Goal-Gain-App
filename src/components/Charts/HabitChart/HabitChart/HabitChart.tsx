@@ -151,22 +151,13 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
     },
   };
 
-  // useEffect(() => {
-  //   const chartDom = document.getElementById('habit-chart');
-  //   if (dataSeries.length > 0 && chartDom) {
-  //     const myChart = echarts.init(chartDom);
-  //     option && myChart.setOption(option);
-  //   }
-  // }, [dataSeries, option, yearAndMonth]);
   useEffect(() => {
     const chartDom = document.getElementById('habit-chart');
     if (dataSeries.length > 0 && chartDom) {
       const myChart = echarts.init(chartDom);
 
-      // Ustawienie opcji wykresu
       option && myChart.setOption(option);
 
-      // Automatyczne skalowanie przy zmianie rozmiaru okna
       const resizeObserver = new ResizeObserver(() => {
         myChart.resize();
       });

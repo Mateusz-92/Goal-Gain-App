@@ -169,16 +169,32 @@ const menuDescirption =
 const questionDescirption =
   ' W tym miejscu określasz pytanie, na które będziesz odpowiadał każdego dnia w danym miesiącu ( np. Jaką drobną rzecz zrobiłem dziś dla siebie ?). Odnośnik aktualny miesiąc przenosi Cię do miejsca gdzie tworzysz pytanie i na nie odpowiadasz, odnośnik lista odpowiedzi miesięcznych przenosi Cię do całej historii wszystkich stworzonych odpowiedzi z poprzednich miesięcy.';
 const goalDescirption =
-  'Cele zawierają 4 odnośniki ( kreator celów-3 miesięcznych, lista twoich celoów 3-miesięcznych, zaplanuj cele tygodniowe, lista planów tygdoniowych. Mamy więc tutaj 2 kreatory i 2 listy do śledzenia historii celów, planów.';
+  'Cele zawierają 4 odnośniki ( kreator celów-3 miesięcznych, lista twoich celów 3-miesięcznych, zaplanuj cele tygodniowe, lista planów tygdoniowych. Mamy więc tutaj 2 kreatory i 2 listy do śledzenia historii celów, planów.';
 const habitDescirption =
   'Nawyki( składają sie z kreatora nawyków, gdzie może utworzyć maksymalnie 4 nawyki oraz z tablicą nawyków ( jako przycisk z nazwą nawyki) na której zaznaczamy czy danego dnia wykonaliśmy nawyk, który chcemy wypracować.';
 const savingsDescription =
   ' Oszczędności, w tej zakładce mamy 2 odnośniki ( kreator wykreślanki, twoja wykreślanka oraz ruletka). W kreatorze wybieramy wariant kwoty do wykreślenia, w odnośniku Twoja wykreślanka przenosimy się do miejsca gdzie zaznaczamy wybrane kwoty, natomiast w ruletce losujemy kwotę, którą odłożymy. Podgląd odłożonych kwot widzimy w panelu użytkownika poniżej Menu.';
 const mainDescripion =
   'W tym samoczuczku postaram się w prosty sposób przeprowadzić Cię przez możliwości jakie daje aplikacja GoalGainApp, dzięki której będziesz mieć możliwość realizować swoje cele (osobiste, rozwojowe, finansowe) mając przy tym wgląd na swoje osiągnięcia.';
+const levelsDescription = `
+  Poziomy użytkownika:
+  Brązowy Nowicjusz - do 100 punktów,
+  Srebrny Entuzjasta - od 100 do 250 punktów,
+  Złoty Odkrywca - od 250 do 500 punktów,
+  Platynowy Wyzwaniec - od 500 do 750 punktów,
+  Diamentowy Mistrz - od 750 do 1000 punktów,
+  Boski Arcymistrz - od 1500 punktów.
+ `;
+const pointsDescription = ` Opis punktacji :
+  utworzenie pytania miesiąca - 5 punktów,
+  odpowiedź na pytanie miesiąca - 5 punktów,
+  utworzenie celów 3-miesięcznych - 25 punktów,
+  utworzenie celów tygodniowych - 25 punktów,
+  realizacja celu tygodniowego - 10 punktów,
+  wykonanie nawyku - 2 punkty`;
 const endDescription =
   'Myślę, że ten krótki samouczek uświadomił Ci funkcje aplikacji GoalGainApp Jestem przekonany, że to narzędzie pozwoli Ci na uporządkowanie Twojego działania w określonym kierunku :-).';
-export const test: TutorialProps = {
+export const tutorialData: TutorialProps = {
   dataTutorial: [
     {
       description: mainDescripion,
@@ -224,6 +240,14 @@ export const test: TutorialProps = {
     {
       description: savingsDescription,
       src: rouletteScreen,
+    },
+    {
+      description: levelsDescription,
+      src: '',
+    },
+    {
+      description: pointsDescription,
+      src: '',
     },
     {
       description: endDescription,
