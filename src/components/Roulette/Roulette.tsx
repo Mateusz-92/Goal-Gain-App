@@ -32,7 +32,6 @@ export const Roulette: React.FC = () => {
 
   const handleAddToSavings = () => {
     if (savingValue !== undefined) {
-      // addRouletteSaving(savingValue);
       const newSaving = { amount: savingValue, date: new Date().toISOString() };
       onAddRouletteSaving.mutate(newSaving);
       setSavingValue(undefined);

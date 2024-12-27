@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
 import { BarChart } from 'echarts/charts';
 import { GridComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -49,15 +50,26 @@ export const MonthlyChart = ({ data }: { data: number[] }) => {
     };
 
     option && myChart.setOption(option);
+    const handleResize = () => {
+      myChart.resize();
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      myChart.dispose();
+    };
   }, [data]);
 
   return (
-    <div
-      id='monthlyChart'
-      style={{
-        height: '600px',
-        width: '100%',
-      }}
-    />
+    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+      <div
+        id='monthlyChart'
+        style={{
+          height: '100%',
+          width: '100%',
+        }}
+      />
+    </Box>
   );
 };

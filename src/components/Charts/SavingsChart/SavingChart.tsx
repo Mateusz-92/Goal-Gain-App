@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
 import { BarChart, MapChart } from 'echarts/charts';
 import {
   GridComponent,
@@ -105,7 +106,22 @@ export const SavingChart: React.FC<SavingChartProps> = ({
     };
 
     option && myChart.setOption(option);
+
+    const handleResize = () => {
+      myChart.resize();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      myChart.dispose();
+    };
   }, [rouletteSavings, crossOutSavings, totalSavings]);
 
-  return <div id='savingChart' style={{ height: '600px', width: '100%' }} />;
+  return (
+    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+      <div id='savingChart' style={{ height: '100%', width: '100%' }} />
+    </Box>
+  );
 };

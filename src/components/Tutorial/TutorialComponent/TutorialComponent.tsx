@@ -1,6 +1,6 @@
-import { test } from '../../../constants';
+import { tutorialData } from '../../../constants';
 import TutorialStepper from '../TutorialStepper/TutorialStepper';
 
 export const TutorialComponent = () => {
-  return <TutorialStepper dataTutorial={test.dataTutorial} />;
+  return <TutorialStepper dataTutorial={tutorialData.dataTutorial} />;
 };

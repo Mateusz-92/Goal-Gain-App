@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Box } from '@chakra-ui/react';
 import { endOfWeek, format, startOfWeek } from 'date-fns';
 import { LineChart } from 'echarts/charts';
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components';
@@ -18,7 +19,7 @@ echarts.use([
 export const WeeklyRateChart = ({ data }: { data: number[] }) => {
   useEffect(() => {
     const chartDom = document.getElementById('weeklyChart');
-    const myChart = echarts.init(chartDom);
+    const myChart = echarts.init(chartDom!);
 
     const option = {
       series: [
@@ -56,7 +57,22 @@ export const WeeklyRateChart = ({ data }: { data: number[] }) => {
     };
 
     option && myChart.setOption(option);
+
+    const handleResize = () => {
+      myChart.resize();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      myChart.dispose();
+    };
   }, [data]);
 
-  return <div id='weeklyChart' style={{ height: '600px', width: '600px' }} />;
+  return (
+    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+      <div id='weeklyChart' style={{ height: '100%', width: '100%' }} />
+    </Box>
+  );
 };

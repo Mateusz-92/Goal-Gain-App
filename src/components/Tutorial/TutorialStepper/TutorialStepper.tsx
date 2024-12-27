@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 import Btn from '../../../UI/Btn/Btn';
@@ -11,6 +12,7 @@ export type TutorialProps = {
 };
 
 const TutorialStepper: React.FC<TutorialProps> = ({ dataTutorial }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
@@ -44,6 +46,9 @@ const TutorialStepper: React.FC<TutorialProps> = ({ dataTutorial }) => {
 
           {currentIndex < dataTutorial.length - 1 && (
             <Btn text='Dalej' type='button' onClick={handleNext} />
+          )}
+          {currentIndex === dataTutorial.length - 1 && (
+            <Btn text='Strona główna' type='button' onClick={() => navigate('/')} />
           )}
         </Flex>
       </Flex>

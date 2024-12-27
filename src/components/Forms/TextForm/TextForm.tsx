@@ -1,8 +1,8 @@
 import { Controller, FieldValues } from 'react-hook-form';
 import { Flex, FormControl, FormLabel, Input, Textarea } from '@chakra-ui/react';
 
+import { BaseInputProps } from '../../../../types';
 import { FormError } from '../FormError/FormError';
-import { BaseInputProps } from '../types';
 
 type InputQuestionProps<T extends FieldValues> = {
   isDisabled?: boolean;

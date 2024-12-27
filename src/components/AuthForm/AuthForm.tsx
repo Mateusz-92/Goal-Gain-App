@@ -7,7 +7,11 @@ import { updatePassword } from 'firebase/auth';
 
 import { useAlert } from '../../context/AlertContext';
 import { useAuth } from '../../context/AuthContext';
-import { loginWithEmailAndPassword, registerWithEmailAndPassword } from '../../firebase/Api';
+import {
+  loginWithEmailAndPassword,
+  loginWithGoogle,
+  registerWithEmailAndPassword,
+} from '../../firebase/Api';
 import { ROUTES } from '../../routes';
 import Btn from '../../UI/Btn/Btn';
 import {
@@ -41,7 +45,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
 : registerSchema,
     ),
   });
-
+  const handleLogin = async () => {
+    try {
+      await loginWithGoogle();
+      navigate('/');
+    } catch (error) {
+      alert('Failed to log in with Google');
+    }
+  };
   const onSubmit = async (data: FormData) => {
     try {
       if (isLogin) {
@@ -139,6 +150,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
               </Button>
             )}
           </Box>
+          {isLogin && <Btn text='Zaloguj przez google' type='button' onClick={handleLogin} />}
         </Stack>
       </form>
     </Box>

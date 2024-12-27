@@ -1,4 +1,5 @@
 import { format, getMonth } from 'date-fns';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import {
   collection,
@@ -1020,5 +1021,15 @@ export const fetchCrossOutSavingDetails = async (
     return savingDetails;
   } catch (error) {
     return null;
+  }
+};
+
+const provider = new GoogleAuthProvider();
+export const loginWithGoogle = async (): Promise<void> => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error, 'error');
   }
 };

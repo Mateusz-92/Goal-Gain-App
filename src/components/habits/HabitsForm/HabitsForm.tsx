@@ -25,8 +25,6 @@ export const getDaysInMonth = (dateString: string): string[] => {
     days.push(day.toISOString().split('T')[0]);
   }
   return days;
-
-  // TODO : date fns
 };
 
 const getDaysInMonthAsString = (date: string): string[] => {
