@@ -168,13 +168,15 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
 
   return (
     <div>
-      {dataSeries.length > 0 ? (
+      {dataSeries.length > 0
+? (
         <Box
           height={['500px', '500%', '700px']}
           id='habit-chart'
           width={['100%', '500px', '500px']}
         />
-      ) : (
+      )
+: (
         <Text mt={'50px'} textAlign={'center'}>
           Nie masz danych o nawykach w tym miesiącu.
         </Text>
