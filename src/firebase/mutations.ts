@@ -14,17 +14,16 @@ import {
 
 import {
   addCrossoutSaving,
-  addGoals,
-  addHabits,
   addMonthAnswerData,
-  addMonthAnswerQuestion,
-  addMonthlyEvaluation,
   addRouletteSavingData,
   addUserPointsData,
-  addWeekPlan,
-  updateHabitStatus,
   uploadAvatarToFirebase,
-} from './Api';
+} from './Api/Api';
+import { addGoals } from './Api/GoalsApi';
+import { addHabits, updateHabitStatus } from './Api/HabitsApi';
+import { addMonthlyEvaluation } from './Api/MonthAndRate';
+import { addMonthAnswerQuestion } from './Api/MonthAnswerApi';
+import { addWeekPlan } from './Api/WeekPlanApi';
 import { QUERY_KEYS } from './queries';
 export const useEditHabits = (userId: string) => {
   const queryClient = useQueryClient();
