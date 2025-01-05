@@ -7,7 +7,7 @@ import { MonthlyRateChartPage } from './components/Charts/PagesCharts/MonthlyRat
 import { PointsChartPage } from './components/Charts/PagesCharts/PointsChartPage/PointsChartPage';
 import { SavingChartPage } from './components/Charts/PagesCharts/SavingsChartPage/SavingChartPage';
 import { WeeklyRateChartPage } from './components/Charts/PagesCharts/WeeklyRateChartPage/WeeklyRateChartPage';
-import ErrorBoundary from './components/Errors/ErrorBoundery';
+import ErrorBoundary from './components/Errors/ErrorBoundary';
 import ThreeMonthsGoalsPlanner from './components/Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
 import WeekPlanner from './components/Goals/WeekPlanner/WeekPlaner';
 import HabitsTracker from './components/habits/HabitsTracker/HabitsTracker';
