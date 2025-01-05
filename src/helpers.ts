@@ -1,35 +1,82 @@
-import { getMonth } from "date-fns";
+import { getMonth, lastDayOfMonth, parse } from 'date-fns';
 
-import { ammountBord,Saving } from "./types";
+import { DayHabit } from './components/habits/HabitsEditor/HabitsEditor';
+import { ammountBord, Saving } from './types';
 
 export const calculateMonthlySavings = (savings: Saving[]): number[] => {
-    const monthlySums: number[] = new Array(12).fill(0);
-  
-    savings.forEach((saving) => {
-      const month = getMonth(new Date(saving.date)); //
-      monthlySums[month] += saving.amount;
+  const monthlySums: number[] = new Array(12).fill(0);
+
+  savings.forEach((saving) => {
+    const month = getMonth(new Date(saving.date)); //
+    monthlySums[month] += saving.amount;
+  });
+
+  return monthlySums;
+};
+
+export const calculateMonthlyCrossOutSavings = (savings: ammountBord[][]): number[] => {
+  const monthlySums: number[] = new Array(12).fill(0); //
+
+  savings.forEach((savingCrossOut) => {
+    savingCrossOut.forEach((saving) => {
+      if (saving.date) {
+        const month = getMonth(new Date(saving.date));
+        monthlySums[month] += saving.value;
+      }
     });
+  });
+  return monthlySums;
+};
+
+export const calculateTotalMonthlySavings = (
+  rouletteSavings: number[],
+  crossOutSavings: number[],
+): number[] => {
+  return rouletteSavings.map((roulette, index) => roulette + crossOutSavings[index]);
+};
+
+export const isValidDate = (date: string): boolean => {
+  return !isNaN(Date.parse(date));
+};
+export function getDayFromDate(dateString: string): string {
+    const date = new Date(dateString);
+    const day = ('0' + date.getDate()).slice(-2);
+    return day;
+  }
   
-    return monthlySums;
+  export const getDaysInMonth = (dateString: string): string[] => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const days: string[] = [];
+    for (let i = 2; i <= lastDay + 1; i++) {
+      const day = new Date(year, month, i);
+      days.push(day.toISOString().split('T')[0]);
+    }
+    return days;
   };
   
- export const calculateMonthlyCrossOutSavings = (savings: ammountBord[][]): number[] => {
-    const monthlySums: number[] = new Array(12).fill(0); //
-  
-    savings.forEach((savingCrossOut) => {
-      savingCrossOut.forEach((saving) => {
-        if (saving.date) {
-          const month = getMonth(new Date(saving.date));
-          monthlySums[month] += saving.value;
-        }
-      });
-    });
-    return monthlySums;
+  export const getDaysInMonthAsString = (date: string): string[] => {
+    const daysInMonth = getDaysInMonth(date);
+    return daysInMonth.map((day) => day.toString());
   };
   
- export const calculateTotalMonthlySavings = (
-    rouletteSavings: number[],
-    crossOutSavings: number[],
-  ): number[] => {
-    return rouletteSavings.map((roulette, index) => roulette + crossOutSavings[index]);
+export  function extractHabitsForDate(date: string, allHabits: DayHabit) {
+    return allHabits[date as keyof typeof allHabits]?.habits || [];
+  }
+  
+export  function extractHabitNames(data: DayHabit) {
+    const dateKey = Object.keys(data).find((key) => key.includes('-'));
+    const habitsArray = data[dateKey as keyof typeof data]?.habits || [];
+    const namesArray = habitsArray.map((habit) => habit.name);
+    return namesArray;
+  }
+
+  export const getLastDaysInMonth = (monthYear: string): number => {
+    const parsedDate = parse(monthYear, 'MM.yyyy', new Date());
+  
+    const lastDay = lastDayOfMonth(parsedDate);
+  
+    return lastDay.getDate();
   };

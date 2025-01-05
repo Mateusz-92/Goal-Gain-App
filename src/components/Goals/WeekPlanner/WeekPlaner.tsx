@@ -20,6 +20,7 @@ import { indexNum } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditWeekPlan } from '../../../firebase/mutations';
 import { useGetWeekPlan } from '../../../firebase/queries';
+import { isValidDate } from '../../../helpers';
 import Btn from '../../../UI/Btn/Btn';
 import { CustomCheckbox } from '../../../UI/Forms/CustomCheckbox/CustomCheckbox';
 import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
@@ -59,9 +60,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
-  const isDisplay = data
-? true
-: false;
+  const isDisplay = !!data;
   const onAddWeekPlannMutation = weekId
 ? editWeekWithId
 : editWeekWithoutId;
@@ -115,9 +114,6 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
   const startDay = watch('startDay');
   const rate = watch('rate');
 
-  const isValidDate = (date: string): boolean => {
-    return !isNaN(Date.parse(date));
-  };
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       isDirty && currentLocation.pathname !== nextLocation.pathname,

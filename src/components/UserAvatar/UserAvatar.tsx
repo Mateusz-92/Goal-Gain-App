@@ -4,7 +4,7 @@ import { SettingsIcon } from '@chakra-ui/icons';
 import { Box, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
 
 import { useAuth } from '../../context/AuthContext';
-import { handleLogout } from '../../firebase/Api';
+import { handleLogout } from '../../firebase/Api/Api';
 import { useUserAvatarData } from '../../firebase/queries';
 import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';

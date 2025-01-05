@@ -28,7 +28,7 @@ export const SavingChartPage = () => {
     return <Loader />;
   }
   if (isError || !roulette || !crossOutSaving) {
-    return <div> Somethig went wrong</div>;
+    return <div> coś poszło nie tak</div>;
   }
   return (
     <div>

@@ -4,44 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditDayHabit } from '../../../firebase/mutations';
+import {
+  extractHabitNames,
+  extractHabitsForDate,
+  getDayFromDate,
+  getDaysInMonthAsString,
+} from '../../../helpers';
 import { CustomCheckbox } from '../../../UI/Forms/CustomCheckbox/CustomCheckbox';
 import ModalApp from '../../Modal/ModalApp';
 import { DayHabit, HabitFormData } from '../HabitsEditor/HabitsEditor';
-
-export function getDayFromDate(dateString: string): string {
-  const date = new Date(dateString);
-  const day = ('0' + date.getDate()).slice(-2);
-  return day;
-}
-
-export const getDaysInMonth = (dateString: string): string[] => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const lastDay = new Date(year, month + 1, 0).getDate();
-  const days: string[] = [];
-  for (let i = 2; i <= lastDay + 1; i++) {
-    const day = new Date(year, month, i);
-    days.push(day.toISOString().split('T')[0]);
-  }
-  return days;
-};
-
-const getDaysInMonthAsString = (date: string): string[] => {
-  const daysInMonth = getDaysInMonth(date);
-  return daysInMonth.map((day) => day.toString());
-};
-
-function extractHabitsForDate(date: string, allHabits: DayHabit) {
-  return allHabits[date as keyof typeof allHabits]?.habits || [];
-}
-
-function extractHabitNames(data: DayHabit) {
-  const dateKey = Object.keys(data).find((key) => key.includes('-'));
-  const habitsArray = data[dateKey as keyof typeof data]?.habits || [];
-  const namesArray = habitsArray.map((habit) => habit.name);
-  return namesArray;
-}
 
 const HabitsForm: React.FC<HabitFormData> = ({
   date,

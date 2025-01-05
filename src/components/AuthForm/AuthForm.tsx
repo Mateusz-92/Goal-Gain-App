@@ -11,7 +11,7 @@ import {
   loginWithEmailAndPassword,
   loginWithGoogle,
   registerWithEmailAndPassword,
-} from '../../firebase/Api';
+} from '../../firebase/Api/Api';
 import { ROUTES } from '../../routes';
 import Btn from '../../UI/Btn/Btn';
 import { TextForm } from '../../UI/Forms/TextForm/TextForm';
