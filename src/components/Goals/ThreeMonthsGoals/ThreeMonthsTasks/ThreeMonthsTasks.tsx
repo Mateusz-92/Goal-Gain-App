@@ -5,8 +5,8 @@ import { Box, Container, IconButton, VStack } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Btn from '../../../../UI/Btn/Btn';
-import { CustomCheckbox } from '../../../../UI/CustomCheckbox/CustomCheckbox';
-import { TextForm } from '../../../Forms/TextForm/TextForm';
+import { CustomCheckbox } from '../../../../UI/Forms/CustomCheckbox/CustomCheckbox';
+import { TextForm } from '../../../../UI/Forms/TextForm/TextForm';
 
 export const DEFAULT_TASK_MODEL = {
   finishDate: '',
@@ -56,11 +56,7 @@ const ThreeMonthsTasks: React.FC<{
                 {...register(`${nestedTaskName}.${i}.finishDate`)}
               />
               {isDisplay && (
-                <CustomCheckbox
-                  control={control}
-                  {...register(`${nestedTaskName}.${i}.isEnded`)}
-                 
-                />
+                <CustomCheckbox control={control} {...register(`${nestedTaskName}.${i}.isEnded`)} />
               )}
             </Container>
           </Container>

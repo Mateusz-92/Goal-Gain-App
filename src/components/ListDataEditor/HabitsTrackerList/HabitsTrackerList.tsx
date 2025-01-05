@@ -15,8 +15,8 @@ const HabitTrackerList = () => {
     title: 'Lista nawyków',
   }));
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
-  if (data) return <DataList data={habitData || []} />;
+  if (isError || !data) return <div>Coś poszło nie tak</div>;
+  return <DataList data={habitData || []} />;
 };
 
 export default HabitTrackerList;

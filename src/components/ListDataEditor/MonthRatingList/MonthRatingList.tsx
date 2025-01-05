@@ -15,8 +15,8 @@ const MonthRatingList = () => {
     title: 'Ocena miesięczna',
   }));
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
-  if (data) return <DataList data={evaulationData || []} />;
+  if (isError || !data) return <div>coś poszło nie tak</div>;
+  return <DataList data={evaulationData || []} />;
 };
 
 export default MonthRatingList;

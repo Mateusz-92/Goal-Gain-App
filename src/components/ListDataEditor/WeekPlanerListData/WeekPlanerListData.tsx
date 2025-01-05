@@ -16,10 +16,10 @@ const WeekPlannerDataListData = () => {
     title: 'Plan tygodniowy',
   }));
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
+  if (isError) return <div>coś poszło nie tak</div>;
   if (!data)
     return <RedirectBox href={ROUTES.weekPlanner} text='Przejdź do kreatora planów tygodniowych' />;
-  if (data) return <DataList data={weekData || []} />;
+  return <DataList data={weekData || []} />;
 };
 
 export default WeekPlannerDataListData;

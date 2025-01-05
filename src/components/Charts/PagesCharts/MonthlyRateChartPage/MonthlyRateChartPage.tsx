@@ -31,12 +31,8 @@ export const MonthlyRateChartPage = () => {
     return <Loader />;
   }
   if (isError || !data) {
-    <div>Somethig went wrong</div>;
+    <div>coś poszło nie tak</div>;
   }
 
-  return (
-    <div>
-      <MonthlyChart data={monthlyRates} />
-    </div>
-  );
+  return <MonthlyChart data={monthlyRates} />;
 };

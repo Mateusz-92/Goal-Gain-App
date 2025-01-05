@@ -16,10 +16,10 @@ const GoalPlannerList = () => {
     title: 'Plan na 3 miesiące',
   }));
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
+  if (isError) return <div>Coś poszło nie tak</div>;
   if (!data)
     return <RedirectBox href={ROUTES.threeMonthsGoalsPlanner} text='Przejdź do kreatora celów' />;
-  if (data) return <DataList data={goalsData || []} />;
+  return <DataList data={goalsData || []} />;
 };
 
 export default GoalPlannerList;

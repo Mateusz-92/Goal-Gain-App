@@ -6,12 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
-import {} from '../../../firebase/Api';
 import { useAddCurrentAnswerForMonthQuestion, useAddUserPoints } from '../../../firebase/mutations';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 const currentDay = format(new Date(), 'dd.MM.yyyy');

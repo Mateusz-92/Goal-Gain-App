@@ -10,12 +10,12 @@ import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditMonthRate } from '../../../firebase/mutations';
 import { useGetMonthlyEvaluation } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { MonthlyRatingData, MonthlyValuesRatingSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 
-type monthlyRating = {
+type MonthlyRating = {
   date: string;
   explanationOfRate: string;
   lessonOfLife: string;
@@ -26,7 +26,7 @@ type monthlyRating = {
 type MonthRateProps = { mode: 'add' | 'edit' };
 
 const arrRadioLength: number = 10;
-const DEAFAULT_RATING_MODEL: monthlyRating = {
+const DEAFAULT_RATING_MODEL: MonthlyRating = {
   date: '',
   explanationOfRate: '',
   lessonOfLife: '',
@@ -65,8 +65,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   });
 
   const onSubmit = async (formData: MonthlyValuesRatingSchema) => {
-    // eslint-disable-next-line no-console
-    console.log('data', data);
+     
     await onAddMonthRateMutation.mutate(formData, {
       onSuccess: () => {
         if (mode === 'add') {
@@ -107,7 +106,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
     return <Loader />;
   }
   if (isError) {
-    return <div>Somethig went wrong</div>;
+    return <div>Coś poszło nie tak</div>;
   }
   return (
     <Box>

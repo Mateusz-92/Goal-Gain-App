@@ -49,7 +49,7 @@ const ChoiceVariant: React.FC = () => {
     });
     onClose();
   };
-  // TODO: text content should be in translations
+
   return (
     <Box alignItems='center' display='flex' flexDirection='column'>
       <Text fontWeight={'bold'} m={2} textAlign={'center'}>
@@ -79,4 +79,3 @@ const ChoiceVariant: React.FC = () => {
 };
 
 export default ChoiceVariant;
- 

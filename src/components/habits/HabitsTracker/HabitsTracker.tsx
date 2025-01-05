@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Link } from '@chakra-ui/react';
 import { isSameMonth } from 'date-fns';
@@ -16,10 +15,9 @@ const HabitsTracker = () => {
 
   const { habitListId } = useParams();
   const { data, isError, isLoading } = useGetHabits(userId, habitListId);
-  useEffect(() => {}, [userId, data]);
 
   if (isError) {
-    return <p>Somethig went wrong</p>;
+    return <p>coś poszło nie tak</p>;
   }
   if (isLoading) {
     return <Loader />;

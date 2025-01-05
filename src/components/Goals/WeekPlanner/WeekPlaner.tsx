@@ -21,9 +21,9 @@ import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditWeekPlan } from '../../../firebase/mutations';
 import { useGetWeekPlan } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
-import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
+import { CustomCheckbox } from '../../../UI/Forms/CustomCheckbox/CustomCheckbox';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { WeekPlannerData, WeekPlannerDataSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 
@@ -59,12 +59,8 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
-  const isDisplay = data
-? true
-: false;
-  const onAddWeekPlannMutation = weekId
-? editWeekWithId
-: editWeekWithoutId;
+  const isDisplay = data ? true : false;
+  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
   const {
     control,
     formState: { errors, isDirty },
@@ -149,7 +145,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
     return <Loader />;
   }
   if (isError) {
-    return <div>Somethig went wrong</div>;
+    return <div>coś poszło nie tak</div>;
   }
   return (
     <Box>
@@ -252,8 +248,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onConfirm={handleAddPointsandData}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -263,8 +258,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };
