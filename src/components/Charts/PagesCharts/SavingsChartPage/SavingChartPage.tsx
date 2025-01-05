@@ -1,8 +1,8 @@
 import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
 import {
-  calculateMonthlySavings,
   calculateMonthlyCrossOutSavings,
+  calculateMonthlySavings,
   calculateTotalMonthlySavings,
 } from '../../../../helpers';
 import Loader from '../../../Loader/Loader';

@@ -1,5 +1,6 @@
 import { getMonth } from "date-fns";
-import { Saving, ammountBord } from "./types";
+
+import { ammountBord,Saving } from "./types";
 
 export const calculateMonthlySavings = (savings: Saving[]): number[] => {
     const monthlySums: number[] = new Array(12).fill(0);
