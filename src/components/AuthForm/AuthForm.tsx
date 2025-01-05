@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Heading, Stack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Box, Heading, Stack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updatePassword } from 'firebase/auth';
 
@@ -14,13 +14,13 @@ import {
 } from '../../firebase/Api';
 import { ROUTES } from '../../routes';
 import Btn from '../../UI/Btn/Btn';
+import { TextForm } from '../../UI/Forms/TextForm/TextForm';
 import {
   changePasswordSchema,
   FormData,
   loginSchema,
   registerSchema,
 } from '../../validators/validators';
-import { TextForm } from '../Forms/TextForm/TextForm';
 
 type AuthFormProps = {
   changeUserPassword?: boolean;
@@ -45,6 +45,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
 : registerSchema,
     ),
   });
+  const handleRegister = () => {
+    navigate(ROUTES.register);
+  };
   const handleLogin = async () => {
     try {
       await loginWithGoogle();
@@ -89,7 +92,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
       </Heading>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing='1'>
+        <Stack alignItems={'center'} spacing='1'>
           {!changeUserPassword && (
             <TextForm
               control={control}
@@ -128,26 +131,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ changeUserPassword = false, isLogin
             {!isLogin && !changeUserPassword && <Btn text={'Zarejestruj'} type='submit' />}
             {changeUserPassword && <Btn text={'Zmień hasło'} type='submit' />}
             {isLogin && !changeUserPassword && (
-              <Button
-                as={Link}
-                bg='transparent'
-                borderColor='black'
-                borderRadius='15px'
-                borderWidth='1px'
-                color='black'
-                size='lg'
-                textTransform='uppercase'
-                to={ROUTES.register}
-                width='150px'
-                _hover={{
-                  bg: 'black',
-                  borderColor: 'black',
-                  borderWidth: '1px',
-                  color: 'var(--light-gray)',
-                }}
-              >
-                Zarejstruj
-              </Button>
+              <Btn text='Zarejstruj' type='button' onClick={handleRegister} />
             )}
           </Box>
           {isLogin && <Btn text='Zaloguj przez google' type='button' onClick={handleLogin} />}
