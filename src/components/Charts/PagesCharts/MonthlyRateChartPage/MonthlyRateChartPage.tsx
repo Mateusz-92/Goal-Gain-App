@@ -6,7 +6,6 @@ import { useGetWMonthRate } from '../../../../firebase/queries';
 import { Points } from '../../../../types';
 import Loader from '../../../Loader/Loader';
 import { MonthlyChart } from '../../MonthlyChart/MonthlyChart';
-
 export const calculateMonthlyChart = (scope: monthRateType[] | Points[]): number[] => {
   const monthlyScope: number[] = new Array(12).fill(0);
 
@@ -31,7 +30,7 @@ export const MonthlyRateChartPage = () => {
     return <Loader />;
   }
   if (isError || !data) {
-    <div>coś poszło nie tak</div>;
+    return <div>coś poszło nie tak</div>;
   }
 
   return <MonthlyChart data={monthlyRates} />;
