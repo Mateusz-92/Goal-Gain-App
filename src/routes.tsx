@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { Text } from '@chakra-ui/react';
 
-import AuthForm from './components/AuthForm/AuthForm';
+import AuthFormWrapper from './components/AuthForm/AuthWrapper';
 import { HabitChartPages } from './components/Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
 import { MonthlyRateChartPage } from './components/Charts/PagesCharts/MonthlyRateChartPage/MonthlyRateChartPage';
 import { PointsChartPage } from './components/Charts/PagesCharts/PointsChartPage/PointsChartPage';
@@ -220,7 +220,7 @@ export const router = createBrowserRouter([
         path: ROUTES.userSettings,
       },
       {
-        element: <AuthForm changeUserPassword={true} />,
+        element: <AuthFormWrapper changeUserPassword={true} />,
         path: ROUTES.updatePassword,
       },
     ],
@@ -232,11 +232,11 @@ export const router = createBrowserRouter([
     path: ROUTES.home,
   },
   {
-    element: <AuthForm isLogin={true} />,
+    element: <AuthFormWrapper isLogin={true} />,
     path: ROUTES.login,
   },
   {
-    element: <AuthForm isLogin={false} />,
+    element: <AuthFormWrapper isLogin={false} />,
     path: ROUTES.register,
   },
   {
