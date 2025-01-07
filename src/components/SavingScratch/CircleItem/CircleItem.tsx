@@ -63,8 +63,12 @@ const CircleItem: React.FC<CircleItemProps> = ({
         justifyContent='center'
         margin='10px'
         width={['40px', '60px', '80px']}
-        _hover={{ backgroundColor: isCrossOut ? 'var(--green)' : 'var(--orange)' }}
-        backgroundColor={isCrossOut ? 'var(--green)' : 'var(--light-gray)'}
+        _hover={{ backgroundColor: isCrossOut
+? 'var(--green)'
+: 'var(--orange)' }}
+        backgroundColor={isCrossOut
+? 'var(--green)'
+: 'var(--light-gray)'}
         onClick={handleClick}
       >
         {value}
@@ -79,7 +83,9 @@ const CircleItem: React.FC<CircleItemProps> = ({
             ? `Czy na pewno chcesz usunąć kwotę ${value}?`
             : `Czy na pewno chcesz dodać kwotę ${value}?`
         }
-        header={isCrossOut ? 'Czy usunąć kwotę?' : 'Czy dodać kwotę?'}
+        header={isCrossOut
+? 'Czy usunąć kwotę?'
+: 'Czy dodać kwotę?'}
         onClose={onClose}
         onConfirm={handleAddToCrossOutSavings}
       />

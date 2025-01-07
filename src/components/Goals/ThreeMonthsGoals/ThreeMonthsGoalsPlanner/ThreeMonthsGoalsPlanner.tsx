@@ -42,7 +42,9 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(userId, goalId);
   const editGoalsWithoutId = useEditGoals(userId);
-  const onAddGoalsMutation = goalId ? editGoalsWithId : editGoalsWithoutId;
+  const onAddGoalsMutation = goalId
+? editGoalsWithId
+: editGoalsWithoutId;
 
   const {
     control,
@@ -87,13 +89,17 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
     if (goalId) {
       let pointsChange = 0;
       formData.goals.forEach((goal, goalIndex) => {
-        const previousGoal = data ? data[goalIndex] : undefined;
+        const previousGoal = data
+? data[goalIndex]
+: undefined;
 
         if (previousGoal) {
           goal.tasks.forEach((task, taskIndex) => {
             const previousTask = previousGoal.tasks[taskIndex];
             if (previousTask && task.isEnded !== previousTask.isEnded) {
-              pointsChange += task.isEnded ? 25 : -25;
+              pointsChange += task.isEnded
+? 25
+: -25;
             }
           });
         }
@@ -148,7 +154,9 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
               control={control}
               nestedTaskName={`goals.${i}.tasks`}
               register={register}
-              isDisplay={data ? true : false}
+              isDisplay={data
+? true
+: false}
             />
             <TextForm
               control={control}
@@ -188,7 +196,8 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
           />
         </>
       </form>
-      {blocker.state === 'blocked' ? (
+      {blocker.state === 'blocked'
+? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -198,7 +207,8 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      ) : null}
+      )
+: null}
     </Box>
   );
 };
