@@ -22,8 +22,7 @@ export const calculateMonthlyChart = (scope: monthRateType[] | Points[]): number
 };
 
 export const MonthlyRateChartPage = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetWMonthRate(userId);
   const monthlyRates = calculateMonthlyChart(data || []);
   if (isLoading) {

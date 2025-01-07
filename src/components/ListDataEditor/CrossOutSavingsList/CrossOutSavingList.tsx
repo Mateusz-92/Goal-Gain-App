@@ -5,8 +5,7 @@ import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 
 export const CrossOutSavingList = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetCrossOutSavingDetails(userId);
   const crossOutSavingData = data?.map((el) => ({
     date: el.date,

@@ -9,8 +9,7 @@ import Loader from '../../Loader/Loader';
 export const MonthEndedAnswerList = () => {
   const actualDate = format(new Date(), 'MM.yyyy');
 
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllMonthAnswerQuestion(userId);
 
   if (isLoading) return <Loader />;

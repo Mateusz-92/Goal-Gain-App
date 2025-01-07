@@ -3,8 +3,7 @@ import { useGetWeekRate } from '../../../../firebase/queries';
 import Loader from '../../../Loader/Loader';
 import { WeeklyRateChart } from '../../WeeklyRateChart/WeeklyRateChart';
 export const WeeklyRateChartPage = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetWeekRate(userId);
 
   if (isLoading) {

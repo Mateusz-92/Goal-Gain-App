@@ -38,8 +38,7 @@ const initialHabitData: HabitFormData = {
 const habitsLength: number = 4;
 
 const HabitsEditor = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const [habitData, setHabitData] = useState<HabitFormData>(initialHabitData);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const onAddHabitsMutation = useEditHabits(userId);
@@ -54,7 +53,6 @@ const HabitsEditor = () => {
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDate = new Date(e.target.value);
 
- 
     if (newDate.getTime() !== habitData.date.getTime()) {
       setHabitData({
         ...habitData,
@@ -179,9 +177,7 @@ const HabitsEditor = () => {
             }}
             onChange={(e) => {
               const updatedHabits = habitsForCurrentDate.map((item) =>
-                item.id === habit.id
-? { ...item, name: e.target.value }
-: item,
+                item.id === habit.id ? { ...item, name: e.target.value } : item,
               );
               setHabitData({
                 ...habitData,
@@ -210,8 +206,7 @@ const HabitsEditor = () => {
         onClose={onClose}
         onConfirm={addHabitsHandler}
       />
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -221,8 +216,7 @@ const HabitsEditor = () => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

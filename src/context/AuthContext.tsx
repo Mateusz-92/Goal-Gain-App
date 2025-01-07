@@ -6,20 +6,22 @@ import { auth } from '../firebase/FirebaseConfig';
 interface AuthContextType {
   loading: boolean;
   user: User | null;
+  userId: string;
 }
 
 const AuthContext = createContext<AuthContextType>({
   loading: true,
   user: null,
+  userId: '',
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(
-    localStorage.getItem('user')
-? JSON.parse(localStorage.getItem('user') || '')
-: null,
+    localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '') : null,
   );
   const [loading, setLoading] = useState(user === null);
+
+  const userId = user?.uid || '';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -36,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return unsubscribe;
   }, []);
 
-  return <AuthContext.Provider value={{ loading, user }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ loading, user, userId }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

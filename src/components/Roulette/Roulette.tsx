@@ -9,8 +9,7 @@ import Btn from '../../UI/Btn/Btn';
 import ModalApp from '../Modal/ModalApp';
 
 export const Roulette: React.FC = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const [mustSpin, setMustSpin] = useState<boolean>(false);
 
   const [prizeNumber, setPrizeNumber] = useState<number>(0);

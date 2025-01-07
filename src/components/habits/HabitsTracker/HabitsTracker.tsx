@@ -9,9 +9,9 @@ import TitleName from '../../../UI/TitleName/TitleName';
 import Loader from '../../Loader/Loader';
 import HabitsForm from '../HabitsForm/HabitsForm';
 
+
 const HabitsTracker = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
 
   const { habitListId } = useParams();
   const { data, isError, isLoading } = useGetHabits(userId, habitListId);

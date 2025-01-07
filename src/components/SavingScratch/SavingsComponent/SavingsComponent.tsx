@@ -8,8 +8,7 @@ import Loader from '../../Loader/Loader';
 import CircleList from '../CircleList/CircleList';
 
 const SavingsComponent: React.FC = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { crossOutSavingId } = useParams();
 
   const { data, isError, isLoading } = useGetCrossOutSavingName(userId, crossOutSavingId || '');

@@ -40,16 +40,13 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
 
   const { monthId } = useParams();
   const { t } = useTranslation(['common']);
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetMonthlyEvaluation(monthId || '', userId, mode);
   const editMonthRateWithId = useEditMonthRate(userId, monthId);
   const editMonthRateWithoutId = useEditMonthRate(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const onAddMonthRateMutation = monthId
-? editMonthRateWithId
-: editMonthRateWithoutId;
+  const onAddMonthRateMutation = monthId ? editMonthRateWithId : editMonthRateWithoutId;
 
   const {
     control,
@@ -65,7 +62,6 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   });
 
   const onSubmit = async (formData: MonthlyValuesRatingSchema) => {
-     
     await onAddMonthRateMutation.mutate(formData, {
       onSuccess: () => {
         if (mode === 'add') {
@@ -191,8 +187,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onConfirm={handleAddDataAndPoints}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -202,8 +197,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

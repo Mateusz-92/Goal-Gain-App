@@ -15,8 +15,7 @@ type BordOption = {
 
 const ChoiceVariant: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { mutate: editCrossOutSaving } = useEditCrossOutSavingComponent();
 
   const [selectedBord, setSelectedBord] = useState<ammountBord[]>(variant2000);

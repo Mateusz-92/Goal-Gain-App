@@ -5,8 +5,7 @@ import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 
 const HabitTrackerList = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllHabits(userId);
   const habitData = data?.map((el) => ({
     date: el.date || 'Nie podano daty utworzenia',

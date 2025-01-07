@@ -24,8 +24,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
   const [currentHabits, setCurrentHabits] = useState<DayHabit>(habits);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [selectedHabitId, setSelectedHabitId] = useState<number | null>(null);
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
   const onDayHabitMutation = useEditDayHabit();
@@ -42,9 +41,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
       setCurrentHabits((prevHabits) => {
         const dayHabits = prevHabits[selectedDay]?.habits || [];
         const updatedHabits = dayHabits.map((habit) =>
-          habit.id === selectedHabitId
-? { ...habit, status: !habit.status }
-: habit,
+          habit.id === selectedHabitId ? { ...habit, status: !habit.status } : habit,
         );
 
         const newState = {
@@ -67,9 +64,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
           newStatus: !updatedHabit.status,
         };
 
-        data.newStatus
-? onAddUserPoints({ points: 2 })
-: onAddUserPoints({ points: -2 });
+        data.newStatus ? onAddUserPoints({ points: 2 }) : onAddUserPoints({ points: -2 });
         try {
           await onDayHabitMutation.mutate(data);
           // eslint-disable-next-line no-console

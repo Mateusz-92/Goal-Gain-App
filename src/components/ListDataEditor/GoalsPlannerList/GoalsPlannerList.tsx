@@ -6,8 +6,7 @@ import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';
 
 const GoalPlannerList = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllGoals(userId);
   const goalsData = data?.map((el) => ({
     date: el.date || 'Nie podano daty utworzenia',

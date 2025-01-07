@@ -6,8 +6,7 @@ import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';
 
 const WeekPlannerDataListData = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllWeekPlans(userId);
   const weekData = data?.map((el) => ({
     date: el.startDay,

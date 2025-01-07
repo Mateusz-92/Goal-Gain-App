@@ -8,8 +8,7 @@ import Loader from '../../Loader/Loader';
 
 export const MonthEndedAnswerListDetails = () => {
   const { monthAnswerId } = useParams();
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
 
   const { data, isError, isLoading } = useGetCurrentMonthAnswerQuestion(userId, monthAnswerId);
   const amountOfDaysInMonth = getLastDaysInMonth(data?.month || '');

@@ -5,8 +5,7 @@ import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 
 const MonthRatingList = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllMonthlyEvaluation(userId);
   const evaulationData = data?.map((el) => ({
     date: el.date,

@@ -9,8 +9,7 @@ import { AvatarIcon } from '../../UI/AvatarIcon/AvatarIcon';
 import Btn from '../../UI/Btn/Btn';
 
 export const UserSettings = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState<string | undefined>(undefined);

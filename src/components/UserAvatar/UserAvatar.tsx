@@ -12,8 +12,7 @@ import Loader from '../Loader/Loader';
 import BadgeDisplay from '../UserLevel/UserLevel';
 
 const UserAvatar: React.FC = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { user, userId } = useAuth();
   const navigate = useNavigate();
 
   const {

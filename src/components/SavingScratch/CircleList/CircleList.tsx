@@ -9,8 +9,7 @@ import CircleItem from '../CircleItem/CircleItem';
 
 const CircleList: React.FC = () => {
   const { crossOutSavingId } = useParams();
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetCrossOutAmounts(crossOutSavingId || '', userId);
 
   if (isLoading) return <Loader />;

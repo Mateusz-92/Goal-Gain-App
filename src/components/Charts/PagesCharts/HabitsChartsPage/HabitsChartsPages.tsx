@@ -12,8 +12,7 @@ import { colors, HabitChart, pathes } from '../../HabitChart/HabitChart/HabitCha
 import { LegendCalendar } from '../../LegendCalendar/LegendCalendar';
 
 export const HabitChartPages = () => {
-  const { user } = useAuth();
-  const userId = user?.uid;
+  const { userId } = useAuth();
   const [monthAndYear, setMonthAndYear] = useState(() => format(new Date(), 'yyyy-MM'));
 
   const {
@@ -45,7 +44,6 @@ export const HabitChartPages = () => {
   const userHabitsObj = Object.entries(habitsData)[0][1] as unknown as { habits: Habit[] };
 
   const userHabitsNames = userHabitsObj.habits.map((el: Habit) => el.name);
-
 
   return (
     <Box m={5}>

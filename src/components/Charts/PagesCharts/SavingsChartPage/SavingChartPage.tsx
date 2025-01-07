@@ -9,8 +9,7 @@ import Loader from '../../../Loader/Loader';
 import { SavingChart } from '../../SavingsChart/SavingChart';
 
 export const SavingChartPage = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const {
     data: { crossOutSaving, roulette },
     isError,
