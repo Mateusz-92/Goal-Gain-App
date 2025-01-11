@@ -1,7 +1,6 @@
 import React from 'react';
 import { Control, useFieldArray } from 'react-hook-form';
-import { MinusIcon } from '@chakra-ui/icons';
-import { Box, Container, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Container, VStack } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Btn from '../../../../UI/Btn/Btn';
@@ -60,25 +59,7 @@ const ThreeMonthsTasks: React.FC<{
               )}
             </Container>
           </Container>
-          <IconButton
-            alignItems={'center'}
-            aria-label='MinusIcon'
-            bg='black'
-            borderColor='black'
-            borderRadius='15px'
-            borderWidth='1px'
-            color='var(--light-gray)'
-            icon={<MinusIcon />}
-            size='lg'
-            width={'25%'}
-            _hover={{
-              bg: 'transparent',
-              borderColor: 'black',
-              borderWidth: '1px',
-              color: 'black',
-            }}
-            onClick={() => remove(i)}
-          />
+          <Btn text={`Usuń zadanie  ${i + 1}`} type='button' onClick={() => remove(i)} />
         </Container>
       ))}
 

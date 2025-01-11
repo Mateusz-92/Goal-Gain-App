@@ -2,13 +2,14 @@ import React from 'react';
 import { Box, Button, ButtonProps } from '@chakra-ui/react';
 
 type BtnProps = ButtonProps & {
+  icon?: React.ReactElement;
   isDisabled?: boolean;
   onClick?: () => void;
   text: string;
   type: 'button' | 'submit';
 };
 
-const Btn: React.FC<BtnProps> = ({ isDisabled, onClick, text, type }) => {
+const Btn: React.FC<BtnProps> = ({ icon, isDisabled, onClick, text, type, ...props }) => {
   return (
     <Box m={2}>
       <Button
@@ -18,6 +19,7 @@ const Btn: React.FC<BtnProps> = ({ isDisabled, onClick, text, type }) => {
         borderWidth='1px'
         color='var(--light-gray)'
         isDisabled={isDisabled}
+        leftIcon={icon}
         size='lg'
         textTransform='uppercase'
         type={type}
@@ -28,6 +30,7 @@ const Btn: React.FC<BtnProps> = ({ isDisabled, onClick, text, type }) => {
           color: 'black',
         }}
         onClick={onClick}
+        {...props}
       >
         {text}
       </Button>

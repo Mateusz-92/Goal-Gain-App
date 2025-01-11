@@ -55,9 +55,15 @@ const ChoiceVariant: React.FC = () => {
         Wybierz łączną kwotę, ktorą chcesz zaoszczędzić, każdy wariant posiada 33 pola kwot do
         zaoszczędzenia
       </Text>
-      <RadioGroup mb={2} value={JSON.stringify(selectedBord)} onChange={handleBordChange}>
+      <RadioGroup
+        display={'flex'}
+        flexDirection={'column'}
+        mb={2}
+        value={JSON.stringify(selectedBord)}
+        onChange={handleBordChange}
+      >
         {bordOptions.map((option) => (
-          <Radio key={option.label} colorScheme='white' value={JSON.stringify(option.value)}>
+          <Radio key={option.label} colorScheme='white' mb={1} value={JSON.stringify(option.value)}>
             {option.label}
           </Radio>
         ))}

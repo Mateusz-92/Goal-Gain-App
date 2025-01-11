@@ -142,39 +142,41 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
                 placeholder={'Nazwa celu'}
                 {...register(`goals.${i}.goalName`)}
               />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={t('goalHeader.explanationQuestion')}
+                placeholder={''}
+                {...register(`goals.${i}.explanationQuestion`)}
+              />
             </Container>
-            <TextForm
-              control={control}
-              isInput={false}
-              label={t('goalHeader.explanationQuestion')}
-              placeholder={''}
-              {...register(`goals.${i}.explanationQuestion`)}
-            />
-            <ThreeMonthsTasks
-              control={control}
-              nestedTaskName={`goals.${i}.tasks`}
-              register={register}
-              isDisplay={data
+            <Container>
+              <ThreeMonthsTasks
+                control={control}
+                nestedTaskName={`goals.${i}.tasks`}
+                register={register}
+                isDisplay={data
 ? true
 : false}
-            />
-            <TextForm
-              control={control}
-              isInput={false}
-              label={'Korzyści'}
-              placeholder={''}
-              {...register(`goals.${i}.yourBenefits`)}
-            />
-            <TextForm
-              control={control}
-              isInput={false}
-              label={'Blokady'}
-              placeholder={''}
-              {...register(`goals.${i}.yourDisturber`)}
-            />
-            <VStack alignItems={'center'} mb={'5px'}>
-              <Btn text='Usuń cel' type='button' onClick={() => remove(i)} />
-            </VStack>
+              />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={'Korzyści'}
+                placeholder={''}
+                {...register(`goals.${i}.yourBenefits`)}
+              />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={'Blokady'}
+                placeholder={''}
+                {...register(`goals.${i}.yourDisturber`)}
+              />
+              <VStack alignItems={'center'} mb={'5px'}>
+                <Btn text={`Usuń cel ${i + 1}`} type='button' onClick={() => remove(i)} />
+              </VStack>
+            </Container>
           </Box>
         ))}
 
