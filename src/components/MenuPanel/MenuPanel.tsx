@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 
 import DropdownMenu from '../../layout/header/DropdownMenu/DropdownMenu';
 import { ROUTES } from '../../routes';
 
 export const MenuPanel = () => {
+  const navigate = useNavigate();
   const chartMenu = [
     { path: ROUTES.habitChartPages, title: 'Nawyki w danym miesiącu' },
     { path: ROUTES.savingsChartPage, title: 'Oszczędności' },
@@ -72,7 +74,8 @@ export const MenuPanel = () => {
         <GridItem>
           <DropdownMenu
             buttonTitle='Samouczek'
-            itemTitles={[{ path: ROUTES.tutorial, title: 'Samouczek' }]}
+            itemTitles={[]}
+            onClick={() => navigate(ROUTES.tutorial)}
           />
         </GridItem>
       </Grid>

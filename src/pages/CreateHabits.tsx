@@ -15,7 +15,9 @@ export const CreateHabits = () => {
           {t('createHabits.tip')}
         </Text>
       </Box>
-      <HabitsEditor />
+     
+        <HabitsEditor />
+      
     </>
   );
 };

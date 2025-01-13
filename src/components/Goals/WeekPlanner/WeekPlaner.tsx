@@ -147,7 +147,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
     return <div>coś poszło nie tak</div>;
   }
   return (
-    <Box>
+    <Box className='step-5-WeekPlanner'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <Text>{t('weekPlanner.weekText')} </Text>

@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
@@ -13,7 +14,7 @@ export const MonthEndedAnswerList = () => {
   const { data, isError, isLoading } = useGetAllMonthAnswerQuestion(userId);
 
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
+  if (isError) return <div>Coś poszło nie tak</div>;
   if (!data) return <div>Nie masz jeszcze danych</div>;
 
   const answerListData = data
@@ -24,6 +25,9 @@ export const MonthEndedAnswerList = () => {
       routes: ROUTES.monthAnswerDetails,
       title: 'Lista ukończonych odpowiedzi na pytanie miesiąca',
     }));
-
-  return <DataList data={answerListData} />;
+  return (
+    <Box className='step-2-monthEndedAnswerList'>
+      <DataList data={answerListData} />
+    </Box>
+  );
 };

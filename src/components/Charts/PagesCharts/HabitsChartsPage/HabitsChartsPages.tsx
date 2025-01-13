@@ -46,7 +46,13 @@ export const HabitChartPages = () => {
   const userHabitsNames = userHabitsObj.habits.map((el: Habit) => el.name);
 
   return (
-    <Box alignItems={'center'} display={'flex'} flexDirection={'column'} justifyItems={'start'}>
+    <Box
+      alignItems={'center'}
+      className='step-13-habit-chart'
+      display={'flex'}
+      flexDirection={'column'}
+      justifyItems={'start'}
+    >
       <DateHabitInput value={monthAndYear} onChange={handleChange} />
 
       <HabitChart

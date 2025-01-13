@@ -50,7 +50,12 @@ const ChoiceVariant: React.FC = () => {
   };
 
   return (
-    <Box alignItems='center' display='flex' flexDirection='column'>
+    <Box
+      alignItems='center'
+      className='step-9-cross-out-variant'
+      display='flex'
+      flexDirection='column'
+    >
       <Text fontWeight={'bold'} m={2} textAlign={'center'}>
         Wybierz łączną kwotę, ktorą chcesz zaoszczędzić, każdy wariant posiada 33 pola kwot do
         zaoszczędzenia

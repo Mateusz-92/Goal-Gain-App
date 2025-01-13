@@ -17,11 +17,11 @@ export const MonthEndedAnswerListDetails = () => {
     return <Loader />;
   }
   if (isError || !data) {
-    return <div>Somethig went wrong</div>;
+    return <div>Coś poszło nie tak lub nie masz jeszcze danych</div>;
   }
 
   return (
-    <>
+    <Box>
       <Heading mb={5} textAlign={'center'}>
         {data.questionTitle}
       </Heading>
@@ -53,6 +53,6 @@ export const MonthEndedAnswerListDetails = () => {
           możliwych dni odpowiedzi
         </Text>
       </Box>
-    </>
+    </Box>
   );
 };

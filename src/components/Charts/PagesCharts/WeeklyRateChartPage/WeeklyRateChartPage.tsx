@@ -14,7 +14,7 @@ export const WeeklyRateChartPage = () => {
   }
 
   return (
-    <div>
+    <div className='step-16-weekly-rate-chart'>
       <WeeklyRateChart data={data || ([] as number[])} />
     </div>
   );

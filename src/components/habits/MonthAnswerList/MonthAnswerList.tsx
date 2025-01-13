@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useBlocker } from 'react-router-dom';
-import { useDisclosure } from '@chakra-ui/react';
+import { Box, useDisclosure } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
@@ -97,7 +97,7 @@ export const MonthAnswerList = () => {
   };
 
   return (
-    <>
+    <Box className='step-1-monthAnswerList'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextForm
           control={control}
@@ -156,6 +156,6 @@ export const MonthAnswerList = () => {
         />
       )
 : null}
-    </>
+    </Box>
   );
 };

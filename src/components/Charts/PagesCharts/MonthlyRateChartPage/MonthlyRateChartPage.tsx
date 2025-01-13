@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { getMonth } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
@@ -32,5 +33,9 @@ export const MonthlyRateChartPage = () => {
     return <div>coś poszło nie tak</div>;
   }
 
-  return <MonthlyChart data={monthlyRates} />;
+  return (
+    <Box className='step-16-monthly-rate-chart'>
+      <MonthlyChart data={monthlyRates} />;
+    </Box>
+  );      
 };

@@ -9,9 +9,10 @@ export type MenuItemType = {
 type DropdownMenuProps = {
   buttonTitle: string;
   itemTitles: MenuItemType[];
+  onClick?: () => void;
 };
 
-const DropdownMenu = ({ buttonTitle, itemTitles }: DropdownMenuProps) => {
+const DropdownMenu = ({ buttonTitle, itemTitles, onClick }: DropdownMenuProps) => {
   const navigate = useNavigate();
 
   return (
@@ -28,23 +29,26 @@ const DropdownMenu = ({ buttonTitle, itemTitles }: DropdownMenuProps) => {
             margin='0'
             padding='0'
             width='222px'
+            onClick={onClick}
           >
             {buttonTitle}
           </MenuButton>
-          <MenuList backgroundColor={'var(--dark-gray)'} m={0} maxWidth='100px' p={0}>
-            {itemTitles.map((item) => (
-              <MenuItem
-                key={item.title}
-                _hover={{ color: 'var(--orange)' }}
-                backgroundColor='transparent'
-                color='var(--light-gray)'
-                textAlign={['center', 'center', 'left']}
-                onClick={() => navigate(item.path)}
-              >
-                {item.title}
-              </MenuItem>
-            ))}
-          </MenuList>
+          {itemTitles && itemTitles.length > 0 && (
+            <MenuList backgroundColor={'var(--dark-gray)'} m={0} maxWidth='100px' p={0}>
+              {itemTitles.map((item) => (
+                <MenuItem
+                  key={item.title}
+                  _hover={{ color: 'var(--orange)' }}
+                  backgroundColor='transparent'
+                  color='var(--light-gray)'
+                  textAlign={['center', 'center', 'left']}
+                  onClick={() => navigate(item.path)}
+                >
+                  {item.title}
+                </MenuItem>
+              ))}
+            </MenuList>
+          )}
         </>
       )}
     </Menu>

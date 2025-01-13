@@ -1,3 +1,5 @@
+import { Box } from '@chakra-ui/react';
+
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllGoals } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
@@ -18,7 +20,11 @@ const GoalPlannerList = () => {
   if (isError) return <div>Coś poszło nie tak</div>;
   if (!data)
     return <RedirectBox href={ROUTES.threeMonthsGoalsPlanner} text='Przejdź do kreatora celów' />;
-  return <DataList data={goalsData || []} />;
+  return (
+    <Box className='step-4-GoalsList'>
+      <DataList data={goalsData || []} />
+    </Box>
+  );
 };
 
 export default GoalPlannerList;

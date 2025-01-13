@@ -13,9 +13,9 @@ const SavingsComponent: React.FC = () => {
 
   const { data, isError, isLoading } = useGetCrossOutSavingName(userId, crossOutSavingId || '');
   if (isLoading) return <Loader />;
-  if (isError || !data) return <div>Somethig went wrong</div>;
+  if (isError || !data) return <div>Coś poszło nie tak</div>;
   return (
-    <Box>
+    <Box className='step-10-cross-out-saving'>
       {data && (
         <Text fontSize={20} fontWeight={'bold'} textAlign={'center'}>
           Skreśl 33 kwoty i uzbieraj {data}

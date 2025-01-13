@@ -117,7 +117,7 @@ const HabitsEditor = () => {
   const habitsForCurrentDate = habitData.habits[currentDateString]?.habits || [];
 
   return (
-    <Box>
+    <Box className='step-7-habits-editor'>
       <Input
         bg='white'
         border='2px solid'

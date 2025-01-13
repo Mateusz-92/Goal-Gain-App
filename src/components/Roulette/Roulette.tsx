@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import { Heading, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Heading, useDisclosure, VStack } from '@chakra-ui/react';
 
 import { rouletteAmount } from '../../constants';
 import { useAuth } from '../../context/AuthContext';
@@ -39,7 +39,7 @@ export const Roulette: React.FC = () => {
   };
 
   return (
-    <>
+    <Box className='step-11-roulette'>
       <VStack align={'center'}>
         <Heading size={'md'} textAlign={'center'}>
           Zagraj w oszczędzanie !
@@ -63,7 +63,7 @@ export const Roulette: React.FC = () => {
         onClose={onClose}
         onConfirm={handleAddToSavings}
       />
-    </>
+    </Box>
   );
 };
 

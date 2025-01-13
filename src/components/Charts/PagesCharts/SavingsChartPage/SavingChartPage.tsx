@@ -30,7 +30,7 @@ export const SavingChartPage = () => {
     return <div> coś poszło nie tak</div>;
   }
   return (
-    <div>
+    <div className='step-15-savings-chart'>
       <SavingChart
         crossOutSavings={montlhlySumOfCrossOutSaving}
         rouletteSavings={montlhlySumOfRouletteSaving}

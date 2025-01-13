@@ -9,7 +9,6 @@ import TitleName from '../../../UI/TitleName/TitleName';
 import Loader from '../../Loader/Loader';
 import HabitsForm from '../HabitsForm/HabitsForm';
 
-
 const HabitsTracker = () => {
   const { userId } = useAuth();
 
@@ -45,7 +44,13 @@ const HabitsTracker = () => {
   }
   return (
     <>
-      <Box display='flex' flexDirection='column' justifyContent='center' p={10}>
+      <Box
+        className='step-8-habits-tracker'
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        p={10}
+      >
         <TitleName textAlign='center' title={monthName} />
         <HabitsForm date={new Date(dateKey)} habits={data} />
       </Box>

@@ -1,3 +1,5 @@
+import { Box } from '@chakra-ui/react';
+
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllWeekPlans } from '../../../firebase/queries';
 import { ROUTES } from '../../../routes';
@@ -18,7 +20,11 @@ const WeekPlannerDataListData = () => {
   if (isError) return <div>coś poszło nie tak</div>;
   if (!data)
     return <RedirectBox href={ROUTES.weekPlanner} text='Przejdź do kreatora planów tygodniowych' />;
-  return <DataList data={weekData || []} />;
+  return (
+    <Box className='step-6-WeekPlannerList'>
+      <DataList data={weekData || []} />
+    </Box>
+  );
 };
 
 export default WeekPlannerDataListData;
