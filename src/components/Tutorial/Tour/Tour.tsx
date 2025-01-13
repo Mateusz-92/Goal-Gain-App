@@ -198,7 +198,9 @@ export const Tour = () => {
       <Flex alignItems='center' gap={2} justify={'center'} mb={4}>
         <Btn
           type='button'
-          text={currentStep === 0 ? 'Zaczynamy!' : 'Opis kroku'}
+          text={currentStep === 0
+? 'Zaczynamy!'
+: 'Opis kroku'}
           onClick={() => setRun(true)}
         />
         <Btn text='Strona główna' type='button' onClick={() => navigate('/')} />
