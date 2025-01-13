@@ -3,25 +3,25 @@ import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 
-import { BoxWrapper } from '../../UI/BoxWrapper/BoxWrapper';
-import Btn from '../../UI/Btn/Btn';
-import { HabitChartPages } from '../Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
-import { MonthlyRateChartPage } from '../Charts/PagesCharts/MonthlyRateChartPage/MonthlyRateChartPage';
-import { PointsChartPage } from '../Charts/PagesCharts/PointsChartPage/PointsChartPage';
-import { SavingChartPage } from '../Charts/PagesCharts/SavingsChartPage/SavingChartPage';
-import { WeeklyRateChartPage } from '../Charts/PagesCharts/WeeklyRateChartPage/WeeklyRateChartPage';
-import ThreeMonthsGoalsPlanner from '../Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
-import WeekPlanner from '../Goals/WeekPlanner/WeekPlaner';
-import HabitsEditor from '../habits/HabitsEditor/HabitsEditor';
-import HabitsTracker from '../habits/HabitsTracker/HabitsTracker';
-import { MonthAnswerList } from '../habits/MonthAnswerList/MonthAnswerList';
-import GoalPlannerList from '../ListDataEditor/GoalsPlannerList/GoalsPlannerList';
-import { MonthEndedAnswerList } from '../ListDataEditor/MonthEndedAnswerList/MonthEndedAnswerList';
-import WeekPlannerDataListData from '../ListDataEditor/WeekPlanerListData/WeekPlanerListData';
-import MonthlyRating from '../Ratings/MothlyRating/MonthlyRating';
-import Roulette from '../Roulette/Roulette';
-import ChoiceVariant from '../SavingScratch/ChoiceVariant/ChoiceVariant';
-import SavingsComponent from '../SavingScratch/SavingsComponent/SavingsComponent';
+import { BoxWrapper } from '../../../UI/BoxWrapper/BoxWrapper';
+import Btn from '../../../UI/Btn/Btn';
+import { HabitChartPages } from '../../Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
+import { MonthlyRateChartPage } from '../../Charts/PagesCharts/MonthlyRateChartPage/MonthlyRateChartPage';
+import { PointsChartPage } from '../../Charts/PagesCharts/PointsChartPage/PointsChartPage';
+import { SavingChartPage } from '../../Charts/PagesCharts/SavingsChartPage/SavingChartPage';
+import { WeeklyRateChartPage } from '../../Charts/PagesCharts/WeeklyRateChartPage/WeeklyRateChartPage';
+import ThreeMonthsGoalsPlanner from '../../Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
+import WeekPlanner from '../../Goals/WeekPlanner/WeekPlaner';
+import HabitsEditor from '../../habits/HabitsEditor/HabitsEditor';
+import HabitsTracker from '../../habits/HabitsTracker/HabitsTracker';
+import { MonthAnswerList } from '../../habits/MonthAnswerList/MonthAnswerList';
+import GoalPlannerList from '../../ListDataEditor/GoalsPlannerList/GoalsPlannerList';
+import { MonthEndedAnswerList } from '../../ListDataEditor/MonthEndedAnswerList/MonthEndedAnswerList';
+import WeekPlannerDataListData from '../../ListDataEditor/WeekPlanerListData/WeekPlanerListData';
+import MonthlyRating from '../../Ratings/MothlyRating/MonthlyRating';
+import Roulette from '../../Roulette/Roulette';
+import ChoiceVariant from '../../SavingScratch/ChoiceVariant/ChoiceVariant';
+import SavingsComponent from '../../SavingScratch/SavingsComponent/SavingsComponent';
 
 export const Tour = () => {
   const navigate = useNavigate();
@@ -198,9 +198,7 @@ export const Tour = () => {
       <Flex alignItems='center' gap={2} justify={'center'} mb={4}>
         <Btn
           type='button'
-          text={currentStep === 0
-? 'Zaczynamy!'
-: 'Opis kroku'}
+          text={currentStep === 0 ? 'Zaczynamy!' : 'Opis kroku'}
           onClick={() => setRun(true)}
         />
         <Btn text='Strona główna' type='button' onClick={() => navigate('/')} />
