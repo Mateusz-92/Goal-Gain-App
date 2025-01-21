@@ -48,15 +48,21 @@ const ThreeMonthsTasks: React.FC<{
               {...register(`${nestedTaskName}.${i}.name`)}
             />
             <Container display='flex' justifyContent='space-between' padding={'0px'} width={'100%'}>
-              <TextForm
-                control={control}
-                isInput={true}
-                type='Date'
-                {...register(`${nestedTaskName}.${i}.finishDate`)}
-              />
-              {isDisplay && (
-                <CustomCheckbox control={control} {...register(`${nestedTaskName}.${i}.isEnded`)} />
-              )}
+              <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+                <TextForm
+                  control={control}
+                  isInput={true}
+                  type='Date'
+                  {...register(`${nestedTaskName}.${i}.finishDate`)}
+                />
+                {isDisplay && (
+                  <CustomCheckbox
+                    control={control}
+                    {...register(`${nestedTaskName}.${i}.isEnded`)}
+                    text='Zaznacz jeśli ukończyłeś'
+                  />
+                )}
+              </Box>
             </Container>
           </Container>
           <Btn text={`Usuń zadanie  ${i + 1}`} type='button' onClick={() => remove(i)} />

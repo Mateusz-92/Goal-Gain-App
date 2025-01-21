@@ -1,5 +1,5 @@
 import { format, getMonth } from 'date-fns';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { deleteUser, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import {
   collection,
@@ -12,6 +12,7 @@ import {
   where,
 } from 'firebase/firestore';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   listAll,
@@ -21,17 +22,13 @@ import {
 } from 'firebase/storage';
 
 import { ammountBord, Points, Saving, SavingCrossOut } from '../../types';
-import {
-  answerForMonthData,
-  questionForMonthData,
-} from '../../validators/validators';
+import { answerForMonthData, questionForMonthData } from '../../validators/validators';
 import firebaseApp from '../FirebaseConfig';
 import { auth } from '../FirebaseConfig';
 
 const db = getFirestore(firebaseApp);
 const apiBaseCollection = collection(db, 'ApiBase');
 const storage = getStorage();
-
 
 export const addRouletteSavingData = async (data: Saving, userId: string, id?: string) => {
   try {
@@ -319,10 +316,23 @@ export const handleLogout = async () => {
 };
 
 export const uploadAvatarToFirebase = async (
-  file: File,
+  file: File | null,
   userId: string,
 ): Promise<string | null> => {
-  if (!file) return null;
+  if (!file) {
+    const avatarDirRef = ref(storage, `avatars/${userId}`);
+    const avatarList = await listAll(avatarDirRef);
+
+    const avatarFile = avatarList.items.find(
+      (item) => item.name.startsWith('avatar_') && item.name.endsWith('.jpg'),
+    );
+
+    if (avatarFile) {
+      await deleteObject(avatarFile);
+    }
+
+    return null;
+  }
 
   try {
     const timestamp = Date.now();
@@ -435,5 +445,11 @@ export const loginWithGoogle = async (): Promise<void> => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error, 'error');
+  }
+};
+
+export const deleteAccount = async (user: User) => {
+  if (user) {
+    await deleteUser(user);
   }
 };

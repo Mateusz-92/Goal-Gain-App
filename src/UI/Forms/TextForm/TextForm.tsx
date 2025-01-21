@@ -70,6 +70,7 @@ export const TextForm = <T extends FieldValues>({
               <Input
                 {...commonProps}
                 fontSize={['10px', 'md', 'lg']}
+                min={new Date().toISOString().split('T')[0]}
                 mt='0'
                 textAlign='left'
                 type={type}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
 import { useAuth } from '../../../../context/AuthContext';
@@ -24,7 +24,6 @@ export const HabitChartPages = () => {
   const handleChange = (event: any) => {
     setMonthAndYear(event.target.value);
   };
-
   if (isLoading) {
     return <Loader />;
   }
@@ -34,6 +33,9 @@ export const HabitChartPages = () => {
   if (!habitsData || Object.keys(habitsData).length === 0) {
     return (
       <div>
+        <Heading mb={15} textAlign={'center'}>
+          Wykres - wykonane nawyki
+        </Heading>
         <DateHabitInput value={monthAndYear} onChange={handleChange} />
         <Text mt={'50px'} textAlign={'center'}>
           Nie masz danych o nawykach w tym miesiącu.

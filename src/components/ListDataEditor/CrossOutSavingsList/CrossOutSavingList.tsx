@@ -1,6 +1,8 @@
+import { Heading } from '@chakra-ui/react';
+
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutSavingDetails } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 
@@ -15,5 +17,10 @@ export const CrossOutSavingList = () => {
   }));
   if (isLoading) return <Loader />;
   if (isError || !data) return <div>coś poszło nie tak</div>;
-  return <DataList data={crossOutSavingData || []} />;
+  return (
+    <>
+      <Heading textAlign={'center'}>Oszczędności - Wykreślanka</Heading>
+      <DataList data={crossOutSavingData || []} />;
+    </>
+  );
 };

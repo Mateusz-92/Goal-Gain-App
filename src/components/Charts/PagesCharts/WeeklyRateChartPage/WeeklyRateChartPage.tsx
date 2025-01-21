@@ -1,3 +1,5 @@
+import { Heading } from '@chakra-ui/react';
+
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetWeekRate } from '../../../../firebase/queries';
 import Loader from '../../../Loader/Loader';
@@ -15,6 +17,10 @@ export const WeeklyRateChartPage = () => {
 
   return (
     <div className='step-16-weekly-rate-chart'>
+      <Heading mb={15} textAlign={'center'}>
+        Wykres - oceny tygodnia
+      </Heading>
+
       <WeeklyRateChart data={data || ([] as number[])} />
     </div>
   );

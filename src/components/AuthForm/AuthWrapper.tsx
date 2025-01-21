@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updatePassword } from 'firebase/auth';
 
+import { ROUTES } from '../../constants';
 import { useAlert } from '../../context/AlertContext';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -11,7 +12,6 @@ import {
   loginWithGoogle,
   registerWithEmailAndPassword,
 } from '../../firebase/Api/Api';
-import { ROUTES } from '../../routes';
 import {
   changePasswordSchema,
   FormData,

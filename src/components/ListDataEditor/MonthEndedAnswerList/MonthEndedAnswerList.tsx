@@ -1,12 +1,11 @@
 import { Box } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthAnswerQuestion } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
-
 export const MonthEndedAnswerList = () => {
   const actualDate = format(new Date(), 'MM.yyyy');
 

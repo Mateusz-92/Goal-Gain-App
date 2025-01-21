@@ -1,9 +1,8 @@
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllHabits } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
-
 const HabitTrackerList = () => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllHabits(userId);

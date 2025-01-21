@@ -2,7 +2,16 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
-import { Box, Container, Flex, Radio, RadioGroup, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Radio,
+  RadioGroup,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { indexNum } from '../../../constants';
@@ -71,6 +80,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         }
       },
     });
+
     onClose();
   };
   const value = watch('value');
@@ -107,7 +117,11 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
     return <div>Coś poszło nie tak</div>;
   }
   return (
-    <Box>
+    <Box className='step-12-monthly-rating'>
+      <Heading mb={15} textAlign={'center'}>
+        Ocena miesiąca
+      </Heading>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <Text fontWeight={'bold'} textAlign={'center'}>
@@ -116,8 +130,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={true}
-            placeholder='Wybierz miesiąc'
-            type='month'
+            placeholder='data'
+            type='date'
             {...register(`date`)}
           />
         </Container>

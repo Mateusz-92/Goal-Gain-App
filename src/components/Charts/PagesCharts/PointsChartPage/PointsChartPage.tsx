@@ -1,3 +1,5 @@
+import { Box, Heading } from '@chakra-ui/react';
+
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserPoints } from '../../../../firebase/queries';
 import Loader from '../../../Loader/Loader';
@@ -15,5 +17,12 @@ export const PointsChartPage = () => {
     <div>coś poszło nie tak</div>;
   }
 
-  return <MonthlyChart data={monthlyPoints} />;
+  return (
+    <Box className='step-18-points-chart'>
+      <Heading mb={15} textAlign={'center'}>
+        Wykres - zdobyte punkty
+      </Heading>
+      <MonthlyChart data={monthlyPoints} />;
+    </Box>
+  );
 };

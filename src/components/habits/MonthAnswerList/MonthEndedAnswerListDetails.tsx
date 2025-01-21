@@ -22,6 +22,8 @@ export const MonthEndedAnswerListDetails = () => {
 
   return (
     <Box>
+      <Heading textAlign={'center'}>Ukończone odpowiedzi miesiąca</Heading>
+
       <Heading mb={5} textAlign={'center'}>
         {data.questionTitle}
       </Heading>

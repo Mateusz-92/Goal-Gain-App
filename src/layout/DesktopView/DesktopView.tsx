@@ -5,6 +5,7 @@ import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 
 import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
 import UserAvatar from '../../components/UserAvatar/UserAvatar';
+import { UserDetailsMenu } from '../../components/UserDetailsMenu/UserDetailsMenu';
 import Logo from '../../UI/Logo/Logo';
 const DesktopView: React.FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const DesktopView: React.FC = () => {
           </VStack>
         </Box>
         <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%'>
+          <UserDetailsMenu />
           {!isHomePage && (
             <IconButton
               _active='transparent'
@@ -32,7 +34,7 @@ const DesktopView: React.FC = () => {
               _hover='transparent'
               aria-label='ArrowBackIcon'
               bg='transparent'
-              mb={5}
+              m={5}
               onClick={() => {
                 navigate(-1);
               }}

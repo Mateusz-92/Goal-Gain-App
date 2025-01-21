@@ -19,14 +19,14 @@ import {
   fetchUserAvatar,
   fetchUserPoints,
 } from './Api/Api';
-import { fetchAllGoalsData,fetchGoalsData } from './Api/GoalsApi';
-import { fetchAllHabits,fetchHabitsPerMonth, fetchLatestHabitForMonth } from './Api/HabitsApi';
+import { fetchAllGoalsData, fetchGoalsData } from './Api/GoalsApi';
+import { fetchAllHabits, fetchHabitsPerMonth, fetchLatestHabitForMonth } from './Api/HabitsApi';
 import {
   fetchAllMonthlyEvaluation,
   fetchMonthlyEvaluation,
   fetchMonthRateData,
 } from './Api/MonthAndRate';
-import { fetchAllMonthAnswerQuestion,fetchMonthCurrentAnswerQuestion } from './Api/MonthAnswerApi';
+import { fetchAllMonthAnswerQuestion, fetchMonthCurrentAnswerQuestion } from './Api/MonthAnswerApi';
 import {
   fetchAllWeekData,
   fetchWeekData,

@@ -127,6 +127,10 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
 
   return (
     <Box className='step-3-threeMonthsGoalsPlanner'>
+      <Heading mb={15} textAlign={'center'}>
+        Plany 3-miesięczne
+      </Heading>
+
       <form>
         {fields.map((el, i) => (
           // comment index in eslint

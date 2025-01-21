@@ -1,14 +1,5 @@
-import React, { useState } from 'react';
-import { useBlocker } from 'react-router-dom';
-import { Box, Input, useDisclosure } from '@chakra-ui/react';
-
-import { useAuth } from '../../../context/AuthContext';
-import { useAddUserPoints, useEditHabits } from '../../../firebase/mutations';
-import Btn from '../../../UI/Btn/Btn';
-import ModalApp from '../../Modal/ModalApp';
-
 export type Habit = {
-  id: number;
+  id: string;
   name: string;
   status: boolean;
 };
@@ -30,198 +21,178 @@ export type HabitFormData = {
   id?: string;
 };
 
-const initialHabitData: HabitFormData = {
-  date: new Date(),
-  habits: {},
+import React, { useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { useBlocker } from 'react-router-dom';
+import { Box, Container, Flex, Heading, useDisclosure } from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns';
+
+import { useAuth } from '../../../context/AuthContext';
+import { useAddUserPoints, useEditHabits } from '../../../firebase/mutations';
+import { useGetUserHabitNamesForMonth } from '../../../firebase/queries';
+import Btn from '../../../UI/Btn/Btn';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
+import { HabitFormValues, habitValidationSchema } from '../../../validators/validators';
+import Loader from '../../Loader/Loader';
+import ModalApp from '../../Modal/ModalApp';
+
+const DEFAULT_HABIT_DATA = {
+  date: new Date().toISOString().split('T')[0].toString(),
+  habits: [] as Habit[],
 };
-
-const habitsLength: number = 4;
-
-const HabitsEditor = () => {
+const HabitsEditor: React.FC = () => {
   const { userId } = useAuth();
-  const [habitData, setHabitData] = useState<HabitFormData>(initialHabitData);
-  const { isOpen, onClose, onOpen } = useDisclosure();
   const onAddHabitsMutation = useEditHabits(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
-  const [formChanged, setFormChanged] = useState(false);
+  const currentMonthYear = format(new Date(), 'yyyy-MM');
+  const {
+    data: dataHabits,
+    isError,
+    isLoading,
+  } = useGetUserHabitNamesForMonth(currentMonthYear, userId);
+  const [isExistHabits, setIsExistHabits] = useState<boolean>(dataHabits
+? true
+: false);
 
-  const blocker = useBlocker(
-    ({ currentLocation, nextLocation }) =>
-      formChanged && currentLocation.pathname !== nextLocation.pathname,
-  );
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = new Date(e.target.value);
+  const {
+    control,
+    formState: { isDirty },
+    handleSubmit,
+    register,
+    reset,
+  } = useForm<HabitFormValues>({
+    defaultValues: DEFAULT_HABIT_DATA,
+    resolver: zodResolver(habitValidationSchema),
+  });
 
-    if (newDate.getTime() !== habitData.date.getTime()) {
-      setHabitData({
-        ...habitData,
-        date: newDate,
-      });
-    }
-    setFormChanged(true);
-  };
+  const { append, fields, remove } = useFieldArray({
+    control,
+    name: 'habits',
+  });
 
-  const addHabitLocal = () => {
-    const newHabit = {
-      id: Date.now(),
-      name: '',
-      status: false,
+  const onSubmit = (data: HabitFormValues) => {
+    const dayHabits: DayHabit = {
+      [data.date.toString()]: {
+        habits: data.habits.map((habit) => ({
+          ...habit,
+          id: habit.id || '',
+        })),
+      },
     };
 
-    const currentDateString = habitData.date.toISOString().split('T')[0];
+    const formattedData: HabitFormData = {
+      date: new Date(data.date),
+      habits: dayHabits,
+    };
 
-    setHabitData({
-      ...habitData,
-      habits: {
-        ...habitData.habits,
-        [currentDateString]: {
-          habits: [...(habitData.habits[currentDateString]?.habits || []), newHabit],
-        },
-      },
-    });
-    setFormChanged(true);
-  };
+    onAddHabitsMutation.mutate(formattedData);
+    if (!dataHabits) {
+      onAddUserPoints({ points: 50 });
+    }
 
-  const removeHabitLocal = async (id: number) => {
-    const currentDateString = habitData.date.toISOString().split('T')[0];
-    const updatedHabits = habitData.habits[currentDateString]?.habits.filter(
-      (habit) => habit.id !== id,
-    );
-
-    setHabitData({
-      ...habitData,
-      habits: {
-        ...habitData.habits,
-        [currentDateString]: {
-          habits: updatedHabits || [],
-        },
-      },
-    });
-    setFormChanged(true);
-  };
-
-  const addHabitsHandler = async () => {
-    onAddHabitsMutation.mutate(habitData);
-    onAddUserPoints({ points: 50 });
+    reset();
 
     onClose();
-    setFormChanged(false);
   };
 
-  const saveData = () => {
-    onOpen();
+  const addHabit = () => {
+    append({ id: Date.now().toString(), name: '', status: false });
   };
-
-  const currentDateString = habitData.date.toISOString().split('T')[0];
-  const habitsForCurrentDate = habitData.habits[currentDateString]?.habits || [];
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      isDirty && currentLocation.pathname !== nextLocation.pathname,
+  );
+  if (isLoading) return <Loader />;
+  if (isError || !dataHabits) return <div>coś poszło nie tak</div>;
 
   return (
-    <Box className='step-7-habits-editor'>
-      <Input
-        bg='white'
-        border='2px solid'
-        borderColor={'transparent'}
-        borderRadius='15px'
-        height='52px'
-        mb='3'
-        textAlign='left'
-        type='date'
-        value={habitData.date?.toISOString().split('T')[0] || ''}
-        width='100%'
-        _disabled={{
-          _hover: {
-            bg: 'white',
-            borderColor: 'black',
-            cursor: 'not-allowed',
-            fontWeight: 'bold',
-          },
-        }}
-        _focus={{
-          borderColor: 'var(--dark-gray)',
-        }}
-        _focusVisible={{
-          outline: 'none',
-        }}
-        onChange={handleDateChange}
-      />
+    <>
+      <Heading mb={15} textAlign={'center'}>
+        Kreator nawyków
+      </Heading>
 
-      {habitsForCurrentDate.map((habit) => (
-        <div key={habit.id}>
-          <Input
-            bg='white'
-            border='2px solid'
-            borderColor={'transparent'}
-            borderRadius='15px'
-            height='52px'
-            mb='2'
-            mr={2}
-            placeholder={`Wpisz nawyk `}
-            textAlign='left'
-            type='text'
-            value={habit.name}
-            width={'70%'}
-            _disabled={{
-              _hover: {
-                bg: 'white',
-                borderColor: 'black',
-                cursor: 'not-allowed',
-                fontWeight: 'bold',
-              },
-            }}
-            _focus={{
-              borderColor: 'var(--dark-gray)',
-            }}
-            _focusVisible={{
-              outline: 'none',
-            }}
-            onChange={(e) => {
-              const updatedHabits = habitsForCurrentDate.map((item) =>
-                item.id === habit.id
-? { ...item, name: e.target.value }
-: item,
-              );
-              setHabitData({
-                ...habitData,
-                habits: {
-                  ...habitData.habits,
-                  [currentDateString]: {
-                    habits: updatedHabits,
-                  },
-                },
-              });
+      {isExistHabits
+? (
+        <Box
+          alignItems={'center'}
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+        >
+          Masz już utworzone nawyki w tym miesiącu, aby je podejrzeć przejdz do zakładki nawyki lub
+          utwórz nowy zestaw na ten miesiąc tracąc dostęp do aktualnego.
+          <Btn text='Nowe nawyki' type='button' onClick={onOpen} />
+          <ModalApp
+            body='Za chwilę przejdziesz do kreatora nawyków, jeśli utworzysz i zapiszesz nowe nawyki, utracisz dostęp do obecnie utworzonych'
+            cancelText='Anuluj'
+            confirmText='Tworzę nowe'
+            header='Uwaga !'
+            isOpen={isOpen}
+            onClose={onClose}
+            onConfirm={() => {
+              setIsExistHabits(false);
+              onClose();
             }}
           />
-          <Btn text='  Usuń nawyk' type='button' onClick={() => removeHabitLocal(habit.id)} />
-        </div>
-      ))}
-      {habitsForCurrentDate.length < habitsLength && (
-        <Btn text='Dodaj nawyk' type='button' onClick={addHabitLocal} />
-      )}
-      <Btn text='Zapisz ' type='button' onClick={saveData} />
-      <ModalApp
-        body={'Potwierdź, aby dodać punkty oraz nawyki do tabeli lub anuluj, aby zmodyfikować dane'}
-        cancelText='Anuluj'
-        confirmText='Potwierdź'
-        header='Gratulacje! Określiłeś swoje nawyki, które chcesz wprowadzić w życie, otrzymujesz 500 punktów'
-        isOpen={isOpen}
-        onClose={onClose}
-        onConfirm={addHabitsHandler}
-      />
-      {blocker.state === 'blocked'
-? (
-        <ModalApp
-          body={`Masz nie zapisane dane.`}
-          cancelText='Nie'
-          confirmText='Tak'
-          header=' Czy na pewno chcesz wyjść?'
-          isOpen={blocker.state === 'blocked'}
-          onClose={() => blocker.reset()}
-          onConfirm={() => blocker.proceed()}
-        />
+        </Box>
       )
+: (
+        <Box>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Container>
+              <TextForm
+                control={control}
+                isInput={true}
+                placeholder='data'
+                type='date'
+                {...register(`date`)}
+              />
+              {fields.map((habit, i) => (
+                <Box key={habit.id} alignItems='center' display='flex' mb={2}>
+                  <TextForm
+                    control={control}
+                    isInput={true}
+                    placeholder='Wpisz nawyk'
+                    type='text'
+                    {...register(`habits.${i}.name`)}
+                  />
+                  <Btn text='Usuń' type='button' onClick={() => remove(i)} />
+                </Box>
+              ))}
+              <Flex alignItems='center' gap={4} justifyContent='center' mt={4}>
+                {fields.length < 4 && <Btn text='Dodaj nawyk' type='button' onClick={addHabit} />}
+                <Btn text='Zapisz' type='button' onClick={onOpen} />
+              </Flex>
+            </Container>
+          </form>
+          <ModalApp
+            body='Potwierdź, aby zapisać nawyki ! Zapisane nawyki zobaczysz w zakładce Nawyki'
+            cancelText='Anuluj'
+            confirmText='Zatwierdź'
+            header='Gratulacje, tworzysz nawyki :-)'
+            isOpen={isOpen}
+            onClose={onClose}
+            onConfirm={handleSubmit(onSubmit)}
+          />
+          {blocker.state === 'blocked'
+? (
+            <ModalApp
+              body={`Masz nie zapisane dane.`}
+              cancelText='Nie'
+              confirmText='Tak'
+              header=' Czy na pewno chcesz wyjść?'
+              isOpen={blocker.state === 'blocked'}
+              onClose={() => blocker.reset()}
+              onConfirm={() => blocker.proceed()}
+            />
+          )
 : null}
-    </Box>
+        </Box>
+      )}
+    </>
   );
 };
 

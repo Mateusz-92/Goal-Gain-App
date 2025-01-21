@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllWeekPlans } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';

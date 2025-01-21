@@ -6,6 +6,7 @@ import {
   Box,
   Container,
   Flex,
+  Heading,
   Radio,
   RadioGroup,
   Text,
@@ -148,6 +149,10 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
   }
   return (
     <Box className='step-5-WeekPlanner'>
+      <Heading mb={15} textAlign={'center'}>
+        Plany tygodniowe
+      </Heading>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <Text>{t('weekPlanner.weekText')} </Text>
@@ -161,37 +166,61 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 1'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.0.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.0.status' />}
+          <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 1'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.0.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.0.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 2'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.1.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.1.status' />}
+          <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 2'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.1.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.1.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 3'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.2.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.2.status' />}
+          <Box display={'flex'} flexDirection={'column'} mb={'10'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 3'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.2.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.2.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
 
         {fields.map((field, index) => {

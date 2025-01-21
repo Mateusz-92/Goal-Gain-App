@@ -18,7 +18,6 @@ import firebaseApp from '../FirebaseConfig';
 const db = getFirestore(firebaseApp);
 const apiBaseCollection = collection(db, 'ApiBase');
 
-
 export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: string) => {
   try {
     const userDocRef = doc(apiBaseCollection);
@@ -55,7 +54,7 @@ export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: st
 
 export const updateHabitStatus = async (
   date: string,
-  habitId: number,
+  habitId: string,
   newStatus: boolean,
   id: string,
 ) => {

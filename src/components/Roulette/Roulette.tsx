@@ -40,6 +40,10 @@ export const Roulette: React.FC = () => {
 
   return (
     <Box className='step-11-roulette'>
+      <Heading mb={15} textAlign={'center'}>
+        Oszczędności - ruletka
+      </Heading>
+
       <VStack align={'center'}>
         <Heading size={'md'} textAlign={'center'}>
           Zagraj w oszczędzanie !

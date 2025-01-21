@@ -13,7 +13,7 @@ const SavingsComponent: React.FC = () => {
 
   const { data, isError, isLoading } = useGetCrossOutSavingName(userId, crossOutSavingId || '');
   if (isLoading) return <Loader />;
-  if (isError || !data) return <div>Coś poszło nie tak</div>;
+  if (isError || !data) return <div className='step-10-cross-out-saving'>Coś poszło nie tak</div>;
   return (
     <Box className='step-10-cross-out-saving'>
       {data && (

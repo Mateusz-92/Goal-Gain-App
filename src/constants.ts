@@ -151,3 +151,103 @@ export const rouletteAmount: OptionRoulette[] = [
   { option: '100' },
 ];
 
+export const levelsDescription = `
+
+  Brązowy Nowicjusz - do 100 punktów,
+  Srebrny Entuzjasta - od 100 do 250 punktów,
+  Złoty Odkrywca - od 250 do 500 punktów,
+  Platynowy Wyzwaniec - od 500 do 750 punktów,
+  Diamentowy Mistrz - od 750 do 1000 punktów,
+  Boski Arcymistrz - od 1500 punktów.
+ `;
+// const pointsDescription = ` Opis punktacji :
+//   utworzenie pytania miesiąca - 5 punktów,
+//   odpowiedź na pytanie miesiąca - 5 punktów,
+//   utworzenie celów 3-miesięcznych - 25 punktów,
+//   utworzenie celów tygodniowych - 25 punktów,
+//   realizacja celu tygodniowego - 10 punktów,
+//   wykonanie nawyku - 2 punkty`;
+// const endDescription =
+//   'Myślę, że ten krótki samouczek uświadomił Ci funkcje aplikacji GoalGainApp Jestem przekonany, że to narzędzie pozwoli Ci na uporządkowanie Twojego działania w określonym kierunku :-).';
+
+export const ROUTES = {
+  createHabits: '/createHabits',
+  habitChartPages: '/habitChartPages',
+  habitsEditor: '/habitsEditor',
+  habitsTracker: '/habitsTracker',
+  habitsTrackerData: '/habitsTracker/:habitListId',
+  habitsTrackerList: '/habitsTrackerList',
+  home: '/',
+  login: '/login',
+  monthAnswerDetails: '/monthAnswerDetails',
+  monthAnswerDetailsData: '/monthAnswerDetails/:monthAnswerId',
+  monthAnswerList: '/monthAnswerList',
+  monthEvaluation: '/monthEvaluation',
+  monthEvaluationData: '/monthEvaluation/:monthId',
+  monthEvaluationList: '/monthEvaluationList',
+  monthlyPointsChart: '/monthlyPointsChart',
+  monthlyRate: '/monthlyRate',
+  register: '/register',
+  roulette: '/roulette',
+  savingCrossOut: '/savingCrossOut',
+  savingCrossOutCreator: '/savingCrossOutCretor',
+  savingCrossOutData: '/savingCrossOut/:crossOutSavingId',
+  savingCrossOutList: '/savingCrossOutList',
+  savingsChartPage: '/savingsCharPage',
+  showcase: '/showcase',
+  threeMonthsGoalsPlanner: '/threeMonthsGoalsPlanner',
+  threeMonthsGoalsPlannerData: '/threeMonthsGoalsPlanner/:goalId',
+  threeMonthsGoalsPlannerList: '/threeMonthsGoalsPlannerList',
+  tutorial: '/tutorial',
+  updatePassword: '/updatePassword',
+  userSettings: '/userSettings',
+  weeklyRate: '/weeklyRate',
+  weekPlanner: '/weekPlanner',
+  weekPlannerData: '/weekPlanner/:weekId',
+  weekPlannerList: '/weePlannerList',
+};
+
+export const chartMenu = [
+  { path: ROUTES.habitChartPages, title: 'Nawyki w danym miesiącu' },
+  { path: ROUTES.savingsChartPage, title: 'Oszczędności' },
+  { path: ROUTES.weeklyRate, title: 'Oceny tygodniowe' },
+  { path: ROUTES.monthlyRate, title: 'Oceny miesięczne' },
+  { path: ROUTES.monthlyPointsChart, title: 'Zdobyte punkty' },
+];
+
+export const habitsMenu = [
+  { path: ROUTES.habitsTracker, title: 'Nawyki' },
+  { path: ROUTES.createHabits, title: 'Kreator nawyków' },
+];
+export const ratesMenu = [
+  { path: ROUTES.monthEvaluation, title: 'Ocena miesięczna' },
+  { path: ROUTES.monthEvaluationList, title: 'Lista ocen miesięcznych' },
+];
+export const monthAnswerMenu = [
+  { path: ROUTES.monthAnswerList, title: 'Aktualny miesiąc' },
+  { path: ROUTES.monthAnswerDetails, title: 'Lista odpowiedzi miesięcznych' },
+];
+
+export const goalsMenu = [
+  {
+    path: ROUTES.threeMonthsGoalsPlanner,
+    title: 'Kreator celów 3-miesięcznych',
+  },
+  {
+    path: ROUTES.threeMonthsGoalsPlannerList,
+    title: 'Lista twoich celów 3-miesięcznych',
+  },
+  {
+    path: ROUTES.weekPlanner,
+    title: 'Zaplanuj cele tygodniowe',
+  },
+  {
+    path: '/weePlannerList',
+    title: 'Lista planów tygodniowych',
+  },
+];
+export const savingsMenu = [
+  { path: ROUTES.savingCrossOutList, title: 'Twoje wykreślanki' },
+  { path: ROUTES.savingCrossOutCreator, title: 'Kreator wykreślanki' },
+  { path: ROUTES.roulette, title: 'Ruletka' },
+];

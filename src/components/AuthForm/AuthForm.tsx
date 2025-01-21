@@ -3,6 +3,7 @@ import { Control, SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
 import { FaGoogle } from 'react-icons/fa';
 import { Box, Heading, Stack } from '@chakra-ui/react';
 
+import { useAuth } from '../../context/AuthContext';
 import Btn from '../../UI/Btn/Btn';
 import { TextForm } from '../../UI/Forms/TextForm/TextForm';
 import { FormData } from '../../validators/validators';
@@ -36,83 +37,90 @@ const AuthForm: React.FC<AuthFormProps> = ({
   handleSubmit,
   isLogin,
   onSubmit,
-}) => (
-  <Box
-    alignItems={'center'}
-    className='transparent-bg'
-    display={'flex'}
-    h={'100vh'}
-    justifyContent={'center'}
-    w={'100vw'}
-  >
-    <Box
-      border={'solid'}
-      borderColor={'black'}
-      borderRadius={'25px'}
-      maxW='400px'
-      mx='auto'
-      padding='25px'
-    >
-      <Heading fontSize='42px' mb='50px'>
-        {getHeading(isLogin, changeUserPassword)}
-      </Heading>
+}) => {
+  const { user } = useAuth();
+  const googleEmail = user?.email?.includes('@gmail.com');
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack alignItems='center' spacing='1'>
-          {!changeUserPassword && (
+  return (
+    <Box
+      alignItems={'center'}
+      display={'flex'}
+      justifyContent={'center'}
+      minH={'100vh'}
+      minW={'100%'}
+      className={changeUserPassword
+? ''
+: 'transparent-bg'}
+    >
+      <Box
+        border={'solid'}
+        borderColor={'black'}
+        borderRadius={'25px'}
+        maxW='400px'
+        mx='auto'
+        padding='25px'
+      >
+        <Heading fontSize='42px' mb='50px'>
+          {getHeading(isLogin, changeUserPassword)}
+        </Heading>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack alignItems='center' spacing='1'>
+            {!changeUserPassword && (
+              <TextForm
+                isInput
+                control={control}
+                label='Email'
+                name='email'
+                placeholder=''
+                type='email'
+              />
+            )}
             <TextForm
               isInput
               control={control}
-              label='Email'
-              name='email'
-              placeholder=''
-              type='email'
-            />
-          )}
-          <TextForm
-            isInput
-            control={control}
-            label='Hasło'
-            name='password'
-            placeholder=''
-            type='password'
-          />
-          {!isLogin && (
-            <TextForm
-              isInput
-              control={control}
-              label='Powtórz hasło'
-              name='confirmPassword'
+              label='Hasło'
+              name='password'
               placeholder=''
               type='password'
             />
-          )}
+            {!isLogin && (
+              <TextForm
+                isInput
+                control={control}
+                label='Powtórz hasło'
+                name='confirmPassword'
+                placeholder=''
+                type='password'
+              />
+            )}
 
-          <Box display='flex' width='100%' justifyContent={isLogin
+            <Box display='flex' width='100%' justifyContent={isLogin
 ? 'space-between'
 : 'center'}>
-            {isLogin && <Btn text='Zaloguj' type='submit' />}
-            {!isLogin && !changeUserPassword && <Btn text='Zarejestruj' type='submit' />}
-            {changeUserPassword && <Btn text='Zmień hasło' type='submit' />}
-            {isLogin && !changeUserPassword && (
-              <Btn text='Zarejestruj' type='button' onClick={handleRegister} />
-            )}
-          </Box>
+              {isLogin && <Btn text='Zaloguj' type='submit' />}
+              {!isLogin && !changeUserPassword && <Btn text='Zarejestruj' type='submit' />}
+              {changeUserPassword && !googleEmail && <Btn text='Zmień hasło' type='submit' />}
+              {isLogin && !changeUserPassword && (
+                <Btn text='Zarejestruj' type='button' onClick={handleRegister} />
+              )}
+            </Box>
 
-          {isLogin && (
-            <Btn
-              leftIcon={<FaGoogle />}
-              text='Zaloguj z  Google'
-              type='button'
-              onClick={handleLogin}
-            />
-          )}
-          <span>user:</span>
-          <span>password:</span>
-        </Stack>
-      </form>
+            {isLogin && (
+              <Btn
+                leftIcon={<FaGoogle />}
+                text='Zaloguj z Google'
+                type='button'
+                onClick={handleLogin}
+              />
+            )}
+            <span>user:</span>
+            <span>password:</span>
+          </Stack>
+        </form>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default AuthForm;

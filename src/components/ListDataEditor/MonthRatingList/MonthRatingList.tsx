@@ -1,9 +1,8 @@
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthlyEvaluation } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
-
 const MonthRatingList = () => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllMonthlyEvaluation(userId);

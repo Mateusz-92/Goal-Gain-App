@@ -1,3 +1,5 @@
+import { Heading } from '@chakra-ui/react';
+
 import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
 import {
@@ -31,6 +33,10 @@ export const SavingChartPage = () => {
   }
   return (
     <div className='step-15-savings-chart'>
+      <Heading mb={15} textAlign={'center'}>
+        Wykres - oszczędności
+      </Heading>
+
       <SavingChart
         crossOutSavings={montlhlySumOfCrossOutSaving}
         rouletteSavings={montlhlySumOfRouletteSaving}

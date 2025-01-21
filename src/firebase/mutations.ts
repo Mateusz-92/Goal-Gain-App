@@ -100,7 +100,7 @@ export const useEditDayHabit = () => {
   return useMutation({
     mutationFn: async (value: {
       date: string;
-      habitId: number;
+      habitId: string;
       id: string;
       newStatus: boolean;
     }) => {
@@ -223,7 +223,7 @@ export const useAddAvatar = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ file, userId }: { file: File; userId: string }) => {
+    mutationFn: async ({ file, userId }: { file: File | null; userId: string }) => {
       return await uploadAvatarToFirebase(file, userId);
     },
     onError: (error) => {

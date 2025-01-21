@@ -3,26 +3,22 @@ import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/react';
 
-import { BoxWrapper } from '../../../UI/BoxWrapper/BoxWrapper';
-import Btn from '../../../UI/Btn/Btn';
-import { HabitChartPages } from '../../Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
-import { MonthlyRateChartPage } from '../../Charts/PagesCharts/MonthlyRateChartPage/MonthlyRateChartPage';
-import { PointsChartPage } from '../../Charts/PagesCharts/PointsChartPage/PointsChartPage';
-import { SavingChartPage } from '../../Charts/PagesCharts/SavingsChartPage/SavingChartPage';
-import { WeeklyRateChartPage } from '../../Charts/PagesCharts/WeeklyRateChartPage/WeeklyRateChartPage';
-import ThreeMonthsGoalsPlanner from '../../Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
-import WeekPlanner from '../../Goals/WeekPlanner/WeekPlaner';
-import HabitsEditor from '../../habits/HabitsEditor/HabitsEditor';
-import HabitsTracker from '../../habits/HabitsTracker/HabitsTracker';
-import { MonthAnswerList } from '../../habits/MonthAnswerList/MonthAnswerList';
-import GoalPlannerList from '../../ListDataEditor/GoalsPlannerList/GoalsPlannerList';
-import { MonthEndedAnswerList } from '../../ListDataEditor/MonthEndedAnswerList/MonthEndedAnswerList';
-import WeekPlannerDataListData from '../../ListDataEditor/WeekPlanerListData/WeekPlanerListData';
-import MonthlyRating from '../../Ratings/MothlyRating/MonthlyRating';
-import Roulette from '../../Roulette/Roulette';
-import ChoiceVariant from '../../SavingScratch/ChoiceVariant/ChoiceVariant';
-import SavingsComponent from '../../SavingScratch/SavingsComponent/SavingsComponent';
-import { UserLevelsDescirption } from '../UsersLevelsDescription/UserLevelsDesciption';
+import { BoxWrapper } from '../../UI/BoxWrapper/BoxWrapper';
+import Btn from '../../UI/Btn/Btn';
+import { HabitChartPages } from '../Charts/PagesCharts/HabitsChartsPage/HabitsChartsPages';
+import { SavingChartPage } from '../Charts/PagesCharts/SavingsChartPage/SavingChartPage';
+import ThreeMonthsGoalsPlanner from '../Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
+import WeekPlanner from '../Goals/WeekPlanner/WeekPlaner';
+import HabitsEditor from '../habits/HabitsEditor/HabitsEditor';
+import HabitsTracker from '../habits/HabitsTracker/HabitsTracker';
+import { MonthAnswerList } from '../habits/MonthAnswerList/MonthAnswerList';
+import GoalPlannerList from '../ListDataEditor/GoalsPlannerList/GoalsPlannerList';
+import { MonthEndedAnswerList } from '../ListDataEditor/MonthEndedAnswerList/MonthEndedAnswerList';
+import WeekPlannerDataListData from '../ListDataEditor/WeekPlanerListData/WeekPlanerListData';
+import MonthlyRating from '../Ratings/MothlyRating/MonthlyRating';
+import Roulette from '../Roulette/Roulette';
+import ChoiceVariant from '../SavingScratch/ChoiceVariant/ChoiceVariant';
+import SavingsComponent from '../SavingScratch/SavingsComponent/SavingsComponent';
 
 export const Tour = () => {
   const navigate = useNavigate();
@@ -117,11 +113,6 @@ export const Tour = () => {
         'W tym miejscu pokazujemy wszystkie punkty, które zdobyłeś w danym miesiącu. Aby wejść w tę podstronę wybierz w menu Wykresy / Zdobyte punkty',
       target: '.step-18-points-chart',
     },
-    {
-      content:
-        'Aplikacja ma również elementy grywalizacji w celu pokazania ilości zdobytych punktów, możesz osiągać różne poziomy, które widoczne są w menu użytkownika. A jakie są poziomy? ',
-      target: '.step-19-user-levels',
-    },
   ];
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -153,6 +144,7 @@ export const Tour = () => {
     switch (currentStep) {
       case 0:
         return <MonthAnswerList />;
+
       case 1:
         return <MonthEndedAnswerList />;
       case 2:
@@ -179,14 +171,12 @@ export const Tour = () => {
         return <HabitChartPages />;
       case 13:
         return <SavingChartPage />;
-      case 14:
-        return <WeeklyRateChartPage />;
-      case 15:
-        return <MonthlyRateChartPage />;
-      case 16:
-        return <PointsChartPage />;
-      case 17:
-        return <UserLevelsDescirption />;
+      // case 14:
+      //   return <WeeklyRateChart />;
+      // case 15:
+      //   return <MonthlyRateChart />;
+      // case 16:
+      //   return <PointsChart />;
 
       default:
         return null;
