@@ -1,45 +1,44 @@
 import { v4 as uuidv4 } from 'uuid';
 import { string, z } from 'zod';
 
-import i18n from '../i18n';
 const minLength: number = 1;
-
+const fieldIsRequired: string = 'Pole jest wymagane';
 export const generateUUID = () => uuidv4();
 export const taskSchema = z.object({
   finishDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-    message: i18n.t('common:validations.taskFinishDateInvalid'),
+    message: fieldIsRequired,
   }),
   id: z.string().uuid().default(generateUUID),
   isEnded: z.boolean(),
 
   name: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .min(minLength, { message: i18n.t('common:validations.taskNameRequired') }),
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
+    .min(minLength, fieldIsRequired),
 });
 
 export const singleGoalSchema = z.object({
   explanationQuestion: z.string().min(minLength, {
-    message: i18n.t('common:validations.explanationQuestionRequired'),
+    message: fieldIsRequired,
   }),
   goalName: z
-    .string({ required_error: i18n.t('common:validations.goalNameRequired') })
-    .min(minLength, { message: i18n.t('common:validations.goalNameRequired') })
-    .max(100, { message: i18n.t('Maksymalna długość tesktu wynosi 100 znaków') }),
+    .string({ required_error: fieldIsRequired })
+    .min(minLength, { message: fieldIsRequired })
+    .max(100, { message: 'Maksymalna długość tesktu wynosi 100 znaków' }),
   id: z.string().uuid().default(generateUUID),
 
   tasks: z.array(taskSchema),
   yourBenefits: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 100 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 100 znaków' })
     .min(minLength, {
-      message: i18n.t('common:validations.yourBenefitsRequired'),
+      message: fieldIsRequired,
     }),
   yourDisturber: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .min(minLength, {
-      message: i18n.t('common:validations.yourDisturberRequired'),
+      message: fieldIsRequired,
     }),
 });
 
@@ -61,30 +60,30 @@ export const MonthlyRatingData = z.object({
       return inputDate === currentMonth;
     },
     {
-      message: 'możesz ocenić tylko obecny miesiąc', 
+      message: 'Możesz ocenić tylko obecny miesiąc',
     },
   ),
   explanationOfRate: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .min(minLength, {
-      message: i18n.t('common:validations.explanationQuestionRequired'),
+      message: fieldIsRequired,
     }),
   id: z.string().optional(),
   lessonOfLife: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .min(minLength, {
-      message: i18n.t('common:validations.explanationQuestionRequired'),
+      message: fieldIsRequired,
     }),
   monthsRate: z.string().min(minLength, {
-    message: i18n.t('common:validations.explanationQuestionRequired'),
+    message: fieldIsRequired,
   }),
   theBiggestChalange: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .min(minLength, {
-      message: i18n.t('common:validations.explanationQuestionRequired'),
+      message: fieldIsRequired,
     }),
   value: z.string().min(minLength, { message: 'Ocena jest wymagana' }),
 });
@@ -94,10 +93,7 @@ export type MonthlyValuesRatingSchema = z.infer<typeof MonthlyRatingData>;
 const WeekDayPlanSchema = z.object({
   date: z.string().optional(),
   id: z.string().uuid().default(generateUUID),
-  plan: z
-    .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .optional(),
+  plan: z.string().max(75, { message: fieldIsRequired }).optional(),
 });
 export type WeekDayPlanData = z.infer<typeof WeekDayPlanSchema>;
 
@@ -105,28 +101,28 @@ const GoalWeekSchema = z.object({
   id: z.string().uuid().default(generateUUID),
   name: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .min(minLength, { message: i18n.t('common:validations.goalNameRequired') }),
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
+    .min(minLength, { message: fieldIsRequired }),
   status: z.boolean(),
 });
 
 export const WeekPlannerDataSchema = z.object({
   days: z.array(WeekDayPlanSchema),
   explanation: z.string().min(minLength, {
-    message: i18n.t('common:validations.explanationRequired'),
+    message: fieldIsRequired,
   }),
   goal: z.array(GoalWeekSchema),
   id: string().optional(),
   rate: z.string().optional(),
-  startDay: z.string().min(minLength, { message: 'Week is required' }),
+  startDay: z.string().min(minLength, { message: fieldIsRequired }),
 });
 export type WeekPlannerData = z.infer<typeof WeekPlannerDataSchema>;
 
 export const answerForMonthSchema = z.object({
   answer: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .min(minLength, { message: 'answer is required' }),
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
+    .min(minLength, { message: fieldIsRequired }),
   date: z.string().optional(),
   id: z.string().optional(),
   question: z.string().optional(),
@@ -143,34 +139,31 @@ export const monthAnswerSchema = z.object({
   month: z.string(),
   questionTitle: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .min(minLength, { message: 'field is required' }),
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
+    .min(minLength, { message: fieldIsRequired }),
   userId: z.string(),
 });
 export type monthAnswerData = z.infer<typeof monthAnswerSchema>;
 
 export const questionForMonthSchema = z.object({
-  answer: z
-    .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
-    .optional(),
+  answer: z.string().max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' }).optional(),
   date: z.string().optional(),
   id: z.string().optional(),
-  question: z.string().min(minLength, { message: 'answer is required' }),
+  question: z.string().min(minLength, { message: fieldIsRequired }),
 });
 export type questionForMonthData = z.infer<typeof questionForMonthSchema>;
 
 const passwordSchema = z.object({
   password: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .min(6, 'Hasło musi mieć co najmniej 6 znaków'),
 });
 
 export const loginSchema = passwordSchema.extend({
   email: z
     .string()
-    .max(75, { message: i18n.t('Maksymalna długość tesktu wynosi 75 znaków') })
+    .max(75, { message: 'Maksymalna długość tesktu wynosi 75 znaków' })
     .email('Nieprawidłowy email'),
 });
 

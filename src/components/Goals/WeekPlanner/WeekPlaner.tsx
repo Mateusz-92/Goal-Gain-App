@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
 import {
   Box,
@@ -49,8 +48,6 @@ const DEFAULT_WEEK_MODEL: WeekPlannerData = {
 };
 
 const WeekPlanner = ({ mode }: WeekPlannerProps) => {
-  const { t } = useTranslation(['common']);
-
   const { weekId } = useParams();
 
   const { userId } = useAuth();
@@ -61,9 +58,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
   const isDisplay = !!data;
-  const onAddWeekPlannMutation = weekId
-? editWeekWithId
-: editWeekWithoutId;
+  const onAddWeekPlannMutation = weekId ? editWeekWithId : editWeekWithoutId;
   const {
     control,
     formState: { errors, isDirty },
@@ -155,7 +150,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
-          <Text>{t('weekPlanner.weekText')} </Text>
+          <Text>Tydzień </Text>
 
           <TextForm
             control={control}
@@ -239,7 +234,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
         <Box mb={4} mt={4}>
           <Text mb={2} textAlign={'center'}>
-            {t('weekPlanner.weekRatingQuestion')}
+            {'Jak oceniasz ten tydzień i dlaczego ?'}
           </Text>
           <Flex alignItems='center' flexDirection={'column'}>
             <RadioGroup
@@ -259,7 +254,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           <TextForm
             control={control}
             isInput={false}
-            placeholder={t('monthlyRating.answer')}
+            placeholder={'Miejsce na odpowiedź'}
             {...register('explanation')}
           />
         </Box>
@@ -276,8 +271,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onConfirm={handleAddPointsandData}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -287,8 +281,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

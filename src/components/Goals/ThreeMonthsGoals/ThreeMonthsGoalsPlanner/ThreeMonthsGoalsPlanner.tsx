@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
 import { Box, Container, Flex, Heading, useDisclosure, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -37,14 +36,11 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
   const { goalId } = useParams();
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const { t } = useTranslation(['common']);
   const { data, isError, isLoading } = useGetGoals(goalId || '', userId, mode);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(userId, goalId);
   const editGoalsWithoutId = useEditGoals(userId);
-  const onAddGoalsMutation = goalId
-? editGoalsWithId
-: editGoalsWithoutId;
+  const onAddGoalsMutation = goalId ? editGoalsWithId : editGoalsWithoutId;
 
   const {
     control,
@@ -89,17 +85,13 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
     if (goalId) {
       let pointsChange = 0;
       formData.goals.forEach((goal, goalIndex) => {
-        const previousGoal = data
-? data[goalIndex]
-: undefined;
+        const previousGoal = data ? data[goalIndex] : undefined;
 
         if (previousGoal) {
           goal.tasks.forEach((task, taskIndex) => {
             const previousTask = previousGoal.tasks[taskIndex];
             if (previousTask && task.isEnded !== previousTask.isEnded) {
-              pointsChange += task.isEnded
-? 25
-: -25;
+              pointsChange += task.isEnded ? 25 : -25;
             }
           });
         }
@@ -137,7 +129,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
           <Box key={el.id}>
             <Container>
               <Heading fontSize={'20px'} textAlign='center'>
-                {t('goalHeader.title')} {i + countValue}{' '}
+                Cel {i + countValue}
               </Heading>
 
               <TextForm
@@ -149,7 +141,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
               <TextForm
                 control={control}
                 isInput={false}
-                label={t('goalHeader.explanationQuestion')}
+                label={'Ten cel jest dla mnie ważny ponieważ:'}
                 placeholder={''}
                 {...register(`goals.${i}.explanationQuestion`)}
               />
@@ -159,9 +151,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
                 control={control}
                 nestedTaskName={`goals.${i}.tasks`}
                 register={register}
-                isDisplay={data
-? true
-: false}
+                isDisplay={data ? true : false}
               />
               <TextForm
                 control={control}
@@ -202,8 +192,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
           />
         </>
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -213,8 +202,7 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
 import {
   Box,
@@ -48,16 +47,13 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { monthId } = useParams();
-  const { t } = useTranslation(['common']);
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetMonthlyEvaluation(monthId || '', userId, mode);
   const editMonthRateWithId = useEditMonthRate(userId, monthId);
   const editMonthRateWithoutId = useEditMonthRate(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const onAddMonthRateMutation = monthId
-? editMonthRateWithId
-: editMonthRateWithoutId;
+  const onAddMonthRateMutation = monthId ? editMonthRateWithId : editMonthRateWithoutId;
 
   const {
     control,
@@ -138,7 +134,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
 
         <Box mb={4}>
           <Text fontWeight={'bold'} textAlign={'center'}>
-            {t('monthlyRating.monthlyRatingQuestion')}
+            Ocena miesięczna
           </Text>
           <Flex alignItems='center' direction={'column'} justifyContent='center'>
             <RadioGroup mb={5} mt={5} value={value} onChange={(value) => setValue('value', value)}>
@@ -161,7 +157,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={false}
-            placeholder={t('monthlyRating.explanationOfQuestion')}
+            placeholder={'Uzasadnienie oceny...'}
             {...register(`monthsRate`)}
           />
         </Box>
@@ -169,7 +165,9 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={false}
-            label={t('monthlyRating.Question1')}
+            label={
+              'Jak oceniasz swoje postępy na kwartalnymi celami? W czym udało Ci się posunąć naprzód, a w czym nie ? Dlaczego? Oceń czy jesteś na dobrej drodze do zrealizowania swoich kwartalnych celów'
+            }
             placeholder='Opisz lekcję życia'
             {...register(`explanationOfRate`)}
           />
@@ -178,7 +176,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         <TextForm
           control={control}
           isInput={false}
-          label={t('monthlyRating.Question2')}
+          label={'Co było Twoim największym wyznaniem? Jak udało Ci się z nim poradzić?'}
           placeholder='Największe wyzwanie'
           {...register(`theBiggestChalange`)}
         />
@@ -186,8 +184,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         <TextForm
           control={control}
           isInput={false}
-          label={t('monthlyRating.Question3')}
-          placeholder='Opisz lekcję życia'
+          label={'Czego nauczył Cię ten miesiąć?'}
+          placeholder='Opisz krótko najcenniejsze doświadczenia z tego miesiąca'
           {...register(`lessonOfLife`)}
         />
         <Flex justify='center' mt={4}>
@@ -203,8 +201,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onConfirm={handleAddDataAndPoints}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -214,8 +211,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };
