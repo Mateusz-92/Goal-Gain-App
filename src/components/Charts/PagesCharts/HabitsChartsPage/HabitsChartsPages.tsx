@@ -14,7 +14,7 @@ import { LegendCalendar } from '../../LegendCalendar/LegendCalendar';
 export const HabitChartPages = () => {
   const { userId } = useAuth();
   const [monthAndYear, setMonthAndYear] = useState(() => format(new Date(), 'yyyy-MM'));
-
+  const emptyDataSeries: [string, string][] = [];
   const {
     data: habitsData,
     isError,
@@ -27,8 +27,8 @@ export const HabitChartPages = () => {
   if (isLoading) {
     return <Loader />;
   }
-  if (isError || !habitsData) {
-    return <div>Something went wrong</div>;
+  if (isError) {
+    return <div>Coś poszło nie tak</div>;
   }
   if (!habitsData || Object.keys(habitsData).length === 0) {
     return (
@@ -37,12 +37,22 @@ export const HabitChartPages = () => {
           Wykres - wykonane nawyki
         </Heading>
         <DateHabitInput value={monthAndYear} onChange={handleChange} />
-        <Text mt={'50px'} textAlign={'center'}>
-          Nie masz danych o nawykach w tym miesiącu.
-        </Text>
+        <Box
+          alignItems={'center'}
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+          mt={'50px'}
+        >
+          <HabitChart key={monthAndYear} dataSeries={emptyDataSeries} yearAndMonth={monthAndYear} />
+          <Text mt={'50px'} textAlign={'center'}>
+            Nie masz danych o nawykach w tym miesiącu.
+          </Text>
+        </Box>
       </div>
     );
   }
+
   const userHabitsObj = Object.entries(habitsData)[0][1] as unknown as { habits: Habit[] };
 
   const userHabitsNames = userHabitsObj.habits.map((el: Habit) => el.name);

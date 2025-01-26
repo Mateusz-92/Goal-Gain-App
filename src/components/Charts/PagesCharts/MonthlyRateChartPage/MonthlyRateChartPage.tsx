@@ -34,7 +34,7 @@ export const MonthlyRateChartPage = () => {
   }
 
   return (
-    <Box className='step-16-monthly-rate-chart' mb={15}>
+    <Box mb={15}>
       <Heading textAlign={'center'}>Wykres - oceny miesiąca</Heading>
       <MonthlyChart data={monthlyRates} />;
     </Box>

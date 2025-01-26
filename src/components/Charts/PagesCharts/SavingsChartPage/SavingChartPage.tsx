@@ -32,7 +32,7 @@ export const SavingChartPage = () => {
     return <div> coś poszło nie tak</div>;
   }
   return (
-    <div className='step-15-savings-chart'>
+    <div>
       <Heading mb={15} textAlign={'center'}>
         Wykres - oszczędności
       </Heading>

@@ -21,7 +21,7 @@ export type HabitFormData = {
   id?: string;
 };
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useBlocker } from 'react-router-dom';
 import { Box, Container, Flex, Heading, useDisclosure } from '@chakra-ui/react';
@@ -41,9 +41,12 @@ const DEFAULT_HABIT_DATA = {
   date: new Date().toISOString().split('T')[0].toString(),
   habits: [] as Habit[],
 };
-const HabitsEditor: React.FC = () => {
+interface HabitsEditorProps {
+  isTutorial?: boolean;
+}
+const HabitsEditor: React.FC<HabitsEditorProps> = ({ isTutorial }) => {
   const { userId } = useAuth();
-  const onAddHabitsMutation = useEditHabits(userId);
+
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
   const currentMonthYear = format(new Date(), 'yyyy-MM');
   const {
@@ -51,9 +54,18 @@ const HabitsEditor: React.FC = () => {
     isError,
     isLoading,
   } = useGetUserHabitNamesForMonth(currentMonthYear, userId);
-  const [isExistHabits, setIsExistHabits] = useState<boolean>(dataHabits
-? true
-: false);
+  const editHabitsWithId = useEditHabits(userId, dataHabits?.id);
+  const editHabitsWithOutId = useEditHabits(userId);
+  const onAddHabitsMutation = dataHabits?.id
+? editHabitsWithId
+: editHabitsWithOutId;
+  const [isExistHabits, setIsExistHabits] = useState(false);
+
+  useEffect(() => {
+    if (dataHabits) {
+      setIsExistHabits(Object.keys(dataHabits).length !== 0);
+    }
+  }, [dataHabits]);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -109,12 +121,12 @@ const HabitsEditor: React.FC = () => {
   if (isError || !dataHabits) return <div>coś poszło nie tak</div>;
 
   return (
-    <>
+    <Box className='step-7-habits-editor'>
       <Heading mb={15} textAlign={'center'}>
         Kreator nawyków
       </Heading>
 
-      {isExistHabits
+      {isExistHabits && !isTutorial
 ? (
         <Box
           alignItems={'center'}
@@ -192,7 +204,7 @@ const HabitsEditor: React.FC = () => {
 : null}
         </Box>
       )}
-    </>
+    </Box>
   );
 };
 

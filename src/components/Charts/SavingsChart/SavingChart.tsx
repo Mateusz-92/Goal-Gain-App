@@ -120,7 +120,7 @@ export const SavingChart: React.FC<SavingChartProps> = ({
   }, [rouletteSavings, crossOutSavings, totalSavings]);
 
   return (
-    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+    <Box className='step-15-savings-chart' height={{ base: '300px', md: '600px' }} width='100%'>
       <div id='savingChart' style={{ height: '100%', width: '100%' }} />
     </Box>
   );

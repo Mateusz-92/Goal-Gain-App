@@ -106,6 +106,7 @@ const HabitsForm: React.FC<HabitFormData> = ({
             .filter((day) => day === actualDay)
             .map((day) => {
               const extractedHabits = extractHabitsForDate(day, currentHabits);
+
               return (
                 <Tr key={day}>
                   <Td textAlign='left'>{getDayFromDate(day)}</Td>

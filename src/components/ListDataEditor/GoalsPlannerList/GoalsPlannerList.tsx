@@ -6,11 +6,17 @@ import { useGetAllGoals } from '../../../firebase/queries';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';
-
-const GoalPlannerList = () => {
+import { DUMMY_GOALS_LIST } from '../../Tour/helpers';
+interface GoalsPlannerListProps {
+  isTutorialMode?: boolean;
+}
+const GoalPlannerList: React.FC<GoalsPlannerListProps> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllGoals(userId);
-  const goalsData = data?.map((el) => ({
+  const goalsList = isTutorialMode
+? DUMMY_GOALS_LIST
+: data;
+  const goalsData = goalsList?.map((el) => ({
     date: el.date || 'Nie podano daty utworzenia',
     id: el.id,
     routes: ROUTES.threeMonthsGoalsPlanner,

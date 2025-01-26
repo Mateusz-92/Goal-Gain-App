@@ -71,7 +71,7 @@ export const WeeklyRateChart = ({ data }: { data: number[] }) => {
   }, [data]);
 
   return (
-    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+    <Box className='step-16-weekly-rate-chart' height={{ base: '300px', md: '600px' }} width='100%'>
       <div id='weeklyChart' style={{ height: '100%', width: '100%' }} />
     </Box>
   );

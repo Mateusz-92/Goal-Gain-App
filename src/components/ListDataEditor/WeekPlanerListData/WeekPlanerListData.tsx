@@ -6,11 +6,18 @@ import { useGetAllWeekPlans } from '../../../firebase/queries';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';
+import { DUMMY_WEEKDAY_PLAN_DATA } from '../../Tour/helpers';
 
-const WeekPlannerDataListData = () => {
+interface WeekPlannerListProps {
+  isTutorialMode?: boolean;
+}
+const WeekPlannerDataListData: React.FC<WeekPlannerListProps> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllWeekPlans(userId);
-  const weekData = data?.map((el) => ({
+  const weeklist = isTutorialMode
+? DUMMY_WEEKDAY_PLAN_DATA
+: data;
+  const weekData = weeklist?.map((el) => ({
     date: el.startDay,
     id: el.id,
     routes: ROUTES.weekPlanner,

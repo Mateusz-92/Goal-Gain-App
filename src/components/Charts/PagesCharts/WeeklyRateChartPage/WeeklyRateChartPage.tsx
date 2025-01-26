@@ -14,9 +14,8 @@ export const WeeklyRateChartPage = () => {
   if (isError || !data) {
     <div>Somethig went wrong</div>;
   }
-
   return (
-    <div className='step-16-weekly-rate-chart'>
+    <div>
       <Heading mb={15} textAlign={'center'}>
         Wykres - oceny tygodnia
       </Heading>

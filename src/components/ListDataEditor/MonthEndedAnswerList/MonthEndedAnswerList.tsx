@@ -6,7 +6,12 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthAnswerQuestion } from '../../../firebase/queries';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
-export const MonthEndedAnswerList = () => {
+import { DUMMY_ANSWERS_DATA } from '../../Tour/helpers';
+interface MonthEndedAnswerListProps {
+  isTutorialMode?: boolean;
+}
+
+export const MonthEndedAnswerList: React.FC<MonthEndedAnswerListProps> = ({ isTutorialMode }) => {
   const actualDate = format(new Date(), 'MM.yyyy');
 
   const { userId } = useAuth();
@@ -15,8 +20,10 @@ export const MonthEndedAnswerList = () => {
   if (isLoading) return <Loader />;
   if (isError) return <div>Coś poszło nie tak</div>;
   if (!data) return <div>Nie masz jeszcze danych</div>;
-
-  const answerListData = data
+  const answersList = isTutorialMode
+? DUMMY_ANSWERS_DATA
+: data;
+  const answerListData = answersList
     .filter((el) => el?.month && !el.month.includes(actualDate))
     .map((el) => ({
       date: el.month,
