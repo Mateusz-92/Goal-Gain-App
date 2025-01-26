@@ -59,12 +59,15 @@ const AuthFormWrapper: React.FC<AuthFormWrapperProps> = ({
       alert('Failed to log in with Google');
     }
   };
-
   const onSubmit = async (data: FormData) => {
     try {
       if (isLogin) {
-        await loginWithEmailAndPassword(data.email, data.password);
-        navigate('/');
+        try {
+          await loginWithEmailAndPassword(data.email, data.password);
+          navigate('/');
+        } catch (error) {
+          showAlert({ status: 'error', title: 'Błędne hasło lub email' });
+        }
       } else if (changeUserPassword) {
         if (user) {
           await updatePassword(user, data.password)
@@ -76,6 +79,7 @@ const AuthFormWrapper: React.FC<AuthFormWrapperProps> = ({
         navigate('/login');
       }
     } catch (error) {
+      showAlert({ status: 'error', title: 'Wystąpił błąd' });
       // eslint-disable-next-line no-console
       console.error(error);
     }
