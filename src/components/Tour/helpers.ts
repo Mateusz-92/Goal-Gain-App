@@ -12,13 +12,13 @@ import { DayHabit, HabitFormData } from '../habits/HabitsEditor/HabitsEditor';
 export const STEPS: Step[] = [
   {
     content:
-      'W tym miejscu pracujesz nad pytaniem, na które odpowiadasz każdego dnia danego miesiąca, możesz dodać 1 odpowiedź dziennie, która jest edytowalna danego dnia. Przed dodaniem pierwszej odpowiedzi tworzysz pytanie (np. Co dziś mnie zadowoliło?) Każda odpowiedź to puntky na twoje konto :-) Aby wejść w tę podstronę wybierz w menu Pytanie miesiąca / Aktualny miesiąc',
+      'W tym miejscu pracujesz nad pytaniem, na które odpowiadasz każdego dnia danego miesiąca, możesz dodać 1 odpowiedź dziennie, która jest edytowalna danego dnia. Przed dodaniem pierwszej odpowiedzi tworzysz pytanie (np. Co dziś mnie zadowoliło?) Każda odpowiedź to punkty na twoje konto :-) Aby wejść w tę podstronę wybierz w menu Pytanie miesiąca / Aktualny miesiąc',
     disableBeacon: true,
     target: '.step-1-monthAnswerList',
   },
   {
     content:
-      'Przed tobą widok wszystkich utworzonych i ukonczonych list z pytaniami miesiąca, widać w niej miesiąc, którego dotyczą odpowiedzi i przycisk edycji/podglądu ( tabelę z odpowiedziami). Aby wejść w tę podstronę wybierz w menu Pytanie miesiąca / Lista odpowiedzi miesięcznych',
+      'Przed tobą widok wszystkich utworzonych i ukonczonych list z pytaniami miesiąca, widać w niej miesiąc, którego dotyczą odpowiedzi i przycisk podglądu ( wyświetla tabelę z odpowiedziami). Aby wejść w tę podstronę wybierz w menu Pytanie miesiąca / Lista odpowiedzi miesięcznych',
     target: '.step-2-monthEndedAnswerList',
   },
   {
@@ -28,7 +28,7 @@ export const STEPS: Step[] = [
   },
   {
     content:
-      'Widok listy z dostępem do wszystkich kiedykolwiek utwrzonych celów 3 miesięcznych z możliwością ich podglądu i edycji. Aby wejść w tę podstronę wybierz w menu Cele / List Twoich celów 3-miesięcznych ',
+      'Widok listy z dostępem do wszystkich kiedykolwiek utwrzonych celów 3 miesięcznych z możliwością ich podglądu i edycji. Aby wejść w tę podstronę wybierz w menu Cele / Lista Twoich celów 3-miesięcznych ',
     target: '.step-4-GoalsList',
   },
   {
@@ -89,158 +89,25 @@ export const STEPS: Step[] = [
   },
   {
     content:
-      'Kolejny wykres pokazuje ocene miesięczną dla każdego miesiąca w roku. Aby wejść w tę podstronę wybierz w menu Wykresy / Oceny miesięczne',
+      'Kolejny wykres pokazuje ocene miesięczną dla każdego miesiąca w roku. Aby wejść w tę podstronę wybierz w menu Wykresy / Oceny miesięczne. Podobny wykres mamy dla zdobytych punktów w danym miesiącu.',
     target: '.step-17-monthly-rate-chart',
+  },
+
+  {
+    content: 'Użytkownik uzyskuje odpowiednie poziomy zgodnie zakresami punktacji:',
+    target: '.step-19-users-levels',
+  },
+  {
+    content: 'Większości aktywności w aplikacji są przyznawane punkty:',
+    target: '.step-20-users-points',
   },
   {
     content:
-      'W tym miejscu pokazujemy wszystkie punkty, które zdobyłeś w danym miesiącu. Aby wejść w tę podstronę wybierz w menu Wykresy / Zdobyte punkty',
-    target: '.step-18-points-chart',
+      'Obecny poziom, ilość punktów, zaoszczędzone kwoty oraz dostęp do ustawień użytkownika znajduje się w poniższym panelu, któru aktywujesz poprzez naciśnięcie ikony czarnego avatara w prawym górnym rogu ekranu. Była to ostatnia pozycja zawarta w tym samouczku, zapraszam do korzystania!',
+    target: '.step-21-userDetails',
   },
 ];
-// export const DUMMY_ANSWERS_DATA: monthAnswerData[] = [
-//   {
-//     answers: [
-//       { text: 'Tak, działa idealnie.', date: '2025-01-15' },
-//       { text: 'Potrzebuję więcej informacji.', date: '2025-01-16' },
-//     ],
-//     month: 'Styczeń',
-//     questionTitle: 'Czy ta funkcja działa poprawnie?',
-//     userId: 'użytkownik123',
-//     id: 'id123',
-//   },
-//   {
-//     answers: [
-//       { text: 'To jest dokładnie to, czego potrzebowałem.', date: '2025-02-12' },
-//       { text: 'Czy możesz podać przykłady?', date: '2025-02-14' },
-//     ],
-//     month: 'Luty',
-//     questionTitle: 'Jak używać API?',
-//     userId: 'użytkownik456',
-//     id: 'id456',
-//   },
-//   {
-//     answers: [
-//       { text: 'Nie jestem pewien co do tego.', date: '2025-03-10' },
-//       { text: 'Czy możesz rozwinąć szczegóły?', date: '2025-03-11' },
-//     ],
-//     month: 'Marzec',
-//     questionTitle: 'Jakie są ograniczenia?',
-//     userId: 'użytkownik789',
-//     id: 'id789',
-//   },
-//   {
-//     answers: [
-//       { text: 'To wymaga dalszych testów.', date: '2025-04-05' },
-//       { text: 'Odezwę się później.', date: '2025-04-07' },
-//     ],
-//     month: 'Kwiecień',
-//     questionTitle: 'Czy są jakieś uwagi do implementacji?',
-//     userId: 'użytkownik101',
-//     id: 'id101',
-//   },
-// ];
-// export const DUMMY_GOALS_LIST: GoalFormValuesSchema[] = [
-//   {
-//     goals: [
-//       {
-//         id: 'goal1',
-//         explanationQuestion: 'Dlaczego chcesz osiągnąć ten cel?',
-//         goalName: 'Nauka TypeScript',
-//         tasks: [
-//           {
-//             id: 'task1',
-//             finishDate: '2025-05-01',
-//             isEnded: false,
-//             name: 'Przeczytaj dokumentację TypeScript',
-//           },
-//           {
-//             id: 'task2',
-//             finishDate: '2025-05-15',
-//             isEnded: false,
-//             name: 'Zrealizuj kurs online',
-//           },
-//         ],
-//         yourBenefits: 'Zwiększenie umiejętności programistycznych',
-//         yourDisturber: 'Brak czasu',
-//       },
-//       {
-//         id: 'goal2',
-//         explanationQuestion: 'Dlaczego chcesz osiągnąć ten cel?',
-//         goalName: 'Poprawa kondycji fizycznej',
-//         tasks: [
-//           {
-//             id: 'task3',
-//             finishDate: '2025-06-01',
-//             isEnded: false,
-//             name: 'Codzienne bieganie przez 30 minut',
-//           },
-//           {
-//             id: 'task4',
-//             finishDate: '2025-06-15',
-//             isEnded: false,
-//             name: 'Uczęszczanie na siłownię 3 razy w tygodniu',
-//           },
-//         ],
-//         yourBenefits: 'Lepsze zdrowie i samopoczucie',
-//         yourDisturber: 'Lenistwo',
-//       },
-//       {
-//         id: 'goal3',
-//         explanationQuestion: 'Dlaczego chcesz osiągnąć ten cel?',
-//         goalName: 'Nauka gry na gitarze',
-//         tasks: [
-//           {
-//             id: 'task5',
-//             finishDate: '2025-07-01',
-//             isEnded: false,
-//             name: 'Codzienne ćwiczenia przez 1 godzinę',
-//           },
-//           {
-//             id: 'task6',
-//             finishDate: '2025-07-15',
-//             isEnded: false,
-//             name: 'Nauka 5 nowych utworów',
-//           },
-//         ],
-//         yourBenefits: 'Rozwój umiejętności muzycznych',
-//         yourDisturber: 'Brak motywacji',
-//       },
-//     ],
-//     date: '2025-05-01',
-//     id: 'id123',
-//   },
-// ];
-// export const DUMMY_WEEKDAY_PLAN_DATA: WeekPlannerData[] = [
-//   {
-//     days: [
-//       { id: 'day1', date: '2025-05-01', plan: 'Plan A' },
-//       { id: 'day2', date: '2025-05-02', plan: 'Plan B' },
-//     ],
-//     explanation: 'Explanation A',
-//     goal: [
-//       { status: true, id: 'goal1', name: 'Goal A' },
-//       { status: false, id: 'goal2', name: 'Goal B' },
-//     ],
-//     startDay: '2025-01-01',
-//     id: 'idA',
-//     rate: '8',
-//   },
-//   {
-//     days: [
-//       { id: 'day3', date: '2025-05-03', plan: 'Plan C' },
-//       { id: 'day4', date: '2025-05-04', plan: 'Plan D' },
-//     ],
-//     explanation: 'Explanation B',
-//     goal: [
-//       { status: true, id: 'goal3', name: 'Goal C' },
-//       { status: false, id: 'goal4', name: 'Goal D' },
-//     ],
-//     startDay: '2025-05-03',
-//     id: 'idB',
-//     rate: '9',
-//   },
-// ];
+
 export const DUMMY_ANSWERS_DATA: monthAnswerData[] = [
   {
     answers: [
@@ -386,174 +253,7 @@ export const DUMMY_WEEKDAY_PLAN_DATA: WeekPlannerData[] = [
     startDay: '2025-05-03',
   },
 ];
-// export const DUMMY_AMOUNTS_DATA: ammountBord[] = [
-//   {
-//     isCrossOut: true,
-//     id: '20fc016d-7d5e-46e8-9049-16b336816e29',
-//     date: 'Sun Dec 22 2024 13:03:51 GMT+0100 (czas środkowoeuropejski standardowy)',
-//     value: 55,
-//   },
-//   {
-//     isCrossOut: false,
-//     id: '75e7f8c6-33e6-4e80-b61c-87b415a031ed',
-//     value: 150,
-//   },
-//   {
-//     value: 50,
-//     isCrossOut: false,
-//     id: '7ff3fbf4-4e11-4acd-844d-5caed90386d8',
-//   },
-//   {
-//     value: 85,
-//     isCrossOut: false,
-//     id: '1fb2a400-0555-4826-a245-b99fb5f90937',
-//   },
-//   {
-//     value: 90,
-//     isCrossOut: false,
-//     id: '8defa2a1-f1f0-44fb-b25c-9d0b92ebcfb3',
-//   },
-//   {
-//     id: 'aa91c4c3-3dd1-4eeb-b0b7-56d8c51fcb8e',
-//     isCrossOut: false,
-//     value: 35,
-//   },
-//   {
-//     value: 110,
-//     isCrossOut: false,
-//     id: '2052f214-32e3-4b01-b728-585bc82459e9',
-//   },
-//   {
-//     value: 40,
-//     isCrossOut: false,
-//     id: 'b2091707-a988-4bf9-8c76-5f6a716fe84d',
-//   },
-//   {
-//     id: '41bfa8b7-09cd-4908-bb90-00d3f083110f',
-//     isCrossOut: false,
-//     value: 100,
-//   },
-//   {
-//     value: 160,
-//     isCrossOut: false,
-//     id: '3fda9390-e8fd-4da4-96d1-317f215ea6da',
-//   },
-//   {
-//     id: '16510956-ce06-40f4-a050-9378910a337b',
-//     isCrossOut: false,
-//     value: 45,
-//   },
-//   {
-//     value: 80,
-//     isCrossOut: false,
-//     id: '51626cf5-bc33-492a-b4cf-3eab7ea9eae7',
-//   },
-//   {
-//     value: 45,
-//     id: 'c70786e7-efd6-4322-a61b-752fd03d7353',
-//     isCrossOut: false,
-//   },
-//   {
-//     isCrossOut: false,
-//     id: '0e0934f2-0b9e-4bba-93bc-9b6d51496fae',
-//     value: 120,
-//   },
-//   {
-//     id: '93b37545-8af9-4129-9c6a-9e366bb9dba9',
-//     value: 55,
-//     isCrossOut: false,
-//   },
-//   {
-//     value: 90,
-//     isCrossOut: false,
-//     id: '9ba799c8-a8a9-41bd-a3ea-512abfda1af4',
-//   },
-//   {
-//     isCrossOut: false,
-//     id: '0a6a41c2-519c-4e08-baaf-390166d0b13c',
-//     value: 120,
-//   },
-//   {
-//     id: 'f4944273-1c80-4691-84cf-0f4f84b9006a',
-//     value: 130,
-//     isCrossOut: false,
-//   },
-//   {
-//     value: 75,
-//     isCrossOut: false,
-//     id: '074ddcdb-8c0d-48ec-857c-f2de88c2b32b',
-//   },
-//   {
-//     value: 85,
-//     isCrossOut: false,
-//     id: '68bcae33-0449-40c6-85fd-dd37d9d40c99',
-//   },
-//   {
-//     isCrossOut: false,
-//     value: 110,
-//     id: 'dad0a854-064a-497e-aaf2-0138d758aa37',
-//   },
-//   {
-//     id: '8a31b503-d719-47f8-a417-eca4bf8b558c',
-//     value: 80,
-//     isCrossOut: false,
-//   },
-//   {
-//     isCrossOut: false,
-//     id: '6edf77de-2626-4a19-aea4-cb1e612a4565',
-//     value: 125,
-//   },
-//   {
-//     id: 'd9c7aaaf-57d9-439a-ae1c-21dbfc7f17eb',
-//     isCrossOut: false,
-//     value: 55,
-//   },
-//   {
-//     value: 140,
-//     isCrossOut: false,
-//     id: '34f6d0e6-502b-4d93-b709-6c8a94c8db6e',
-//   },
-//   {
-//     isCrossOut: false,
-//     id: 'b633d336-43df-42eb-8bef-5d7b2da8cf25',
-//     value: 50,
-//   },
-//   {
-//     id: 'fa68ee1f-73dd-47f0-9356-099f752e458d',
-//     value: 100,
-//     isCrossOut: false,
-//   },
-//   {
-//     isCrossOut: false,
-//     value: 30,
-//     id: '6656cff2-a3c7-486e-8db5-c860844af9ec',
-//   },
-//   {
-//     isCrossOut: false,
-//     value: 130,
-//     id: 'd07c8f0b-52b4-46d5-8620-a642a5741596',
-//   },
-//   {
-//     value: 60,
-//     isCrossOut: false,
-//     id: 'a52e6b25-a7a0-4f06-a856-74fa2fc90a47',
-//   },
-//   {
-//     id: 'ca045239-4926-461f-a11d-2306f2ad1499',
-//     value: 90,
-//     isCrossOut: false,
-//   },
-//   {
-//     id: 'e3edc02b-c2a1-4408-86a0-b729e7dd6764',
-//     value: 150,
-//     isCrossOut: false,
-//   },
-//   {
-//     value: 160,
-//     id: '2fe3f3fa-04c0-4e6a-ab27-d93e209d228a',
-//     isCrossOut: false,
-//   },
-// ];
+
 export const DUMMY_AMOUNTS_DATA: ammountBord[] = [
   {
     date: 'Sun Dec 22 2024 13:03:51 GMT+0100 (czas środkowoeuropejski standardowy)',
@@ -758,6 +458,8 @@ export const DUMMY_POINTS_DATA: Points[] = [
   { date: '2025-11-01', id: '11', points: 225 },
   { date: '2025-12-01', id: '12', points: 275 },
 ];
-export const DUUMY_WEEKLY_POINTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 7, 3, 4, 5];
-export const DUUMY_MONTHLY_POINTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 7];
-
+export const DUMMY_WEEKLY_POINTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 7, 3, 4, 5];
+export const DUMMY_MONTHLY_POINTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 7];
+export const crossOutSavings: number[] = [100, 200, 400];
+export const rouletteSavings: number[] = [10, 50, 50];
+export const totalSavings: number[] = [110, 250, 450];

@@ -65,7 +65,6 @@ export const variant2000: ammountBord[] = [
   { id: uuidv4(), isCrossOut: false, value: 200 },
 ];
 
-// Poprawione variant3000 z sumą równą 3000
 export const variant3000: ammountBord[] = [
   { id: uuidv4(), isCrossOut: false, value: 55 },
   { id: uuidv4(), isCrossOut: false, value: 150 },
@@ -102,7 +101,6 @@ export const variant3000: ammountBord[] = [
   { id: uuidv4(), isCrossOut: false, value: 160 },
 ];
 
-// Poprawione variant4000 z sumą równą 4000
 export const variant4000: ammountBord[] = [
   { id: uuidv4(), isCrossOut: false, value: 100 },
   { id: uuidv4(), isCrossOut: false, value: 160 },
@@ -160,15 +158,13 @@ export const levelsDescription = `
   Diamentowy Mistrz - od 750 do 1000 punktów,
   Boski Arcymistrz - od 1500 punktów.
  `;
-// const pointsDescription = ` Opis punktacji :
-//   utworzenie pytania miesiąca - 5 punktów,
-//   odpowiedź na pytanie miesiąca - 5 punktów,
-//   utworzenie celów 3-miesięcznych - 25 punktów,
-//   utworzenie celów tygodniowych - 25 punktów,
-//   realizacja celu tygodniowego - 10 punktów,
-//   wykonanie nawyku - 2 punkty`;
-// const endDescription =
-//   'Myślę, że ten krótki samouczek uświadomił Ci funkcje aplikacji GoalGainApp Jestem przekonany, że to narzędzie pozwoli Ci na uporządkowanie Twojego działania w określonym kierunku :-).';
+export const pointsDescription = ` Opis punktacji :
+  utworzenie pytania miesiąca - 5 punktów,
+  odpowiedź na pytanie miesiąca - 5 punktów,
+  utworzenie celów 3-miesięcznych - 25 punktów,
+  utworzenie celów tygodniowych - 25 punktów,
+  realizacja celu tygodniowego - 10 punktów,
+  wykonanie nawyku - 2 punkty`;
 
 export const ROUTES = {
   createHabits: '/createHabits',
@@ -204,7 +200,7 @@ export const ROUTES = {
   weeklyRate: '/weeklyRate',
   weekPlanner: '/weekPlanner',
   weekPlannerData: '/weekPlanner/:weekId',
-  weekPlannerList: '/weePlannerList',
+  weekPlannerList: '/weekPlannerList',
 };
 
 export const chartMenu = [
@@ -251,3 +247,225 @@ export const savingsMenu = [
   { path: ROUTES.savingCrossOutCreator, title: 'Kreator wykreślanki' },
   { path: ROUTES.roulette, title: 'Ruletka' },
 ];
+
+export const dummyHabitChartPageDataSeries = {
+  '2025-01-01': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-02': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-03': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-04': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-05': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-06': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-07': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-08': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-09': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-10': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-11': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-12': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-13': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-14': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-15': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-16': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-17': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-18': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-19': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-20': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-21': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-22': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-23': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-24': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-25': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-26': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-27': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-28': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-29': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-30': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  '2025-01-31': {
+    habits: [
+      { id: 'habit1', name: 'Pij wodę', status: true },
+      { id: 'habit2', name: 'Ćwicz', status: false },
+      { id: 'habit3', name: 'Czytaj książki', status: true },
+    ],
+  },
+  id: 'uzytkownik123',
+  userId: 'uzytkownik123',
+};
