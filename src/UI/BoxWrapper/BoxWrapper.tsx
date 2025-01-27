@@ -15,7 +15,7 @@ export const BoxWrapper: React.FC<BoxWrapperProps> = ({ children, ...props }) =>
       p={4}
       pointerEvents={'none'}
       userSelect={'none'}
-      width='80%'
+      width='90%'
       {...props}
     >
       {children}
