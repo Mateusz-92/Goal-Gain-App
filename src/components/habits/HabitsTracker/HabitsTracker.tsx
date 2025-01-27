@@ -1,11 +1,12 @@
-import { Box, Heading, Link } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import { isSameMonth } from 'date-fns';
 
-import { months } from '../../../constants';
+import { months, ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetHabits } from '../../../firebase/queries';
 import TitleName from '../../../UI/TitleName/TitleName';
 import Loader from '../../Loader/Loader';
+import { RedirectBox } from '../../RedirectBox/RedirectBox';
 import HabitsForm from '../HabitsForm/HabitsForm';
 
 const HabitsTracker = () => {
@@ -28,10 +29,11 @@ const HabitsTracker = () => {
 
   if (!data || Object.keys(data).length === 0 || !isCurrentMonth) {
     return (
-      <Box className='step-8-habits-tracker' fontSize={18} textAlign={'center'}>
-        <Link href='/createHabits' mt={25} variant={'underline'}>
-          Nie masz utworzonych nawyków, przejdz do kreatora
-        </Link>
+      <Box fontSize={18} textAlign={'center'}>
+        <RedirectBox
+          href={ROUTES.createHabits}
+          text='Nie masz jeszcze utworzonych nawyków, przejdź do kreatora nawyków aby je utworzyć'
+        />
       </Box>
     );
   }
@@ -44,13 +46,7 @@ const HabitsTracker = () => {
     <>
       <Heading textAlign={'center'}>Nawyki </Heading>
 
-      <Box
-        // className='step-8-habits-tracker'
-        display='flex'
-        flexDirection='column'
-        justifyContent='center'
-        p={10}
-      >
+      <Box display='flex' flexDirection='column' justifyContent='center' p={10}>
         <TitleName textAlign='center' title={monthName} />
         <HabitsForm date={new Date(dateKey)} habits={data} />
       </Box>

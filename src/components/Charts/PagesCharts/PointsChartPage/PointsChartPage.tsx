@@ -3,25 +3,31 @@ import { Box, Heading } from '@chakra-ui/react';
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserPoints } from '../../../../firebase/queries';
 import Loader from '../../../Loader/Loader';
-import { DUMMY_POINTS_DATA } from '../../../Tour/helpers';
+import { RedirectBox } from '../../../RedirectBox/RedirectBox';
 import { MonthlyChart } from '../../MonthlyChart/MonthlyChart';
 import { calculateMonthlyChart } from '../MonthlyRateChartPage/MonthlyRateChartPage';
 
 interface Props {
-  isTutorial: boolean;
+  isTutorial?: boolean;
 }
 
-export const PointsChartPage: React.FC<Props> = ({ isTutorial }) => {
+export const PointsChartPage: React.FC<Props> = () => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetUserPoints(userId);
-  const monthlyPoints = calculateMonthlyChart(isTutorial
-? DUMMY_POINTS_DATA
-: data || []);
+  const monthlyPoints = calculateMonthlyChart(data || []);
   if (isLoading) {
     return <Loader />;
   }
-  if (isError || !data) {
+  if (isError) {
     <div>coś poszło nie tak</div>;
+  }
+  if (!data) {
+    return (
+      <RedirectBox
+        href='/'
+        text='Nie jeszcz zdobytych punktów, podejmij aktywność aby je zdobyć.'
+      />
+    );
   }
 
   return (

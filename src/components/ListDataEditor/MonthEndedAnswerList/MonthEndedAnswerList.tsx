@@ -6,6 +6,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { useGetAllMonthAnswerQuestion } from '../../../firebase/queries';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
+import { RedirectBox } from '../../RedirectBox/RedirectBox';
 import { DUMMY_ANSWERS_DATA } from '../../Tour/helpers';
 interface MonthEndedAnswerListProps {
   isTutorialMode?: boolean;
@@ -19,10 +20,16 @@ export const MonthEndedAnswerList: React.FC<MonthEndedAnswerListProps> = ({ isTu
 
   if (isLoading) return <Loader />;
   if (isError) return <div>Coś poszło nie tak</div>;
-  if (!data) return <div>Nie masz jeszcze danych</div>;
-  const answersList = isTutorialMode
+  if (!data)
+    return (
+      <RedirectBox
+        href={ROUTES.monthAnswerList}
+        text='Nie masz jeszcze ukończonych odpowiedzi na pytania miesiąca, przejdź do listy odpowiedzi na pytania miesiąca aby je ukończyć'
+      />
+    );
+  const answersList = (isTutorialMode
 ? DUMMY_ANSWERS_DATA
-: data;
+: data) ?? [];
   const answerListData = answersList
     .filter((el) => el?.month && !el.month.includes(actualDate))
     .map((el) => ({

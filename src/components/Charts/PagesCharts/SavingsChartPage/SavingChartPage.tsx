@@ -1,5 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 
+import { ROUTES } from '../../../../constants';
 import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
 import {
@@ -8,6 +9,7 @@ import {
   calculateTotalMonthlySavings,
 } from '../../../../helpers';
 import Loader from '../../../Loader/Loader';
+import { RedirectBox } from '../../../RedirectBox/RedirectBox';
 import { SavingChart } from '../../SavingsChart/SavingChart';
 
 export const SavingChartPage = () => {
@@ -28,8 +30,16 @@ export const SavingChartPage = () => {
   if (isLoading) {
     return <Loader />;
   }
-  if (isError || !roulette || !crossOutSaving) {
+  if (isError) {
     return <div> coś poszło nie tak</div>;
+  }
+  if (!roulette && !crossOutSaving) {
+    return (
+      <RedirectBox
+        href={ROUTES.roulette}
+        text='Nie masz jeszcze oszędności, zagraj w oszczędzanie lub utwórz wykreślankę'
+      />
+    );
   }
   return (
     <div>

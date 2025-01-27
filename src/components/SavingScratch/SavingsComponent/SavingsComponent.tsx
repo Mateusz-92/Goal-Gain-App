@@ -2,9 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Text } from '@chakra-ui/react';
 
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetCrossOutSavingName } from '../../../firebase/queries';
 import Loader from '../../Loader/Loader';
+import { RedirectBox } from '../../RedirectBox/RedirectBox';
 import CircleList from '../CircleList/CircleList';
 
 const SavingsComponent: React.FC = () => {
@@ -13,7 +15,14 @@ const SavingsComponent: React.FC = () => {
 
   const { data, isError, isLoading } = useGetCrossOutSavingName(userId, crossOutSavingId || '');
   if (isLoading) return <Loader />;
-  if (isError || !data) return <div className='step-10-cross-out-saving'>Coś poszło nie tak</div>;
+  if (isError) return <div>Coś poszło nie tak</div>;
+  if (!data)
+    return (
+      <RedirectBox
+        href={ROUTES.savingCrossOutCreator}
+        text='Nie masz jeszcze utworzonych wykreślanek oszczędności, przejdź do kreatora wykreślanki aby je utworzyć'
+      />
+    );
   return (
     <Box className='step-10-cross-out-saving'>
       {data && (

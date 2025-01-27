@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { HamburgerIcon } from '@chakra-ui/icons';
-import { Box, Container, IconButton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Container, IconButton, Text } from '@chakra-ui/react';
 
 import { useAuth } from '../../context/AuthContext';
 import { handleLogout } from '../../firebase/Api/Api';
 import { useUserAvatarData } from '../../firebase/queries';
 import Btn from '../../UI/Btn/Btn';
 import Loader from '../Loader/Loader';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import BadgeDisplay from '../UserLevel/UserLevel';
 
-export const UserDetailsMenu = () => {
+type Props = {
+  isTutorialMode?: boolean;
+};
+export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const [isToogled, setIsToogled] = useState<boolean>(false);
   const toogledHandler = () => setIsToogled(!isToogled);
@@ -23,20 +26,25 @@ export const UserDetailsMenu = () => {
   if (isLoading) return <Loader />;
 
   return (
-    <>
-      <IconButton
-        _hover={{ bgColor: 'var(--red)', opacity: 0.7 }}
-        aria-label='Menu'
-        bgColor={'var(--red)'}
-        icon={<HamburgerIcon />}
-        position='absolute'
-        right={'12%'}
-        top='10px'
-        transform={'translateX(40%)'}
-        zIndex='1000'
-        onClick={toogledHandler}
-      />
-      {isToogled && (
+    <Box className='step-21-userDetails'>
+      {!isTutorialMode && (
+        <IconButton
+          _hover={{ bgColor: 'transparent', opacity: 0.7 }}
+          aria-label='Menu'
+          bgColor={'transparent'}
+          icon={<Avatar bg={'black'} />}
+          top='10px'
+          zIndex='1000'
+          position={isTutorialMode
+? 'static'
+: 'absolute'}
+          right={isTutorialMode
+? '0'
+: '12%'}
+          onClick={toogledHandler}
+        />
+      )}
+      {(isToogled || isTutorialMode) && (
         <Container
           alignItems={'center'}
           bg={'var(--red)'}
@@ -44,16 +52,17 @@ export const UserDetailsMenu = () => {
           borderRadius='25px'
           display={'flex'}
           flexDirection={'column'}
-          h={'400px'}
+          h={'500px'}
           justifyContent={'center'}
-          mt={'5'}
-          position='absolute'
-          right={['50%', '30%', '20%']}
-          top='50px'
-          transform={['translateX(50%)', 'translateX(40%)', 'translateX(40%)']}
+          mt={'35'}
+          right={'25px'}
           w={'300px'}
           zIndex='999'
+          position={isTutorialMode
+? 'static'
+: 'absolute'}
         >
+          <UserAvatar />
           <Box>
             <BadgeDisplay points={sumOfUserPoints} />
           </Box>
@@ -67,6 +76,6 @@ export const UserDetailsMenu = () => {
           </Box>
         </Container>
       )}
-    </>
+    </Box>
   );
 };

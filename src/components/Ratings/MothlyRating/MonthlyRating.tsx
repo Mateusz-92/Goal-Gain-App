@@ -53,7 +53,9 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   const editMonthRateWithoutId = useEditMonthRate(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const onAddMonthRateMutation = monthId ? editMonthRateWithId : editMonthRateWithoutId;
+  const onAddMonthRateMutation = monthId
+? editMonthRateWithId
+: editMonthRateWithoutId;
 
   const {
     control,
@@ -165,10 +167,10 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={false}
+            placeholder='Opisz lekcję życia'
             label={
               'Jak oceniasz swoje postępy na kwartalnymi celami? W czym udało Ci się posunąć naprzód, a w czym nie ? Dlaczego? Oceń czy jesteś na dobrej drodze do zrealizowania swoich kwartalnych celów'
             }
-            placeholder='Opisz lekcję życia'
             {...register(`explanationOfRate`)}
           />
         </Box>
@@ -201,7 +203,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onConfirm={handleAddDataAndPoints}
         />
       </form>
-      {blocker.state === 'blocked' ? (
+      {blocker.state === 'blocked'
+? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -211,7 +214,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      ) : null}
+      )
+: null}
     </Box>
   );
 };

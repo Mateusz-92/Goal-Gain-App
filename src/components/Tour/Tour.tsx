@@ -6,7 +6,6 @@ import { Box, Flex } from '@chakra-ui/react';
 import { BoxWrapper } from '../../UI/BoxWrapper/BoxWrapper';
 import Btn from '../../UI/Btn/Btn';
 import { MonthlyChart } from '../Charts/MonthlyChart/MonthlyChart';
-import { PointsChartPage } from '../Charts/PagesCharts/PointsChartPage/PointsChartPage';
 import { SavingChart } from '../Charts/SavingsChart/SavingChart';
 import { WeeklyRateChart } from '../Charts/WeeklyRateChart/WeeklyRateChart';
 import ThreeMonthsGoalsPlanner from '../Goals/ThreeMonthsGoals/ThreeMonthsGoalsPlanner/ThreeMonthsGoalsPlanner';
@@ -22,8 +21,18 @@ import ChoiceVariant from '../SavingScratch/ChoiceVariant/ChoiceVariant';
 import CircleList from '../SavingScratch/CircleList/CircleList';
 import { TutorialHabitChart } from '../Tutorial/TutorialHabitChart/TutorialHabitChart';
 import { TutorialHabitTracker } from '../Tutorial/TutorialHabitTracker/TutorialHabitTracker';
+import { UserLevelsDescirption } from '../Tutorial/UsersLevelsDescription/UserLevelsDesciption';
+import { UserDetailsMenu } from '../UserDetailsMenu/UserDetailsMenu';
+import { UsersPointsDescription } from '../UsersPoinstDescription/UsersPointsDescription';
 
-import { DUUMY_MONTHLY_POINTS, DUUMY_WEEKLY_POINTS, STEPS } from './helpers';
+import {
+  crossOutSavings,
+  DUMMY_MONTHLY_POINTS,
+  DUMMY_WEEKLY_POINTS,
+  rouletteSavings,
+  STEPS,
+  totalSavings,
+} from './helpers';
 
 export const Tour = () => {
   const navigate = useNavigate();
@@ -44,7 +53,6 @@ export const Tour = () => {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
     if (finishedStatuses.includes(status)) {
       setRun(false);
     }
@@ -63,30 +71,26 @@ export const Tour = () => {
 
       case 1:
         return <MonthEndedAnswerList isTutorialMode={true} />;
-      // podstawic dummy komponent
+
       case 2:
         return <ThreeMonthsGoalsPlanner mode='add' />;
       case 3:
         return <GoalPlannerList isTutorialMode={true} />;
-      // podstawic dummy komponent
 
       case 4:
         return <WeekPlanner mode='add' />;
       case 5:
         return <WeekPlannerDataListData isTutorialMode={true} />;
-      // podstawic dummy komponent
 
       case 6:
         return <HabitsEditor isTutorial={true} />;
       case 7:
         return <TutorialHabitTracker />;
-      // podstawic dummy komponent
 
       case 8:
         return <ChoiceVariant />;
       case 9:
         return <CircleList isTutorialMode={true} />;
-      // podstawic dummy komponent
 
       case 10:
         return <Roulette />;
@@ -98,20 +102,24 @@ export const Tour = () => {
       case 13:
         return (
           <SavingChart
-            crossOutSavings={[100, 200, 400]}
-            rouletteSavings={[10, 50, 50]}
-            totalSavings={[110, 250, 450]}
+            crossOutSavings={crossOutSavings}
+            rouletteSavings={rouletteSavings}
+            totalSavings={totalSavings}
           />
         );
 
       case 14:
-        return <WeeklyRateChart data={DUUMY_WEEKLY_POINTS} />;
+        return <WeeklyRateChart data={DUMMY_WEEKLY_POINTS} />;
 
       case 15:
-        return <MonthlyChart data={DUUMY_MONTHLY_POINTS} />;
+        return <MonthlyChart data={DUMMY_MONTHLY_POINTS} />;
 
       case 16:
-        return <PointsChartPage isTutorial={true} />;
+        return <UserLevelsDescirption />;
+      case 17:
+        return <UsersPointsDescription />;
+      case 18:
+        return <UserDetailsMenu isTutorialMode={true} />;
 
       default:
         return null;
@@ -128,7 +136,13 @@ export const Tour = () => {
       minH={'100vh'}
       p={2}
     >
-      <Flex alignItems='center' gap={2} justify={'center'} mb={4}>
+      <Flex
+        alignItems='center'
+        direction={['column', 'row', 'row']}
+        gap={1}
+        justify={'center'}
+        mb={4}
+      >
         <Btn
           type='button'
           text={currentStep === 0

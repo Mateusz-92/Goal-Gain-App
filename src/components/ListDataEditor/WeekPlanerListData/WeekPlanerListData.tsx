@@ -25,8 +25,14 @@ const WeekPlannerDataListData: React.FC<WeekPlannerListProps> = ({ isTutorialMod
   }));
   if (isLoading) return <Loader />;
   if (isError) return <div>coś poszło nie tak</div>;
-  if (!data)
-    return <RedirectBox href={ROUTES.weekPlanner} text='Przejdź do kreatora planów tygodniowych' />;
+  if (!data) {
+    return (
+      <RedirectBox
+        href={ROUTES.weekPlanner}
+        text='Nie masz jeszcze ocenionych miesięcy, przejdź do kreatora'
+      />
+    );
+  }
   return (
     <Box className='step-6-WeekPlannerList'>
       <DataList data={weekData || []} />

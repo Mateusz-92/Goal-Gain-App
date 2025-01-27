@@ -1,20 +1,21 @@
 import { useState } from 'react';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
+import { ROUTES } from '../../../../constants';
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserHabitNamesForMonth } from '../../../../firebase/queries';
 import { convertDataToChartData } from '../../../../helpers';
 import { DateHabitInput } from '../../../../UI/DateHabitInput/DateHabitInput';
 import { Habit } from '../../../habits/HabitsEditor/HabitsEditor';
 import Loader from '../../../Loader/Loader';
+import { RedirectBox } from '../../../RedirectBox/RedirectBox';
 import { colors, HabitChart, pathes } from '../../HabitChart/HabitChart/HabitChart';
 import { LegendCalendar } from '../../LegendCalendar/LegendCalendar';
 
 export const HabitChartPages = () => {
   const { userId } = useAuth();
   const [monthAndYear, setMonthAndYear] = useState(() => format(new Date(), 'yyyy-MM'));
-  const emptyDataSeries: [string, string][] = [];
   const {
     data: habitsData,
     isError,
@@ -32,24 +33,10 @@ export const HabitChartPages = () => {
   }
   if (!habitsData || Object.keys(habitsData).length === 0) {
     return (
-      <div>
-        <Heading mb={15} textAlign={'center'}>
-          Wykres - wykonane nawyki
-        </Heading>
-        <DateHabitInput value={monthAndYear} onChange={handleChange} />
-        <Box
-          alignItems={'center'}
-          display={'flex'}
-          flexDirection={'column'}
-          justifyContent={'center'}
-          mt={'50px'}
-        >
-          <HabitChart key={monthAndYear} dataSeries={emptyDataSeries} yearAndMonth={monthAndYear} />
-          <Text mt={'50px'} textAlign={'center'}>
-            Nie masz danych o nawykach w tym miesiącu.
-          </Text>
-        </Box>
-      </div>
+      <RedirectBox
+        href={ROUTES.createHabits}
+        text='Nie masz utworzonych nawyków w tym miesiącu aby wyświelić wykres'
+      />
     );
   }
 
