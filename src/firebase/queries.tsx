@@ -47,6 +47,7 @@ export const QUERY_KEYS = {
   monthValue: 'monthValue',
   roulette: 'roulette',
   savingsCrossout: 'savingsCrossout',
+  userHabitNamesForMonth: 'userHabitNamesForMonth',
   userPoints: 'userPoints',
   variant: 'variant',
   weekDay: 'weekDay',
@@ -69,8 +70,6 @@ export const useGetAllHabits = (userId: string) => {
       return fetchAllHabits(userId);
     },
     queryKey: [QUERY_KEYS.habits],
-
-    // enabled: !!clientId,
   });
 };
 
@@ -91,7 +90,7 @@ export const useGetUserHabitNamesForMonth = (monthAndYear: string, userId: strin
     queryFn: async () => {
       return fetchHabitsPerMonth(monthAndYear, userId);
     },
-    queryKey: ['userHabitNamesForMonth', monthAndYear, userId],
+    queryKey: [QUERY_KEYS.userHabitNamesForMonth, monthAndYear, userId],
 
     // enabled: !!clientId,
   });
@@ -149,6 +148,7 @@ export const useGetWMonthRate = (userId: string) => {
     queryKey: [QUERY_KEYS.monthValue],
   });
 };
+
 export const useGetAllWeekPlans = (userId: string) => {
   return useQuery<WeekPlannerData[] | null>({
     enabled: !!userId,

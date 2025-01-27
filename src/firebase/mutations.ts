@@ -25,12 +25,12 @@ import { addMonthlyEvaluation } from './Api/MonthAndRate';
 import { addMonthAnswerQuestion } from './Api/MonthAnswerApi';
 import { addWeekPlan } from './Api/WeekPlanApi';
 import { QUERY_KEYS } from './queries';
-export const useEditHabits = (userId: string) => {
+export const useEditHabits = (userId: string, id?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (value: HabitFormData) => {
-      return await addHabits(value.habits, value.date, userId);
+      return await addHabits(value.habits, value.date, userId, id);
     },
     onError: (error) => {
       // eslint-disable-next-line no-console
@@ -38,6 +38,7 @@ export const useEditHabits = (userId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.habits] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userHabitNamesForMonth] });
     },
   });
 };

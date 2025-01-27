@@ -18,9 +18,17 @@ import firebaseApp from '../FirebaseConfig';
 const db = getFirestore(firebaseApp);
 const apiBaseCollection = collection(db, 'ApiBase');
 
-export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: string) => {
+export const addHabits = async (
+  newHabits: DayHabit,
+  monthYear: Date,
+  userId: string,
+  id?: string,
+) => {
   try {
-    const userDocRef = doc(apiBaseCollection);
+    const userDocRef = id
+? doc(apiBaseCollection, id)
+: doc(apiBaseCollection, userId);
+
     const daysInMonth = getDaysInMonth(monthYear.toString());
 
     const userDocSnapshot = await getDoc(userDocRef);
@@ -28,30 +36,33 @@ export const addHabits = async (newHabits: DayHabit, monthYear: Date, userId: st
 
     const monthYearString = monthYear.toISOString().split('T')[0].slice(0, 7);
 
-    const updatedHabits = userData?.habitsListForMonth ?? {};
+    const updatedHabits: { [key: string]: { habits: any[] } } = {};
 
     const newHabitsForMonth = newHabits[Object.keys(newHabits)[0]].habits || [];
 
     Array.from({ length: daysInMonth.length }, (_, i) => i + 1).forEach((day) => {
       const dayString = `${monthYearString}-${String(day).padStart(2, '0')}`;
-      const existingHabitsForDay = updatedHabits[dayString]?.habits || [];
       updatedHabits[dayString] = {
-        habits: [...existingHabitsForDay, ...newHabitsForMonth],
+        habits: [...newHabitsForMonth],
       };
     });
 
-    (updatedHabits.userId = userId),
-      (updatedHabits.date = userData?.habitsListForMonth?.date
+    const metadata = {
+      date: userData?.habitsListForMonth?.date
         ? userData.habitsListForMonth.date
-        : format(new Date(), 'yyyy-MM-dd')),
-      (updatedHabits.id = userDocRef.id),
-      await setDoc(userDocRef, { habitsListForMonth: updatedHabits }, { merge: true });
+        : format(new Date(), 'yyyy-MM-dd'),
+      id: id
+? id
+: userDocRef.id,
+      userId: userId,
+    };
+
+    await setDoc(userDocRef, { habitsListForMonth: { ...updatedHabits, ...metadata } });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
   }
 };
-
 export const updateHabitStatus = async (
   date: string,
   habitId: string,
