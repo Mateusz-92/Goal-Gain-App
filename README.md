@@ -1,5 +1,5 @@
 <h1 align="center">
-<img src=src\assets\badges\ggapp_logo.png alt="app logo" width="100%"/>
+<img src=./src/assets/badges/ggapp_logo.png alt="app logo" width="100%"/>
 
 </h1>
 
@@ -25,7 +25,7 @@ Application help to develop oneself by helping the user in setting plans, goals 
 | [Husky](https://typicode.github.io/husky/)          | Git hooks                                                     |
 | [Prettier](Prettier)                                | Code formatter                                                |
 
-<img src="src\assets\badges\ggapp_logo.png" alt="GGAPP " >
+<img src="./src/assets/badges/ggapp_logo.png" alt="GGAPP " >
 
 ## Installation 💿
 
