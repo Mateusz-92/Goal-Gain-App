@@ -1,38 +1,45 @@
-# React + TypeScript + Vite
+<h1 align="center">
+<img src=src\assets\badges\ggapp_logo.png alt="app logo" width="100%"/>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+</h1>
 
-Currently, two official plugins are available:
+<h4 align="center">Goal Gain App</h4>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview 🎨
 
-## Expanding the ESLint configuration
+Application help to develop oneself by helping the user in setting plans, goals nad habits. It also helps in saving money and gives space for tracking progress and reflection.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech/framework used 🧰
 
-- Configure the top-level `parserOptions` property like this:
+| Tech                                                | Description                                                   |
+| --------------------------------------------------- | ------------------------------------------------------------- |
+| [Typescript](https://www.typescriptlang.org/)       | Javascript superset language                                  |
+| [React](https://reactjs.org/)                       | Library for building user interfaces                          |
+| [Chakra UI](https://www.chakra-ui.com/)             | Chakra UI is a component library for React                    |
+| [Firebase](https://firebase.google.com/)            | Open source database                                          |
+| [TanStack Query v5](https://tanstack.com/)          | Asynchronous state management for TS/JS                       |
+| [React Hook Form](https://www.react-hook-form.com/) | Forms with easy-to-use validation                             |
+| [Zod](https://zod.dev/)                             | TypeScript-first schema validation with static type inference |
+| [Echarts](https://echarts.apache.org/)              | An Open Source JavaScript Visualization Library               |
+| [EsLint](https://eslint.org/)                       | Type Script linting                                           |
+| [Husky](https://typicode.github.io/husky/)          | Git hooks                                                     |
+| [Prettier](Prettier)                                | Code formatter                                                |
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-};
+<img src="src\assets\badges\ggapp_logo.png" alt="GGAPP " >
+
+## Installation 💿
+
+```bash
+
+git clone https://github.com/Mateusz-92/Goal-Gain-App.git
+
+npm install
+
+
+npm start
+
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Live 🎆
 
-# Goal-Gain-App
-
-# Goal-Gain-App
-
-# Goal-Gain-App
-
-# Goal-Gain-App
+https://goal-gain-app-test.vercel.app/
