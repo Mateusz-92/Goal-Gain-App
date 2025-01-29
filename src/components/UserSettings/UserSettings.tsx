@@ -49,6 +49,12 @@ export const UserSettings = () => {
     setAvatar('');
   };
   const handleDeleteAccount = async () => {
+    if (user?.email?.includes('testggapp@interia.pl'))
+      return showAlert({
+        description: 'Nie możesz usunięć konta testowego',
+        status: 'warning',
+        title: 'Błąd usunięcia konta',
+      });
     try {
       await deleteAccount(user!);
       showAlert({

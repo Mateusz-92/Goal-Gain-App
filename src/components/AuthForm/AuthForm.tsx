@@ -48,9 +48,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
       justifyContent={'center'}
       minH={'100vh'}
       minW={'100%'}
-      className={changeUserPassword
-? ''
-: 'transparent-bg'}
+      className={changeUserPassword ? '' : 'transparent-bg'}
     >
       <Box
         border={'solid'}
@@ -95,9 +93,7 @@ const AuthForm: React.FC<AuthFormProps> = ({
               />
             )}
 
-            <Box display='flex' width='100%' justifyContent={isLogin
-? 'space-between'
-: 'center'}>
+            <Box display='flex' width='100%' justifyContent={isLogin ? 'space-between' : 'center'}>
               {isLogin && <Btn text='Zaloguj' type='submit' />}
               {!isLogin && !changeUserPassword && <Btn text='Zarejestruj' type='submit' />}
               {changeUserPassword && !googleEmail && <Btn text='Zmień hasło' type='submit' />}
@@ -114,8 +110,9 @@ const AuthForm: React.FC<AuthFormProps> = ({
                 onClick={handleLogin}
               />
             )}
-            <span>user:</span>
-            <span>password:</span>
+            <span>Test user</span>
+            <span>user: testggapp@interia.pl</span>
+            <span>password: test12345</span>
           </Stack>
         </form>
       </Box>
