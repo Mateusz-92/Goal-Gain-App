@@ -238,7 +238,7 @@ export const goalsMenu = [
     title: 'Zaplanuj cele tygodniowe',
   },
   {
-    path: '/weePlannerList',
+    path: ROUTES.weekPlannerList,
     title: 'Lista planów tygodniowych',
   },
 ];
