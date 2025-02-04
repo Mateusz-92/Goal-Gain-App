@@ -14,24 +14,23 @@ import {
 
 import {
   addCrossoutSaving,
-  addGoals,
-  addHabits,
   addMonthAnswerData,
-  addMonthAnswerQuestion,
-  addMonthlyEvaluation,
   addRouletteSavingData,
   addUserPointsData,
-  addWeekPlan,
-  updateHabitStatus,
   uploadAvatarToFirebase,
-} from './Api';
+} from './Api/Api';
+import { addGoals } from './Api/GoalsApi';
+import { addHabits, updateHabitStatus } from './Api/HabitsApi';
+import { addMonthlyEvaluation } from './Api/MonthAndRate';
+import { addMonthAnswerQuestion } from './Api/MonthAnswerApi';
+import { addWeekPlan } from './Api/WeekPlanApi';
 import { QUERY_KEYS } from './queries';
-export const useEditHabits = (userId: string) => {
+export const useEditHabits = (userId: string, id?: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (value: HabitFormData) => {
-      return await addHabits(value.habits, value.date, userId);
+      return await addHabits(value.habits, value.date, userId, id);
     },
     onError: (error) => {
       // eslint-disable-next-line no-console
@@ -39,6 +38,7 @@ export const useEditHabits = (userId: string) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.habits] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userHabitNamesForMonth] });
     },
   });
 };
@@ -101,7 +101,7 @@ export const useEditDayHabit = () => {
   return useMutation({
     mutationFn: async (value: {
       date: string;
-      habitId: number;
+      habitId: string;
       id: string;
       newStatus: boolean;
     }) => {
@@ -224,7 +224,7 @@ export const useAddAvatar = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ file, userId }: { file: File; userId: string }) => {
+    mutationFn: async ({ file, userId }: { file: File | null; userId: string }) => {
       return await uploadAvatarToFirebase(file, userId);
     },
     onError: (error) => {

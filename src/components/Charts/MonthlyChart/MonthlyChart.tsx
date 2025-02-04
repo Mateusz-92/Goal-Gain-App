@@ -62,7 +62,11 @@ export const MonthlyChart = ({ data }: { data: number[] }) => {
   }, [data]);
 
   return (
-    <Box height={{ base: '300px', md: '600px' }} width='100%'>
+    <Box
+      className='step-17-monthly-rate-chart'
+      height={{ base: '300px', md: '600px' }}
+      width='100%'
+    >
       <div
         id='monthlyChart'
         style={{

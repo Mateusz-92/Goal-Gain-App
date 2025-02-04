@@ -1,46 +1,19 @@
-import { getMonth } from 'date-fns';
+import { Heading } from '@chakra-ui/react';
 
+import { ROUTES } from '../../../../constants';
 import { useAuth } from '../../../../context/AuthContext';
 import { useUserAvatarData } from '../../../../firebase/queries';
-import { ammountBord, Saving } from '../../../../types';
+import {
+  calculateMonthlyCrossOutSavings,
+  calculateMonthlySavings,
+  calculateTotalMonthlySavings,
+} from '../../../../helpers';
 import Loader from '../../../Loader/Loader';
+import { RedirectBox } from '../../../RedirectBox/RedirectBox';
 import { SavingChart } from '../../SavingsChart/SavingChart';
 
-const calculateMonthlySavings = (savings: Saving[]): number[] => {
-  const monthlySums: number[] = new Array(12).fill(0);
-
-  savings.forEach((saving) => {
-    const month = getMonth(new Date(saving.date)); //
-    monthlySums[month] += saving.amount;
-  });
-
-  return monthlySums;
-};
-
-const calculateMonthlyCrossOutSavings = (savings: ammountBord[][]): number[] => {
-  const monthlySums: number[] = new Array(12).fill(0); //
-
-  savings.forEach((savingCrossOut) => {
-    savingCrossOut.forEach((saving) => {
-      if (saving.date) {
-        const month = getMonth(new Date(saving.date));
-        monthlySums[month] += saving.value;
-      }
-    });
-  });
-  return monthlySums;
-};
-
-const calculateTotalMonthlySavings = (
-  rouletteSavings: number[],
-  crossOutSavings: number[],
-): number[] => {
-  return rouletteSavings.map((roulette, index) => roulette + crossOutSavings[index]);
-};
-
 export const SavingChartPage = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const {
     data: { crossOutSaving, roulette },
     isError,
@@ -57,11 +30,23 @@ export const SavingChartPage = () => {
   if (isLoading) {
     return <Loader />;
   }
-  if (isError || !roulette || !crossOutSaving) {
-    return <div> Somethig went wrong</div>;
+  if (isError) {
+    return <div> coś poszło nie tak</div>;
+  }
+  if (!roulette && !crossOutSaving) {
+    return (
+      <RedirectBox
+        href={ROUTES.roulette}
+        text='Nie masz jeszcze oszędności, zagraj w oszczędzanie lub utwórz wykreślankę'
+      />
+    );
   }
   return (
     <div>
+      <Heading mb={15} textAlign={'center'}>
+        Wykres - oszczędności
+      </Heading>
+
       <SavingChart
         crossOutSavings={montlhlySumOfCrossOutSaving}
         rouletteSavings={montlhlySumOfRouletteSaving}

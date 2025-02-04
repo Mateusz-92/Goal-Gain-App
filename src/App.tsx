@@ -3,7 +3,7 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { AuthProvider } from './context/AuthContext';
-import { router } from './routes';
+import { router } from './pages/routes';
 
 import './App.css';
 const queryClient = new QueryClient({

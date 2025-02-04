@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
 import { Box, Container, Flex, Heading, useDisclosure, VStack } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,12 +9,12 @@ import { useAuth } from '../../../../context/AuthContext';
 import { useAddUserPoints, useEditGoals } from '../../../../firebase/mutations';
 import { useGetGoals } from '../../../../firebase/queries';
 import Btn from '../../../../UI/Btn/Btn';
+import { TextForm } from '../../../../UI/Forms/TextForm/TextForm';
 import {
   GoalFormValuesSchema,
   goalSchema,
   SingleGoalValuesSchema,
 } from '../../../../validators/validators';
-import { TextForm } from '../../../Forms/TextForm/TextForm';
 import Loader from '../../../Loader/Loader';
 import ModalApp from '../../../Modal/ModalApp';
 import ThreeMonthsTasks, { DEFAULT_TASK_MODEL } from '../ThreeMonthsTasks/ThreeMonthsTasks';
@@ -33,12 +32,10 @@ const countValue: number = 1;
 type ThreeMonthsGoalsPlannerProps = { mode: 'add' | 'edit' };
 
 const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { goalId } = useParams();
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const { t } = useTranslation(['common']);
   const { data, isError, isLoading } = useGetGoals(goalId || '', userId, mode);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const editGoalsWithId = useEditGoals(userId, goalId);
@@ -123,18 +120,22 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
     return <Loader />;
   }
   if (isError) {
-    return <div>Something went wrong</div>;
+    return <div>coś poszło nie tak</div>;
   }
 
   return (
-    <Box>
+    <Box className='step-3-threeMonthsGoalsPlanner'>
+      <Heading mb={15} textAlign={'center'}>
+        Plany 3-miesięczne
+      </Heading>
+
       <form>
         {fields.map((el, i) => (
           // comment index in eslint
           <Box key={el.id}>
             <Container>
               <Heading fontSize={'20px'} textAlign='center'>
-                {t('goalHeader.title')} {i + countValue}{' '}
+                Cel {i + countValue}
               </Heading>
 
               <TextForm
@@ -143,39 +144,41 @@ const ThreeMonthsGoalsPlanner = ({ mode }: ThreeMonthsGoalsPlannerProps) => {
                 placeholder={'Nazwa celu'}
                 {...register(`goals.${i}.goalName`)}
               />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={'Ten cel jest dla mnie ważny ponieważ:'}
+                placeholder={''}
+                {...register(`goals.${i}.explanationQuestion`)}
+              />
             </Container>
-            <TextForm
-              control={control}
-              isInput={false}
-              label={t('goalHeader.explanationQuestion')}
-              placeholder={''}
-              {...register(`goals.${i}.explanationQuestion`)}
-            />
-            <ThreeMonthsTasks
-              control={control}
-              nestedTaskName={`goals.${i}.tasks`}
-              register={register}
-              isDisplay={data
+            <Container>
+              <ThreeMonthsTasks
+                control={control}
+                nestedTaskName={`goals.${i}.tasks`}
+                register={register}
+                isDisplay={data
 ? true
 : false}
-            />
-            <TextForm
-              control={control}
-              isInput={false}
-              label={'Korzyści'}
-              placeholder={''}
-              {...register(`goals.${i}.yourBenefits`)}
-            />
-            <TextForm
-              control={control}
-              isInput={false}
-              label={'Blokady'}
-              placeholder={''}
-              {...register(`goals.${i}.yourDisturber`)}
-            />
-            <VStack alignItems={'center'} mb={'5px'}>
-              <Btn text='Usuń cel' type='button' onClick={() => remove(i)} />
-            </VStack>
+              />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={'Korzyści'}
+                placeholder={''}
+                {...register(`goals.${i}.yourBenefits`)}
+              />
+              <TextForm
+                control={control}
+                isInput={false}
+                label={'Blokady'}
+                placeholder={''}
+                {...register(`goals.${i}.yourDisturber`)}
+              />
+              <VStack alignItems={'center'} mb={'5px'}>
+                <Btn text={`Usuń cel ${i + 1}`} type='button' onClick={() => remove(i)} />
+              </VStack>
+            </Container>
           </Box>
         ))}
 

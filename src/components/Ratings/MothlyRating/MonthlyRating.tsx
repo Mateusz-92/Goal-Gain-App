@@ -1,8 +1,16 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
-import { Box, Container, Flex, Radio, RadioGroup, Text, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Radio,
+  RadioGroup,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { indexNum } from '../../../constants';
@@ -10,12 +18,12 @@ import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditMonthRate } from '../../../firebase/mutations';
 import { useGetMonthlyEvaluation } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { MonthlyRatingData, MonthlyValuesRatingSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 
-type monthlyRating = {
+type MonthlyRating = {
   date: string;
   explanationOfRate: string;
   lessonOfLife: string;
@@ -26,7 +34,7 @@ type monthlyRating = {
 type MonthRateProps = { mode: 'add' | 'edit' };
 
 const arrRadioLength: number = 10;
-const DEAFAULT_RATING_MODEL: monthlyRating = {
+const DEAFAULT_RATING_MODEL: MonthlyRating = {
   date: '',
   explanationOfRate: '',
   lessonOfLife: '',
@@ -39,9 +47,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const { monthId } = useParams();
-  const { t } = useTranslation(['common']);
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetMonthlyEvaluation(monthId || '', userId, mode);
   const editMonthRateWithId = useEditMonthRate(userId, monthId);
   const editMonthRateWithoutId = useEditMonthRate(userId);
@@ -65,8 +71,6 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   });
 
   const onSubmit = async (formData: MonthlyValuesRatingSchema) => {
-    // eslint-disable-next-line no-console
-    console.log('data', data);
     await onAddMonthRateMutation.mutate(formData, {
       onSuccess: () => {
         if (mode === 'add') {
@@ -74,6 +78,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         }
       },
     });
+
     onClose();
   };
   const value = watch('value');
@@ -107,10 +112,14 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
     return <Loader />;
   }
   if (isError) {
-    return <div>Somethig went wrong</div>;
+    return <div>Coś poszło nie tak</div>;
   }
   return (
-    <Box>
+    <Box className='step-12-monthly-rating'>
+      <Heading mb={15} textAlign={'center'}>
+        Ocena miesiąca
+      </Heading>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
           <Text fontWeight={'bold'} textAlign={'center'}>
@@ -119,15 +128,15 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={true}
-            placeholder='Wybierz miesiąc'
-            type='month'
+            placeholder='data'
+            type='date'
             {...register(`date`)}
           />
         </Container>
 
         <Box mb={4}>
           <Text fontWeight={'bold'} textAlign={'center'}>
-            {t('monthlyRating.monthlyRatingQuestion')}
+            Ocena miesięczna
           </Text>
           <Flex alignItems='center' direction={'column'} justifyContent='center'>
             <RadioGroup mb={5} mt={5} value={value} onChange={(value) => setValue('value', value)}>
@@ -150,7 +159,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={false}
-            placeholder={t('monthlyRating.explanationOfQuestion')}
+            placeholder={'Uzasadnienie oceny...'}
             {...register(`monthsRate`)}
           />
         </Box>
@@ -158,8 +167,10 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           <TextForm
             control={control}
             isInput={false}
-            label={t('monthlyRating.Question1')}
             placeholder='Opisz lekcję życia'
+            label={
+              'Jak oceniasz swoje postępy na kwartalnymi celami? W czym udało Ci się posunąć naprzód, a w czym nie ? Dlaczego? Oceń czy jesteś na dobrej drodze do zrealizowania swoich kwartalnych celów'
+            }
             {...register(`explanationOfRate`)}
           />
         </Box>
@@ -167,7 +178,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         <TextForm
           control={control}
           isInput={false}
-          label={t('monthlyRating.Question2')}
+          label={'Co było Twoim największym wyznaniem? Jak udało Ci się z nim poradzić?'}
           placeholder='Największe wyzwanie'
           {...register(`theBiggestChalange`)}
         />
@@ -175,8 +186,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         <TextForm
           control={control}
           isInput={false}
-          label={t('monthlyRating.Question3')}
-          placeholder='Opisz lekcję życia'
+          label={'Czego nauczył Cię ten miesiąć?'}
+          placeholder='Opisz krótko najcenniejsze doświadczenia z tego miesiąca'
           {...register(`lessonOfLife`)}
         />
         <Flex justify='center' mt={4}>

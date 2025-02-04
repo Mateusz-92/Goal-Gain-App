@@ -15,8 +15,7 @@ type BordOption = {
 
 const ChoiceVariant: React.FC = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { mutate: editCrossOutSaving } = useEditCrossOutSavingComponent();
 
   const [selectedBord, setSelectedBord] = useState<ammountBord[]>(variant2000);
@@ -49,16 +48,27 @@ const ChoiceVariant: React.FC = () => {
     });
     onClose();
   };
-  // TODO: text content should be in translations
+
   return (
-    <Box alignItems='center' display='flex' flexDirection='column'>
+    <Box
+      alignItems='center'
+      className='step-9-cross-out-variant'
+      display='flex'
+      flexDirection='column'
+    >
       <Text fontWeight={'bold'} m={2} textAlign={'center'}>
         Wybierz łączną kwotę, ktorą chcesz zaoszczędzić, każdy wariant posiada 33 pola kwot do
         zaoszczędzenia
       </Text>
-      <RadioGroup mb={2} value={JSON.stringify(selectedBord)} onChange={handleBordChange}>
+      <RadioGroup
+        display={'flex'}
+        flexDirection={'column'}
+        mb={2}
+        value={JSON.stringify(selectedBord)}
+        onChange={handleBordChange}
+      >
         {bordOptions.map((option) => (
-          <Radio key={option.label} colorScheme='white' value={JSON.stringify(option.value)}>
+          <Radio key={option.label} colorScheme='white' mb={1} value={JSON.stringify(option.value)}>
             {option.label}
           </Radio>
         ))}
@@ -79,4 +89,3 @@ const ChoiceVariant: React.FC = () => {
 };
 
 export default ChoiceVariant;
- 

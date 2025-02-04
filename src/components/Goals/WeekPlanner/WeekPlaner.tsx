@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
 import { useBlocker, useParams } from 'react-router-dom';
 import {
   Box,
   Container,
   Flex,
+  Heading,
   Radio,
   RadioGroup,
   Text,
@@ -20,10 +20,11 @@ import { indexNum } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useAddUserPoints, useEditWeekPlan } from '../../../firebase/mutations';
 import { useGetWeekPlan } from '../../../firebase/queries';
+import { isValidDate } from '../../../helpers';
 import Btn from '../../../UI/Btn/Btn';
-import { CustomCheckbox } from '../../../UI/CustomCheckbox/CustomCheckbox';
+import { CustomCheckbox } from '../../../UI/Forms/CustomCheckbox/CustomCheckbox';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { WeekPlannerData, WeekPlannerDataSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 
@@ -47,21 +48,16 @@ const DEFAULT_WEEK_MODEL: WeekPlannerData = {
 };
 
 const WeekPlanner = ({ mode }: WeekPlannerProps) => {
-  const { t } = useTranslation(['common']);
-
   const { weekId } = useParams();
 
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
   const { data, isError, isLoading } = useGetWeekPlan(weekId || '', userId, mode);
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const editWeekWithId = useEditWeekPlan(userId, weekId);
   const editWeekWithoutId = useEditWeekPlan(userId);
-  const isDisplay = data
-? true
-: false;
+  const isDisplay = !!data;
   const onAddWeekPlannMutation = weekId
 ? editWeekWithId
 : editWeekWithoutId;
@@ -115,9 +111,6 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
   const startDay = watch('startDay');
   const rate = watch('rate');
 
-  const isValidDate = (date: string): boolean => {
-    return !isNaN(Date.parse(date));
-  };
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       isDirty && currentLocation.pathname !== nextLocation.pathname,
@@ -149,13 +142,17 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
     return <Loader />;
   }
   if (isError) {
-    return <div>Somethig went wrong</div>;
+    return <div>coś poszło nie tak</div>;
   }
   return (
-    <Box>
+    <Box className='step-5-WeekPlanner'>
+      <Heading mb={15} textAlign={'center'}>
+        Plany tygodniowe
+      </Heading>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Container>
-          <Text>{t('weekPlanner.weekText')} </Text>
+          <Text>Tydzień </Text>
 
           <TextForm
             control={control}
@@ -166,37 +163,61 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           />
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 1'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.0.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.0.status' />}
+          <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 1'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.0.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.0.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 2'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.1.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.1.status' />}
+          <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 2'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.1.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.1.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
         <Container alignItems={'center'} display={'flex'} justifyContent={'center'}>
-          <TextForm
-            control={control}
-            isInput={true}
-            label='Cel nr 3'
-            placeholder='wpisz cel'
-            type='text'
-            {...register('goal.2.name')}
-          />
-          {isDisplay && <CustomCheckbox control={control} name='goal.2.status' />}
+          <Box display={'flex'} flexDirection={'column'} mb={'10'} width={'100%'}>
+            <TextForm
+              control={control}
+              isInput={true}
+              label='Cel nr 3'
+              placeholder='wpisz cel'
+              type='text'
+              {...register('goal.2.name')}
+            />
+            {isDisplay && (
+              <CustomCheckbox
+                control={control}
+                name='goal.2.status'
+                text='Zaznacz jeśli ukończyłeś'
+              />
+            )}
+          </Box>
         </Container>
 
         {fields.map((field, index) => {
@@ -215,7 +236,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
 
         <Box mb={4} mt={4}>
           <Text mb={2} textAlign={'center'}>
-            {t('weekPlanner.weekRatingQuestion')}
+            {'Jak oceniasz ten tydzień i dlaczego ?'}
           </Text>
           <Flex alignItems='center' flexDirection={'column'}>
             <RadioGroup
@@ -235,7 +256,7 @@ const WeekPlanner = ({ mode }: WeekPlannerProps) => {
           <TextForm
             control={control}
             isInput={false}
-            placeholder={t('monthlyRating.answer')}
+            placeholder={'Miejsce na odpowiedź'}
             {...register('explanation')}
           />
         </Box>

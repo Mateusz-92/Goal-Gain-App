@@ -1,12 +1,11 @@
 import React from 'react';
 import { Control, useFieldArray } from 'react-hook-form';
-import { MinusIcon } from '@chakra-ui/icons';
-import { Box, Container, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Container, VStack } from '@chakra-ui/react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Btn from '../../../../UI/Btn/Btn';
-import { CustomCheckbox } from '../../../../UI/CustomCheckbox/CustomCheckbox';
-import { TextForm } from '../../../Forms/TextForm/TextForm';
+import { CustomCheckbox } from '../../../../UI/Forms/CustomCheckbox/CustomCheckbox';
+import { TextForm } from '../../../../UI/Forms/TextForm/TextForm';
 
 export const DEFAULT_TASK_MODEL = {
   finishDate: '',
@@ -49,40 +48,24 @@ const ThreeMonthsTasks: React.FC<{
               {...register(`${nestedTaskName}.${i}.name`)}
             />
             <Container display='flex' justifyContent='space-between' padding={'0px'} width={'100%'}>
-              <TextForm
-                control={control}
-                isInput={true}
-                type='Date'
-                {...register(`${nestedTaskName}.${i}.finishDate`)}
-              />
-              {isDisplay && (
-                <CustomCheckbox
+              <Box display={'flex'} flexDirection={'column'} width={'100%'}>
+                <TextForm
                   control={control}
-                  {...register(`${nestedTaskName}.${i}.isEnded`)}
-                 
+                  isInput={true}
+                  type='Date'
+                  {...register(`${nestedTaskName}.${i}.finishDate`)}
                 />
-              )}
+                {isDisplay && (
+                  <CustomCheckbox
+                    control={control}
+                    {...register(`${nestedTaskName}.${i}.isEnded`)}
+                    text='Zaznacz jeśli ukończyłeś'
+                  />
+                )}
+              </Box>
             </Container>
           </Container>
-          <IconButton
-            alignItems={'center'}
-            aria-label='MinusIcon'
-            bg='black'
-            borderColor='black'
-            borderRadius='15px'
-            borderWidth='1px'
-            color='var(--light-gray)'
-            icon={<MinusIcon />}
-            size='lg'
-            width={'25%'}
-            _hover={{
-              bg: 'transparent',
-              borderColor: 'black',
-              borderWidth: '1px',
-              color: 'black',
-            }}
-            onClick={() => remove(i)}
-          />
+          <Btn text={`Usuń zadanie  ${i + 1}`} type='button' onClick={() => remove(i)} />
         </Container>
       ))}
 

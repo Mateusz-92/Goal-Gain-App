@@ -4,9 +4,8 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 
 import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
-import UserAvatar from '../../components/UserAvatar/UserAvatar';
+import { UserDetailsMenu } from '../../components/UserDetailsMenu/UserDetailsMenu';
 import Logo from '../../UI/Logo/Logo';
-import StaticSlider from '../../UI/StaticSlider/StaticSlider';
 const DesktopView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,10 +21,10 @@ const DesktopView: React.FC = () => {
           </Flex>
           <VStack align='end' mt={10}>
             <MenuPanel />
-            <UserAvatar />
           </VStack>
         </Box>
         <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%'>
+          <UserDetailsMenu />
           {!isHomePage && (
             <IconButton
               _active='transparent'
@@ -33,17 +32,17 @@ const DesktopView: React.FC = () => {
               _hover='transparent'
               aria-label='ArrowBackIcon'
               bg='transparent'
-              mb={5}
+              m={5}
               onClick={() => {
-                navigate('/');
+                navigate(-1);
               }}
             >
               <ArrowBackIcon _hover={{ opacity: 0.7 }} fontSize={50} />
             </IconButton>
           )}
+
           <Outlet />
         </Box>
-        <StaticSlider />
       </Flex>
     </div>
   );

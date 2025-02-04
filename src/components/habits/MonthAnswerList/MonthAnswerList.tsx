@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useBlocker } from 'react-router-dom';
-import { useDisclosure } from '@chakra-ui/react';
+import { Box, Heading, useDisclosure } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format, parse } from 'date-fns';
 
 import { useAuth } from '../../../context/AuthContext';
-import {} from '../../../firebase/Api';
 import { useAddCurrentAnswerForMonthQuestion, useAddUserPoints } from '../../../firebase/mutations';
 import { useGetCurrentMonthAnswerQuestion } from '../../../firebase/queries';
 import Btn from '../../../UI/Btn/Btn';
+import { TextForm } from '../../../UI/Forms/TextForm/TextForm';
 import { monthAnswerData, monthAnswerSchema } from '../../../validators/validators';
-import { TextForm } from '../../Forms/TextForm/TextForm';
 import Loader from '../../Loader/Loader';
 import ModalApp from '../../Modal/ModalApp';
 const currentDay = format(new Date(), 'dd.MM.yyyy');
@@ -25,8 +24,7 @@ const DEFAULT_ANSWER_MODEL = {
 export const MonthAnswerList = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetCurrentMonthAnswerQuestion(userId);
   const answerDataId = data?.id || '';
   const editAnswerQuestionWithId = useAddCurrentAnswerForMonthQuestion(answerDataId);
@@ -100,64 +98,67 @@ export const MonthAnswerList = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextForm
-          control={control}
-          isInput={true}
-          placeholder={'Wpisz Pytanie miesiąca'}
-          isDisabled={data?.questionTitle
+      <Heading textAlign={'center'}>Odpowiedzi na pytanie miesiąca</Heading>
+      <Box className='step-1-monthAnswerList'>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextForm
+            control={control}
+            isInput={true}
+            placeholder={'Wpisz Pytanie miesiąca'}
+            isDisabled={data?.questionTitle
 ? true
 : false}
-          {...register(`questionTitle`)}
-        />
-        {fields.map((el, i) => {
-          const answerDate = parse(el.date, 'dd.MM.yyyy', new Date());
-          answerDate < parse(currentDay, 'dd.MM.yyyy', new Date());
+            {...register(`questionTitle`)}
+          />
+          {fields.map((el, i) => {
+            const answerDate = parse(el.date, 'dd.MM.yyyy', new Date());
+            answerDate < parse(currentDay, 'dd.MM.yyyy', new Date());
 
-          return (
-            <TextForm
-              key={el.id}
-              control={control}
-              isInput={true}
-              label={data?.answers[i]?.date || ''}
-              // isDisabled={isDisabled}
-              placeholder={'Wpisz'}
-              {...register(`answers.${i}.text`)}
-            />
-          );
-        })}
-        <Btn
-          text='Dodaj odpowiedź'
-          type='button'
-          isDisabled={
-            data?.answers.some((answer) => answer.date === currentDay) || !canUserAddAnswer
-          }
-          onClick={handleAddNext}
-        />
-        <ModalApp
-          body={`Potwierdź, aby zapisać `}
-          cancelText='Anuluj'
-          confirmText='Tak'
-          header='Czy napewno chcesz dodać dane  ?'
-          isOpen={isOpen}
-          onClose={onClose}
-          onConfirm={handleConfirmSubmit}
-        />
-        <Btn text='Wyślij' type='button' onClick={() => onOpen()} />
-      </form>
-      {blocker.state === 'blocked'
+            return (
+              <TextForm
+                key={el.id}
+                control={control}
+                isInput={true}
+                label={data?.answers[i]?.date || ''}
+                // isDisabled={isDisabled}
+                placeholder={'Wpisz'}
+                {...register(`answers.${i}.text`)}
+              />
+            );
+          })}
+          <Btn
+            text='Dodaj odpowiedź'
+            type='button'
+            isDisabled={
+              data?.answers.some((answer) => answer.date === currentDay) || !canUserAddAnswer
+            }
+            onClick={handleAddNext}
+          />
+          <ModalApp
+            body={`Potwierdź, aby zapisać `}
+            cancelText='Anuluj'
+            confirmText='Tak'
+            header='Czy napewno chcesz dodać dane  ?'
+            isOpen={isOpen}
+            onClose={onClose}
+            onConfirm={handleConfirmSubmit}
+          />
+          <Btn text='Wyślij' type='button' onClick={() => onOpen()} />
+        </form>
+        {blocker.state === 'blocked'
 ? (
-        <ModalApp
-          body={`Masz nie zapisane dane.`}
-          cancelText='Nie'
-          confirmText='Tak'
-          header=' Czy na pewno chcesz wyjść?'
-          isOpen={blocker.state === 'blocked'}
-          onClose={() => blocker.reset()}
-          onConfirm={() => blocker.proceed()}
-        />
-      )
+          <ModalApp
+            body={`Masz nie zapisane dane.`}
+            cancelText='Nie'
+            confirmText='Tak'
+            header=' Czy na pewno chcesz wyjść?'
+            isOpen={blocker.state === 'blocked'}
+            onClose={() => blocker.reset()}
+            onConfirm={() => blocker.proceed()}
+          />
+        )
 : null}
+      </Box>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import { Heading, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, Heading, useDisclosure, VStack } from '@chakra-ui/react';
 
 import { rouletteAmount } from '../../constants';
 import { useAuth } from '../../context/AuthContext';
@@ -9,8 +9,7 @@ import Btn from '../../UI/Btn/Btn';
 import ModalApp from '../Modal/ModalApp';
 
 export const Roulette: React.FC = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const [mustSpin, setMustSpin] = useState<boolean>(false);
 
   const [prizeNumber, setPrizeNumber] = useState<number>(0);
@@ -40,7 +39,11 @@ export const Roulette: React.FC = () => {
   };
 
   return (
-    <>
+    <Box className='step-11-roulette'>
+      <Heading mb={15} textAlign={'center'}>
+        Oszczędności - ruletka
+      </Heading>
+
       <VStack align={'center'}>
         <Heading size={'md'} textAlign={'center'}>
           Zagraj w oszczędzanie !
@@ -64,7 +67,7 @@ export const Roulette: React.FC = () => {
         onClose={onClose}
         onConfirm={handleAddToSavings}
       />
-    </>
+    </Box>
   );
 };
 

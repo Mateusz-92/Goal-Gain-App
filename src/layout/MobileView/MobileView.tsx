@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Box,Flex, VStack } from '@chakra-ui/react';
+import { Box, Flex, VStack } from '@chakra-ui/react';
 
 import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
-import UserAvatar from '../../components/UserAvatar/UserAvatar';
+import { UserDetailsMenu } from '../../components/UserDetailsMenu/UserDetailsMenu';
 import Btn from '../../UI/Btn/Btn';
 import Logo from '../../UI/Logo/Logo';
 
@@ -20,6 +20,7 @@ const MobileView: React.FC = () => {
         <Box width='100%'>
           <Flex justifyContent='center'>
             <Logo />
+            <UserDetailsMenu />
           </Flex>
           <VStack align='center' mb={15} mt={10}>
             <Btn type='button' text={isToggled
@@ -28,9 +29,6 @@ const MobileView: React.FC = () => {
             {isToggled && (
               <>
                 <MenuPanel />
-                <Box border='1px solid black' borderRadius={'15px'} p={5}>
-                  <UserAvatar />
-                </Box>
               </>
             )}
           </VStack>

@@ -4,8 +4,9 @@
   --yellow: #fbc002;
   --olive: #afac95;
   --orange: #ec642b;
-  --red: #ef9335;
-  --green: #009e60;
+  --light-orange: rgba(236, 101, 43, 0.7);
+  --red: rgb(239, 146, 53);
+  --green: rgba(0, 158, 95, 0.62);
 }
 
 #root {
@@ -38,4 +39,11 @@
   height: 30px;
   background-color: #000;
   border-radius: 50%;
+}
+
+.transparent-bg {
+  background: linear-gradient(
+    var(--yellow, rgba(255, 255, 0, 0.5)),
+    var(--red, rgba(239, 146, 53, 0.5))
+  );
 }

@@ -1,25 +1,43 @@
+import { Box } from '@chakra-ui/react';
+
+import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../context/AuthContext';
 import { useGetAllWeekPlans } from '../../../firebase/queries';
-import { ROUTES } from '../../../routes';
 import DataList from '../../DataList/DataList';
 import Loader from '../../Loader/Loader';
 import { RedirectBox } from '../../RedirectBox/RedirectBox';
+import { DUMMY_WEEKDAY_PLAN_DATA } from '../../Tour/helpers';
 
-const WeekPlannerDataListData = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+interface WeekPlannerListProps {
+  isTutorialMode?: boolean;
+}
+const WeekPlannerDataListData: React.FC<WeekPlannerListProps> = ({ isTutorialMode }) => {
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllWeekPlans(userId);
-  const weekData = data?.map((el) => ({
+  const weeklist = isTutorialMode
+? DUMMY_WEEKDAY_PLAN_DATA
+: data;
+  const weekData = weeklist?.map((el) => ({
     date: el.startDay,
     id: el.id,
     routes: ROUTES.weekPlanner,
     title: 'Plan tygodniowy',
   }));
   if (isLoading) return <Loader />;
-  if (isError) return <div>Somethig went wrong</div>;
-  if (!data)
-    return <RedirectBox href={ROUTES.weekPlanner} text='Przejdź do kreatora planów tygodniowych' />;
-  if (data) return <DataList data={weekData || []} />;
+  if (isError) return <div>coś poszło nie tak</div>;
+  if (!data) {
+    return (
+      <RedirectBox
+        href={ROUTES.weekPlanner}
+        text='Nie masz jeszcze ocenionych miesięcy, przejdź do kreatora'
+      />
+    );
+  }
+  return (
+    <Box className='step-6-WeekPlannerList'>
+      <DataList data={weekData || []} />
+    </Box>
+  );
 };
 
 export default WeekPlannerDataListData;

@@ -1,24 +1,41 @@
+import { Box, Heading } from '@chakra-ui/react';
+
 import { useAuth } from '../../../../context/AuthContext';
 import { useGetUserPoints } from '../../../../firebase/queries';
 import Loader from '../../../Loader/Loader';
+import { RedirectBox } from '../../../RedirectBox/RedirectBox';
 import { MonthlyChart } from '../../MonthlyChart/MonthlyChart';
 import { calculateMonthlyChart } from '../MonthlyRateChartPage/MonthlyRateChartPage';
 
-export const PointsChartPage = () => {
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+interface Props {
+  isTutorial?: boolean;
+}
+
+export const PointsChartPage: React.FC<Props> = () => {
+  const { userId } = useAuth();
   const { data, isError, isLoading } = useGetUserPoints(userId);
   const monthlyPoints = calculateMonthlyChart(data || []);
   if (isLoading) {
     return <Loader />;
   }
-  if (isError || !data) {
-    <div>Somethig went wrong</div>;
+  if (isError) {
+    <div>coś poszło nie tak</div>;
+  }
+  if (!data) {
+    return (
+      <RedirectBox
+        href='/'
+        text='Nie jeszcz zdobytych punktów, podejmij aktywność aby je zdobyć.'
+      />
+    );
   }
 
   return (
-    <div>
-      <MonthlyChart data={monthlyPoints} />
-    </div>
+    <Box className='step-18-points-chart'>
+      <Heading mb={15} textAlign={'center'}>
+        Wykres - zdobyte punkty
+      </Heading>
+      <MonthlyChart data={monthlyPoints} />;
+    </Box>
   );
 };

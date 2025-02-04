@@ -171,7 +171,7 @@ export const HabitChart = ({ dataSeries, yearAndMonth }: Readonly<HabitChartProp
       {dataSeries.length > 0
 ? (
         <Box
-          height={['500px', '500%', '700px']}
+          height={['500px', '500%', '400px']}
           id='habit-chart'
           width={['100%', '500px', '500px']}
         />

@@ -19,8 +19,7 @@ const CircleItem: React.FC<CircleItemProps> = ({
   value,
 }) => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const { user } = useAuth();
-  const userId = user?.uid || '';
+  const { userId } = useAuth();
   const editCrossOutSaving = useEditCrossOutSavingComponent();
 
   const handleAddToCrossOutSavings = () => {

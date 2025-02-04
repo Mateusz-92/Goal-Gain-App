@@ -11,28 +11,29 @@ import {
 } from '../validators/validators';
 
 import {
-  FetchAllCrossOutAmountsInSaving,
-  fetchAllGoalsData,
-  FetchAllHabits,
-  fetchAllMonthAnswerQuestion,
-  FetchAllMonthlyEvaluation,
-  FetchAllRouletteInSaving,
-  fetchAllWeekData,
-  FetchCrossOutAmounts,
+  fetchAllCrossOutAmountsInSaving,
+  fetchAllRouletteInSaving,
+  fetchCrossOutAmounts,
   fetchCrossOutSavingDetails,
   fetchCrossOutSavingName,
-  fetchGoalsData,
-  fetchHabitsPerMonth,
-  fetchLatestHabitForMonth,
-  fetchMonthCurrentAnswerQuestion,
-  FetchMonthlyEvaluation,
-  fetchMonthRateData,
   fetchUserAvatar,
   fetchUserPoints,
+} from './Api/Api';
+import { fetchAllGoalsData, fetchGoalsData } from './Api/GoalsApi';
+import { fetchAllHabits, fetchHabitsPerMonth, fetchLatestHabitForMonth } from './Api/HabitsApi';
+import {
+  fetchAllMonthlyEvaluation,
+  fetchMonthlyEvaluation,
+  fetchMonthRateData,
+} from './Api/MonthAndRate';
+import { fetchAllMonthAnswerQuestion, fetchMonthCurrentAnswerQuestion } from './Api/MonthAnswerApi';
+import {
+  fetchAllWeekData,
   fetchWeekData,
   fetchWeekDay,
   fetchWeekRateData,
-} from './Api';
+} from './Api/WeekPlanApi';
+
 export const QUERY_KEYS = {
   allAnswerList: 'allAnswerList',
   amount: 'amount',
@@ -46,6 +47,7 @@ export const QUERY_KEYS = {
   monthValue: 'monthValue',
   roulette: 'roulette',
   savingsCrossout: 'savingsCrossout',
+  userHabitNamesForMonth: 'userHabitNamesForMonth',
   userPoints: 'userPoints',
   variant: 'variant',
   weekDay: 'weekDay',
@@ -65,11 +67,9 @@ export const useGetAllHabits = (userId: string) => {
   return useQuery<HabitFormData[] | null>({
     enabled: !!userId,
     queryFn: async () => {
-      return FetchAllHabits(userId);
+      return fetchAllHabits(userId);
     },
     queryKey: [QUERY_KEYS.habits],
-
-    // enabled: !!clientId,
   });
 };
 
@@ -90,7 +90,7 @@ export const useGetUserHabitNamesForMonth = (monthAndYear: string, userId: strin
     queryFn: async () => {
       return fetchHabitsPerMonth(monthAndYear, userId);
     },
-    queryKey: ['userHabitNamesForMonth', monthAndYear, userId],
+    queryKey: [QUERY_KEYS.userHabitNamesForMonth, monthAndYear, userId],
 
     // enabled: !!clientId,
   });
@@ -148,6 +148,7 @@ export const useGetWMonthRate = (userId: string) => {
     queryKey: [QUERY_KEYS.monthValue],
   });
 };
+
 export const useGetAllWeekPlans = (userId: string) => {
   return useQuery<WeekPlannerData[] | null>({
     enabled: !!userId,
@@ -174,7 +175,7 @@ export const useGetMonthlyEvaluation = (rateId: string, userId: string, mode: 'a
   return useQuery<MonthlyValuesRatingSchema | null>({
     enabled: !!rateId && !!userId && mode === 'edit',
     queryFn: async () => {
-      const data = await FetchMonthlyEvaluation(rateId, userId);
+      const data = await fetchMonthlyEvaluation(rateId, userId);
 
       return data;
     },
@@ -186,7 +187,7 @@ export const useGetAllMonthlyEvaluation = (userId: string) => {
   return useQuery<MonthlyValuesRatingSchema[] | null>({
     enabled: !!userId,
     queryFn: async () => {
-      const data = await FetchAllMonthlyEvaluation(userId);
+      const data = await fetchAllMonthlyEvaluation(userId);
 
       return data;
     },
@@ -197,7 +198,7 @@ export const useGetCrossOutAmounts = (crossoutId: string, userId: string) => {
   return useQuery<ammountBord[] | null>({
     enabled: !!crossoutId && !!userId,
     queryFn: async () => {
-      const data = await FetchCrossOutAmounts(crossoutId, userId);
+      const data = await fetchCrossOutAmounts(crossoutId, userId);
 
       return data;
     },
@@ -208,7 +209,7 @@ export const useGetCrossOutAmounts = (crossoutId: string, userId: string) => {
 const getRouletteQueryConfig = (userId: string) => ({
   enabled: !!userId,
   queryFn: async () => {
-    const data = await FetchAllRouletteInSaving(userId);
+    const data = await fetchAllRouletteInSaving(userId);
 
     return data;
   },
@@ -235,7 +236,7 @@ export const useGetRouletteSaving = (userId: string) => {
 const crossOutSavingQueryConfig = (userId: string) => ({
   enabled: !!userId,
   queryFn: async () => {
-    const data = await FetchAllCrossOutAmountsInSaving(userId);
+    const data = await fetchAllCrossOutAmountsInSaving(userId);
     return data;
   },
   queryKey: [QUERY_KEYS.savingsCrossout],

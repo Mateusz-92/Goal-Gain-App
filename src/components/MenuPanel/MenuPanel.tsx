@@ -1,53 +1,20 @@
+import { useNavigate } from 'react-router-dom';
 import { Box, Grid, GridItem } from '@chakra-ui/react';
 
+import {
+  chartMenu,
+  goalsMenu,
+  habitsMenu,
+  monthAnswerMenu,
+  ratesMenu,
+  ROUTES,
+  savingsMenu,
+} from '../../constants';
 import DropdownMenu from '../../layout/header/DropdownMenu/DropdownMenu';
-import { ROUTES } from '../../routes';
 
 export const MenuPanel = () => {
-  const chartMenu = [
-    { path: ROUTES.habitChartPages, title: 'Nawyki w danym miesiącu' },
-    { path: ROUTES.savingsChartPage, title: 'Oszczędności' },
-    { path: ROUTES.weeklyRate, title: 'Oceny tygodniowe' },
-    { path: ROUTES.monthlyRate, title: 'Oceny miesięczne' },
-    { path: ROUTES.monthlyPointsChart, title: 'Zdobyte punkty' },
-  ];
+  const navigate = useNavigate();
 
-  const habitsMenu = [
-    { path: ROUTES.habitsTracker, title: 'Nawyki' },
-    { path: ROUTES.createHabits, title: 'Kreator nawyków' },
-  ];
-  const ratesMenu = [
-    { path: ROUTES.monthEvaluation, title: 'Ocena miesięczna' },
-    { path: ROUTES.monthEvaluationList, title: 'Lista ocen miesięcznych' },
-  ];
-  const monthAnswerMenu = [
-    { path: ROUTES.monthAnswerList, title: 'Aktualny miesiąc' },
-    { path: ROUTES.monthAnswerDetails, title: 'Lista odpowiedzi miesięcznych' },
-  ];
-
-  const goalsMenu = [
-    {
-      path: ROUTES.threeMonthsGoalsPlanner,
-      title: 'Kreator celów 3-miesięcznych',
-    },
-    {
-      path: ROUTES.threeMonthsGoalsPlannerList,
-      title: 'Lista twoich celów 3-miesięcznych',
-    },
-    {
-      path: ROUTES.weekPlanner,
-      title: 'Zaplanuj cele tygodniowe',
-    },
-    {
-      path: '/weePlannerList',
-      title: 'Lista planów tygodniowych',
-    },
-  ];
-  const savingsMenu = [
-    { path: ROUTES.savingCrossOutList, title: 'Twoje wykreślanki' },
-    { path: ROUTES.savingCrossOutCreator, title: 'kreator wykreślanki' },
-    { path: ROUTES.roulette, title: 'ruletka' },
-  ];
   return (
     <Box>
       <Grid gap={1} mb={1} templateColumns={'1fr'}>
@@ -72,7 +39,8 @@ export const MenuPanel = () => {
         <GridItem>
           <DropdownMenu
             buttonTitle='Samouczek'
-            itemTitles={[{ path: ROUTES.tutorial, title: 'Samouczek' }]}
+            itemTitles={[]}
+            onClick={() => navigate(ROUTES.tutorial)}
           />
         </GridItem>
       </Grid>
