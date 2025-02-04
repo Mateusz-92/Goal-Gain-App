@@ -128,16 +128,16 @@ describe('extractHabitsForDate', () => {
     const allHabits = {
       '2025-01-15': {
         habits: [
-          { id: 1, name: 'habit1', status: false },
-          { id: 2, name: 'habit2', status: false },
+          { id: '1', name: 'habit1', status: false },
+          { id: '2', name: 'habit2', status: false },
         ],
       },
-      '2025-01-16': { habits: [{ id: 3, name: 'habit3', status: false }] },
+      '2025-01-16': { habits: [{ id: '3', name: 'habit3', status: false }] },
     };
     const result = extractHabitsForDate('2025-01-15', allHabits);
     expect(result).toEqual([
-      { id: 1, name: 'habit1', status: false },
-      { id: 2, name: 'habit2', status: false },
+      { id: '1', name: 'habit1', status: false },
+      { id: '2', name: 'habit2', status: false },
     ]);
   });
 });
@@ -146,8 +146,8 @@ describe('extractHabitNames', () => {
     const allHabits = {
       '2025-01-15': {
         habits: [
-          { id: 1, name: 'habit1', status: false },
-          { id: 2, name: 'habit2', status: false },
+          { id: '1', name: 'habit1', status: false },
+          { id: '2', name: 'habit2', status: false },
         ],
       },
     };
