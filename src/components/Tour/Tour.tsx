@@ -145,7 +145,9 @@ export const Tour = () => {
       >
         <Btn
           type='button'
-          text={currentStep === 0 ? 'Zaczynamy!' : 'Opis kroku'}
+          text={currentStep === 0
+? 'Zaczynamy!'
+: 'Opis kroku'}
           onClick={() => setRun(true)}
         />
         <Btn text='Strona główna' type='button' onClick={() => navigate('/')} />

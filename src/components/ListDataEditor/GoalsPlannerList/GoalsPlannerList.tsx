@@ -13,7 +13,9 @@ interface GoalsPlannerListProps {
 const GoalPlannerList: React.FC<GoalsPlannerListProps> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllGoals(userId);
-  const goalsList = isTutorialMode ? DUMMY_GOALS_LIST : data;
+  const goalsList = isTutorialMode
+? DUMMY_GOALS_LIST
+: data;
   const goalsData = goalsList?.map((el) => ({
     date: el.date || 'Nie podano daty utworzenia',
     id: el.id,

@@ -14,7 +14,9 @@ interface WeekPlannerListProps {
 const WeekPlannerDataListData: React.FC<WeekPlannerListProps> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllWeekPlans(userId);
-  const weeklist = isTutorialMode ? DUMMY_WEEKDAY_PLAN_DATA : data;
+  const weeklist = isTutorialMode
+? DUMMY_WEEKDAY_PLAN_DATA
+: data;
   const weekData = weeklist?.map((el) => ({
     date: el.startDay,
     id: el.id,

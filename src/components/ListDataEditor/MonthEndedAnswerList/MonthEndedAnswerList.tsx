@@ -27,7 +27,9 @@ export const MonthEndedAnswerList: React.FC<MonthEndedAnswerListProps> = ({ isTu
         text='Nie masz jeszcze ukończonych odpowiedzi na pytania miesiąca, przejdź do listy odpowiedzi na pytania miesiąca aby je ukończyć'
       />
     );
-  const answersList = (isTutorialMode ? DUMMY_ANSWERS_DATA : data) ?? [];
+  const answersList = (isTutorialMode
+? DUMMY_ANSWERS_DATA
+: data) ?? [];
   const answerListData = answersList
     .filter((el) => el?.month && !el.month.includes(actualDate))
     .map((el) => ({
