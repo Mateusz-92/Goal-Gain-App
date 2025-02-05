@@ -13,9 +13,7 @@ interface GoalsPlannerListProps {
 const GoalPlannerList: React.FC<GoalsPlannerListProps> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const { data, isError, isLoading } = useGetAllGoals(userId);
-  const goalsList = isTutorialMode
-? DUMMY_GOALS_LIST
-: data;
+  const goalsList = isTutorialMode ? DUMMY_GOALS_LIST : data;
   const goalsData = goalsList?.map((el) => ({
     date: el.date || 'Nie podano daty utworzenia',
     id: el.id,
@@ -24,7 +22,7 @@ const GoalPlannerList: React.FC<GoalsPlannerListProps> = ({ isTutorialMode }) =>
   }));
   if (isLoading) return <Loader />;
   if (isError) return <div>Coś poszło nie tak</div>;
-  if (!data)
+  if (!data && !isTutorialMode)
     return <RedirectBox href={ROUTES.threeMonthsGoalsPlanner} text='Przejdź do kreatora celów' />;
   return (
     <Box className='step-4-GoalsList'>
