@@ -53,9 +53,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
   const editMonthRateWithoutId = useEditMonthRate(userId);
   const { mutate: onAddUserPoints } = useAddUserPoints(userId);
 
-  const onAddMonthRateMutation = monthId
-? editMonthRateWithId
-: editMonthRateWithoutId;
+  const onAddMonthRateMutation = monthId ? editMonthRateWithId : editMonthRateWithoutId;
 
   const {
     control,
@@ -186,8 +184,8 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
         <TextForm
           control={control}
           isInput={false}
-          label={'Czego nauczył Cię ten miesiąć?'}
-          placeholder='Opisz krótko najcenniejsze doświadczenia z tego miesiąca'
+          label={'Czego nauczył Cię ten miesiąc?'}
+          placeholder='Opisz krótko najcenniejsze doświadczenpia z tego miesiąca'
           {...register(`lessonOfLife`)}
         />
         <Flex justify='center' mt={4}>
@@ -203,8 +201,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onConfirm={handleAddDataAndPoints}
         />
       </form>
-      {blocker.state === 'blocked'
-? (
+      {blocker.state === 'blocked' ? (
         <ModalApp
           body={`Masz nie zapisane dane.`}
           cancelText='Nie'
@@ -214,8 +211,7 @@ const MonthlyRating = ({ mode }: MonthRateProps) => {
           onClose={() => blocker.reset()}
           onConfirm={() => blocker.proceed()}
         />
-      )
-: null}
+      ) : null}
     </Box>
   );
 };

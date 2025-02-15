@@ -35,7 +35,7 @@ export const PointsChartPage: React.FC<Props> = () => {
       <Heading mb={15} textAlign={'center'}>
         Wykres - zdobyte punkty
       </Heading>
-      <MonthlyChart data={monthlyPoints} />;
+      <MonthlyChart data={monthlyPoints} />
     </Box>
   );
 };
