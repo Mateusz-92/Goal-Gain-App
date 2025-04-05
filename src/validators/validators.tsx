@@ -108,9 +108,12 @@ const GoalWeekSchema = z.object({
 
 export const WeekPlannerDataSchema = z.object({
   days: z.array(WeekDayPlanSchema),
-  explanation: z.string().min(minLength, {
-    message: fieldIsRequired,
-  }),
+  explanation: z
+    .string()
+    .max(75, {
+      message: 'Maksymalna długość tesktu wynosi 75 znaków',
+    })
+    .optional(),
   goal: z.array(GoalWeekSchema),
   id: string().optional(),
   rate: z.string().optional(),
