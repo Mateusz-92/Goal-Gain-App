@@ -85,7 +85,7 @@ export const MonthlyRatingData = z.object({
     .min(minLength, {
       message: fieldIsRequired,
     }),
-  value: z.string().min(minLength, { message: 'Ocena jest wymagana' }),
+  value: z.string().optional(),
 });
 
 export type MonthlyValuesRatingSchema = z.infer<typeof MonthlyRatingData>;
