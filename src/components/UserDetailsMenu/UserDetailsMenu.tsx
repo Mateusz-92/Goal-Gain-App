@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Avatar, Box, Container, IconButton, Text, useBreakpointValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 import { useAuth } from '../../context/AuthContext';
 import { handleLogout } from '../../firebase/Api/Api';
@@ -8,7 +9,6 @@ import Btn from '../../UI/Btn/Btn';
 import Loader from '../Loader/Loader';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import BadgeDisplay from '../UserLevel/UserLevel';
-import { motion } from 'framer-motion';
 
 type Props = {
   isTutorialMode?: boolean;
@@ -43,7 +43,9 @@ export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
       right={'25px'}
       w={'300px'}
       zIndex='999'
-      position={isTutorialMode ? 'static' : 'absolute'}
+      position={isTutorialMode
+? 'static'
+: 'absolute'}
     >
       <UserAvatar />
       <Box>
@@ -70,21 +72,27 @@ export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
           icon={<Avatar bg={'black'} />}
           top='10px'
           zIndex='1000'
-          position={isTutorialMode ? 'static' : 'absolute'}
-          right={isTutorialMode ? '0' : '12%'}
+          position={isTutorialMode
+? 'static'
+: 'absolute'}
+          right={isTutorialMode
+? '0'
+: '12%'}
           onClick={toogledHandler}
         />
       )}
       {(isToogled || isTutorialMode) &&
-        (isDesktop ? (
+        (isDesktop
+? (
           <MotionBox
+            animate={{ opacity: 1, scale: [0.9, 1], x: 25, y: 0 }}
             initial={{ opacity: 0, y: -300 }}
-            animate={{ opacity: 1, y: 0, x: 25, scale: [0.9, 1] }}
-            transition={{ duration: 1.5, delay: 0.5 }}
+            transition={{ delay: 0.5, duration: 1.5 }}
           >
             <MenuContent />
           </MotionBox>
-        ) : (
+        )
+: (
           <MenuContent />
         ))}
     </Box>

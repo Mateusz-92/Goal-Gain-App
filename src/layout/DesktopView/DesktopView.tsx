@@ -2,11 +2,11 @@ import React from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
 import { UserDetailsMenu } from '../../components/UserDetailsMenu/UserDetailsMenu';
 import Logo from '../../UI/Logo/Logo';
-import { motion } from 'framer-motion';
 const DesktopView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,8 +22,8 @@ const DesktopView: React.FC = () => {
           </Flex>
           <VStack align='end' mt={10}>
             <MotionBox
-              initial={{ opacity: 0.5 }}
               animate={{ opacity: 1 }}
+              initial={{ opacity: 0.5 }}
               transition={{ duration: 2 }}
             >
               <MenuPanel />
@@ -48,9 +48,9 @@ const DesktopView: React.FC = () => {
             </IconButton>
           )}
           <MotionBox
-            initial={{ opacity: 0, y: -100 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            initial={{ opacity: 0, y: -100 }}
+            transition={{ delay: 0.5, duration: 1 }}
           >
             <Outlet />
           </MotionBox>

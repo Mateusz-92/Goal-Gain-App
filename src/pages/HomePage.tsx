@@ -1,5 +1,6 @@
 import { Box, Image, Text, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
+
 import homeImg from '../assets/homeImg.jpeg';
 
 const MotionBox = motion(Box);
@@ -13,54 +14,54 @@ export const HomePage = () => {
   return (
     <MotionBox
       alignItems='center'
+      animate={{ opacity: 1, y: 0 }}
       display='flex'
       flexDirection='column'
-      justifyContent='center'
-      mt={25}
-      minH='80vh'
       initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
+      justifyContent='center'
+      minH='80vh'
+      mt={25}
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <MotionText
+        animate={{ opacity: 1, scale: 1 }}
+        color={mainColor}
         fontSize={['3xl', '4xl', '6xl']}
         fontWeight='extrabold'
+        initial={{ opacity: 0, scale: 0.8 }}
         letterSpacing='tight'
         lineHeight={1.1}
         textAlign='center'
-        color={mainColor}
         textShadow='0 2px 20px rgba(0,0,0,0.15)'
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.9, delay: 0.2, type: 'spring', stiffness: 120 }}
+        transition={{ delay: 0.2, duration: 0.9, stiffness: 120, type: 'spring' }}
       >
         Witaj w Goal Gain App!
       </MotionText>
 
       <MotionImage
         alt='Opis obrazka'
-        boxSize={['220px', '420px', '420px']}
-        mb={14}
-        src={homeImg}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         borderRadius='2xl'
         boxShadow={`0 8px 32px 0 rgba(31, 38, 135, 0.37), ${shadow}`}
-        initial={{ scale: 0.85, opacity: 0, y: 40 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.04, rotate: 2 }}
-        transition={{ duration: 0.8, delay: 0.5, type: 'spring', stiffness: 120 }}
+        boxSize={['220px', '420px', '420px']}
+        initial={{ opacity: 0, scale: 0.85, y: 40 }}
+        mb={14}
+        src={homeImg}
+        transition={{ delay: 0.5, duration: 0.8, stiffness: 120, type: 'spring' }}
+        whileHover={{ rotate: 2, scale: 1.04 }}
       />
 
       <MotionText
+        animate={{ opacity: 1, y: 0 }}
+        color={mainColor}
         fontSize={['lg', '2xl', '3xl']}
         fontWeight='bold'
-        textAlign='center'
-        color={mainColor}
+        initial={{ opacity: 0, y: 30 }}
         mt={4}
         px={[2, 4, 8]}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.7, type: 'spring', stiffness: 100 }}
+        textAlign='center'
         textShadow='0 2px 10px rgba(0,0,0,0.10)'
+        transition={{ delay: 0.7, duration: 1, stiffness: 100, type: 'spring' }}
       >
         Miejsce, gdzie możesz zdefiniować swoje cele, nawyki, zadania i oceniać swoje postępy
         <br />
