@@ -23,9 +23,7 @@ const MobileView: React.FC = () => {
             <UserDetailsMenu />
           </Flex>
           <VStack align='center' mb={15} mt={10}>
-            <Btn type='button' text={isToggled
-? 'Zwiń Panel'
-: 'Otwórz Panel'} onClick={toggle} />
+            <Btn type='button' text={isToggled ? 'Zwiń Panel' : 'Otwórz Panel'} onClick={toggle} />
             {isToggled && (
               <>
                 <MenuPanel />

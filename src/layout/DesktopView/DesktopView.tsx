@@ -6,12 +6,13 @@ import { Box, Flex, IconButton, VStack } from '@chakra-ui/react';
 import { MenuPanel } from '../../components/MenuPanel/MenuPanel';
 import { UserDetailsMenu } from '../../components/UserDetailsMenu/UserDetailsMenu';
 import Logo from '../../UI/Logo/Logo';
+import { motion } from 'framer-motion';
 const DesktopView: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';
-
+  const MotionBox = motion(Box);
   return (
     <div>
       <Flex>
@@ -20,7 +21,13 @@ const DesktopView: React.FC = () => {
             <Logo />
           </Flex>
           <VStack align='end' mt={10}>
-            <MenuPanel />
+            <MotionBox
+              initial={{ opacity: 0.5 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2 }}
+            >
+              <MenuPanel />
+            </MotionBox>
           </VStack>
         </Box>
         <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%'>
@@ -40,8 +47,13 @@ const DesktopView: React.FC = () => {
               <ArrowBackIcon _hover={{ opacity: 0.7 }} fontSize={50} />
             </IconButton>
           )}
-
-          <Outlet />
+          <MotionBox
+            initial={{ opacity: 0, y: -100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            <Outlet />
+          </MotionBox>
         </Box>
       </Flex>
     </div>
