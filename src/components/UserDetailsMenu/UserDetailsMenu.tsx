@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Avatar, Box, Container, IconButton, Text } from '@chakra-ui/react';
+import { Avatar, Box, Container, IconButton, Text, useBreakpointValue } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 import { useAuth } from '../../context/AuthContext';
 import { handleLogout } from '../../firebase/Api/Api';
@@ -12,6 +13,7 @@ import BadgeDisplay from '../UserLevel/UserLevel';
 type Props = {
   isTutorialMode?: boolean;
 };
+const MotionBox = motion(Box);
 export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
   const { userId } = useAuth();
   const [isToogled, setIsToogled] = useState<boolean>(false);
@@ -22,8 +24,43 @@ export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
     isLoading,
   } = useUserAvatarData(userId);
 
+  const isDesktop = useBreakpointValue({ base: false, md: true });
+
   if (isError) return <div>Somethig went wrong</div>;
   if (isLoading) return <Loader />;
+
+  const MenuContent = () => (
+    <Container
+      alignItems={'center'}
+      bg={'var(--red)'}
+      border='1px solid black'
+      borderRadius='25px'
+      display={'flex'}
+      flexDirection={'column'}
+      h={'500px'}
+      justifyContent={'center'}
+      mt={'35'}
+      right={'25px'}
+      w={'300px'}
+      zIndex='999'
+      position={isTutorialMode
+? 'static'
+: 'absolute'}
+    >
+      <UserAvatar />
+      <Box>
+        <BadgeDisplay points={sumOfUserPoints} />
+      </Box>
+      <Box textAlign={'center'}>
+        <Text fontSize='lg' fontWeight='bold' mb={2}>
+          {`Suma oszczędności :  ${sumOfSavings || 0}`}
+        </Text>
+        <Text mb={1}>Ruletka: {sumOfroulette || 0} PLN</Text>
+        <Text mb={2}>Wykreślanki: {sumOfCrossoutSaving || 0} PLN</Text>
+        <Btn text={'Wyloguj'} type={'button'} onClick={handleLogout} />
+      </Box>
+    </Container>
+  );
 
   return (
     <Box className='step-21-userDetails'>
@@ -44,38 +81,20 @@ export const UserDetailsMenu: React.FC<Props> = ({ isTutorialMode }) => {
           onClick={toogledHandler}
         />
       )}
-      {(isToogled || isTutorialMode) && (
-        <Container
-          alignItems={'center'}
-          bg={'var(--red)'}
-          border='1px solid black'
-          borderRadius='25px'
-          display={'flex'}
-          flexDirection={'column'}
-          h={'500px'}
-          justifyContent={'center'}
-          mt={'35'}
-          right={'25px'}
-          w={'300px'}
-          zIndex='999'
-          position={isTutorialMode
-? 'static'
-: 'absolute'}
-        >
-          <UserAvatar />
-          <Box>
-            <BadgeDisplay points={sumOfUserPoints} />
-          </Box>
-          <Box textAlign={'center'}>
-            <Text fontSize='lg' fontWeight='bold' mb={2}>
-              {`Suma oszczędności :  ${sumOfSavings || 0}`}
-            </Text>
-            <Text mb={1}>Ruletka: {sumOfroulette || 0} PLN</Text>
-            <Text mb={2}>Wykreślanki: {sumOfCrossoutSaving || 0} PLN</Text>
-            <Btn text={'Wyloguj'} type={'button'} onClick={handleLogout} />
-          </Box>
-        </Container>
-      )}
+      {(isToogled || isTutorialMode) &&
+        (isDesktop
+? (
+          <MotionBox
+            animate={{ opacity: 1, scale: [0.9, 1], x: 25, y: 0 }}
+            initial={{ opacity: 0, y: -300 }}
+            transition={{ delay: 0.5, duration: 1.5 }}
+          >
+            <MenuContent />
+          </MotionBox>
+        )
+: (
+          <MenuContent />
+        ))}
     </Box>
   );
 };
