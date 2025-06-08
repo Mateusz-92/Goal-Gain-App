@@ -25,13 +25,13 @@ export const HomePage = () => {
     >
       <MotionText
         animate={{ opacity: 1, scale: 0.9 }}
-        mb={10}
         color={mainColor}
         fontSize={['3xl', '4xl', '6xl']}
         fontWeight='extrabold'
         initial={{ opacity: 0, scale: 0.8 }}
         letterSpacing='tight'
         lineHeight={1.1}
+        mb={10}
         textAlign='center'
         textShadow='0 2px 20px rgba(0,0,0,0.15)'
         transition={{ delay: 0.2, duration: 0.9, stiffness: 120, type: 'spring' }}
