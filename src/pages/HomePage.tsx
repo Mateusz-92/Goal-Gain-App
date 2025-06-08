@@ -24,7 +24,8 @@ export const HomePage = () => {
       transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       <MotionText
-        animate={{ opacity: 1, scale: 1 }}
+        mb={10}
+        animate={{ opacity: 1, scale: 0.9 }}
         color={mainColor}
         fontSize={['3xl', '4xl', '6xl']}
         fontWeight='extrabold'
@@ -62,9 +63,9 @@ export const HomePage = () => {
         textAlign='center'
         textShadow='0 2px 10px rgba(0,0,0,0.10)'
         transition={{ delay: 0.7, duration: 1, stiffness: 100, type: 'spring' }}
+        pb={10}
       >
         Miejsce, gdzie możesz zdefiniować swoje cele, nawyki, zadania i oceniać swoje postępy
-        <br />
       </MotionText>
     </MotionBox>
   );

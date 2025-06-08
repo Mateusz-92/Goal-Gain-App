@@ -14,7 +14,7 @@ const DesktopView: React.FC = () => {
   const isHomePage = location.pathname === '/';
   const MotionBox = motion(Box);
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <Flex>
         <Box p={15} width='35%'>
           <Flex justifyContent='end'>
@@ -30,8 +30,7 @@ const DesktopView: React.FC = () => {
             </MotionBox>
           </VStack>
         </Box>
-        <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%'>
-          <UserDetailsMenu />
+        <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%' position='relative'>
           {!isHomePage && (
             <IconButton
               _active='transparent'
@@ -48,6 +47,7 @@ const DesktopView: React.FC = () => {
             </IconButton>
           )}
           <MotionBox
+            zIndex={1}
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: -100 }}
             transition={{ delay: 0.5, duration: 1 }}
@@ -56,6 +56,9 @@ const DesktopView: React.FC = () => {
           </MotionBox>
         </Box>
       </Flex>
+      <Box position='absolute' top={0} right='12%' zIndex={9999}>
+        <UserDetailsMenu />
+      </Box>
     </div>
   );
 };
