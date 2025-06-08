@@ -30,7 +30,7 @@ const DesktopView: React.FC = () => {
             </MotionBox>
           </VStack>
         </Box>
-        <Box bg='var(--yellow)' minHeight='100vh' p={25} width='100%' position='relative'>
+        <Box bg='var(--yellow)' minHeight='100vh' p={25} position='relative' width='100%'>
           {!isHomePage && (
             <IconButton
               _active='transparent'
@@ -47,16 +47,16 @@ const DesktopView: React.FC = () => {
             </IconButton>
           )}
           <MotionBox
-            zIndex={1}
             animate={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: -100 }}
             transition={{ delay: 0.5, duration: 1 }}
+            zIndex={1}
           >
             <Outlet />
           </MotionBox>
         </Box>
       </Flex>
-      <Box position='absolute' top={0} right='12%' zIndex={9999}>
+      <Box position='absolute' right='12%' top={0} zIndex={9999}>
         <UserDetailsMenu />
       </Box>
     </div>
